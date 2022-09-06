@@ -20,6 +20,9 @@ public interface BookDao {
     @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%'")
     Book[] getBookOnTitle(String title);
 
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%'")
+    Book[] getBookOnTitleAndGenreId(String title, int id);
+
     @Query("DELETE FROM book")
     public void nukeTable();
 
