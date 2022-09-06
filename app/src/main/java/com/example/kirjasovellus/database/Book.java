@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 
 import java.util.Date;
 
@@ -28,7 +29,7 @@ public class Book implements Parcelable {
     public boolean finished;
 
     @ColumnInfo
-    public String finishDate;
+    public Date finishDate;
 
     @Override
     public int describeContents() {
@@ -38,5 +39,43 @@ public class Book implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    public static class Converters {
+        @TypeConverter
+        public static int[] fromString(String value) {
+            int[] list = new int[value.length()/2];
+            int listIndex = 0;
+            for (int i = 0; i < value.length(); i++){
+                if (value.charAt(i) != ',') {
+                    list[listIndex] = Integer.parseInt("" + value.charAt(i));
+                    listIndex++;
+                }
+            }
+            return list;
+        }
+
+        @TypeConverter
+        public static String listToString(int[] list) {
+            String str = "";
+            for (int i = 0; i < list.length; i++){
+                str += list[i] + ",";
+            }
+            return str;
+        }
+
+        @TypeConverter
+        public Date fromTimestamp(Long value) {
+            return value == null ? null : new Date(value);
+        }
+
+        @TypeConverter
+        public Long dateToTimestamp(Date date) {
+            if (date == null) {
+                return null;
+            } else {
+                return date.getTime();
+            }
+        }
     }
 }
