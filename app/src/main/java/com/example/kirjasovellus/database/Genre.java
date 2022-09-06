@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Genre implements Parcelable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int genreId;
 
     @ColumnInfo
