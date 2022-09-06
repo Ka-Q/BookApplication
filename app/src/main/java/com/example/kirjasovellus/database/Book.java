@@ -44,13 +44,12 @@ public class Book implements Parcelable {
     public static class Converters {
         @TypeConverter
         public static int[] fromString(String value) {
-            int[] list = new int[value.length()/2];
-            int listIndex = 0;
-            for (int i = 0; i < value.length(); i++){
-                if (value.charAt(i) != ',') {
-                    list[listIndex] = Integer.parseInt("" + value.charAt(i));
-                    listIndex++;
-                }
+            System.out.println("VALUE " + value);
+
+            String[] valueSeparated = value.split(",");
+            int[] list = new int[valueSeparated.length];
+            for (int i = 0; i < valueSeparated.length; i++) {
+                list[i] = Integer.parseInt(valueSeparated[i]);
             }
             return list;
         }
