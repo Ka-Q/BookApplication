@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 public class Book implements Parcelable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int BookId;
 
     @ColumnInfo
