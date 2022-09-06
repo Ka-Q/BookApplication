@@ -10,4 +10,7 @@ public interface GenreDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Genre... genres);
+
+    @Query("SELECT * FROM genre WHERE genreId = :id")
+    Genre[] getGenresOnId(int id);
 }
