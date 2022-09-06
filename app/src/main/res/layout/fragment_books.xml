@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/BooksFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".BooksFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/searchContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/searchBox"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Search by title"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                app:layout_constraintEnd_toStartOf="@+id/btnMore"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/searchBox"
+                app:layout_constraintTop_toTopOf="@+id/searchBox" />
+
+            <Button
+                android:id="@+id/btnMore"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="+"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnSearch"
+                app:layout_constraintTop_toTopOf="@+id/btnSearch" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/moreContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/btnMore"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add:"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAddBookOld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Book"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toTopOf="@+id/textView" />
+
+                <Button
+                    android:id="@+id/btnAddGenreOld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Genre"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAddBookOld"
+                    app:layout_constraintStart_toEndOf="@+id/btnAddBookOld"
+                    app:layout_constraintTop_toTopOf="@+id/btnAddBookOld" />
+
+                <Button
+                    android:id="@+id/btnSort"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="A-Z"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Sort: "
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAddGenreOld"
+                    app:layout_constraintStart_toEndOf="@+id/btnAddGenreOld"
+                    app:layout_constraintTop_toTopOf="@+id/btnAddGenreOld" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/labelContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10sp">
+
+            <TextView
+                android:id="@+id/tvTitleLabel"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/tvGenreLabel"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvGenreLabel"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:text="genres"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTitleLabel"
+                app:layout_constraintEnd_toStartOf="@+id/tvReadLabel"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvTitleLabel" />
+
+            <TextView
+                android:id="@+id/tvReadLabel"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="read?"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGenreLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvGenreLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlscrollContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|end"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@android:drawable/ic_menu_add"
+                android:translationY="-16dp"
+                android:visibility="visible"
+                app:backgroundTint="@color/teal_200" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fabMenuContainer"
+                android:layout_width="125dp"
+                android:layout_height="204dp"
+                android:layout_above="@+id/fab"
+                android:layout_alignEnd="@+id/fab"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="3dp"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                android:translationZ="2dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnAddBook"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="new Book"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAddGenre"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="new Genre"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnAddBook" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsvScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvBookList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginBottom="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
