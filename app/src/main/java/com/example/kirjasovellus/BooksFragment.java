@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
@@ -64,8 +62,6 @@ public class BooksFragment extends Fragment {
 
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
-
-        LinearLayout nsvScroll = getView().findViewById(R.id.llListContainer);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
