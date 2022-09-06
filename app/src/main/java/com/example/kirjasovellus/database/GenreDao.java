@@ -17,6 +17,9 @@ public interface GenreDao {
     @Query("SELECT * FROM genre WHERE name = :name")
     Genre[] getGenresOnName(String name);
 
+    @Query("SELECT * FROM genre")
+    Genre[] getAllGenres();
+
     @Query("DELETE FROM genre")
     public void nukeTable();
 }

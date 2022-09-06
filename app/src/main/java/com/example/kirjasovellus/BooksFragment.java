@@ -18,8 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
@@ -41,15 +44,16 @@ public class BooksFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         FragmentManager fragmentManager = MainActivity.fragmentManager;
+        Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getAllBooks();
+        Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
-        Book[] dataset = MainActivity.bookDatabase.bookDao().getAllBooks();
+
 
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvBookList.setAdapter(new BookListAdapter(dataset));
+        rvBookList.setAdapter(new BookListAdapter(datasetBooks));
 
         Button btnSearch = getView().findViewById(R.id.btnSearch);
         EditText searchBox = getView().findViewById(R.id.searchBox);
@@ -62,6 +66,16 @@ public class BooksFragment extends Fragment {
 
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
+
+        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+
+        String genreNames[] = new String[datasetGenres.length + 1];
+        genreNames[0] = "-All-";
+        for (int i = 1; i < genreNames.length; i++) {
+            genreNames[i] =  datasetGenres[i-1].symbol + " " + datasetGenres[i-1].name;
+        }
+        ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
+        genreSelect.setAdapter(genreNameAdapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +172,26 @@ public class BooksFragment extends Fragment {
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
         String text = searchBox.getText().toString();
-        Book[] results = MainActivity.bookDatabase.bookDao().getBookOnTitle(text);
+
+        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+        String genreName = (String)genreSelect.getSelectedItem();
+        int indexOfStart = 0;
+        for (int i = 0; i < genreName.length(); i++) {
+            if (genreName.charAt(i) == ' ') {
+                indexOfStart = i + 1;
+                break;
+            }
+        }
+        genreName = genreName.substring(indexOfStart);
+
+        Book[] results;
+
+        if (genreSelect.getSelectedItemId() != 0) {
+            Genre genre = MainActivity.bookDatabase.genreDao().getGenresOnName(genreName)[0];
+            results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreId(text, genre.genreId);
+        } else {
+            results = MainActivity.bookDatabase.bookDao().getBookOnTitle(text);
+        }
         BookListAdapter adapter = (BookListAdapter) rvBookList.getAdapter();
         adapter.updateDataset(results);
     }
