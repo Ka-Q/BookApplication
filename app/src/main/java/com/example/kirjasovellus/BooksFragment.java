@@ -21,6 +21,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
@@ -64,6 +65,8 @@ public class BooksFragment extends Fragment {
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
 
+        LinearLayout nsvScroll = getView().findViewById(R.id.llListContainer);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +83,7 @@ public class BooksFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     fab.setVisibility(View.INVISIBLE);
-                    fabMenuContainer.setVisibility(View.VISIBLE);
+                    fabMenuContainer.setVisibility(View.GONE);
                 }
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     fab.setVisibility(View.VISIBLE);
