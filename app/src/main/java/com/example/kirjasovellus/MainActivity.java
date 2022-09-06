@@ -73,7 +73,27 @@ public class MainActivity extends AppCompatActivity {
         fantasy.name = "Fantasy";
         fantasy.symbol = "🧙";
 
-        genreDao.insertAll(history, culture, math, sci, fantasy);
+        Genre thriller = new Genre();
+        thriller.genreId = 0;
+        thriller.name = "Thriller";
+        thriller.symbol = "☎";
+
+        Genre detective = new Genre();
+        detective.genreId = 0;
+        detective.name = "Detective";
+        detective.symbol = "🔎";
+
+        Genre romance = new Genre();
+        romance.genreId = 0;
+        romance.name = "Romance";
+        romance.symbol = "❤";
+
+        Genre music = new Genre();
+        music.genreId = 0;
+        music.name = "Music";
+        music.symbol = "🎵";
+
+        genreDao.insertAll(history, culture, math, sci, fantasy, thriller, detective, romance, music);
 
         history = genreDao.getGenresOnName("History")[0];
         culture = genreDao.getGenresOnName("Culture")[0];
