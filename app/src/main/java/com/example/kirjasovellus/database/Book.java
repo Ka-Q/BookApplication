@@ -46,6 +46,7 @@ public class Book implements Parcelable {
         public static int[] fromString(String value) {
             String[] valueSeparated = value.split(",");
             int[] list = new int[valueSeparated.length];
+            if (value.length() == 0) return new int[0];
             for (int i = 0; i < valueSeparated.length; i++) {
                 list[i] = Integer.parseInt(valueSeparated[i]);
             }
