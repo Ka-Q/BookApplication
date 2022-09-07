@@ -50,8 +50,6 @@ public class BooksFragment extends Fragment {
 
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
-
-
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBookList.setAdapter(new BookListAdapter(datasetBooks));
 
