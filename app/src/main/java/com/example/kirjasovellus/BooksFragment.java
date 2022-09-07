@@ -228,14 +228,17 @@ public class BooksFragment extends Fragment {
             //GENRE
             String genreString = "";
             int index = 0;
-            for (int id : localDataset[position].genreIds) {
-                Genre g = MainActivity.bookDatabase.genreDao().getGenresOnId(id)[0];
-                genreString += g.symbol + " ";
-                index++;
+            if (localDataset[position].genreIds.length == 0) {
+                holder.genre.setText(genreString);
+            } else {
+                for (int id : localDataset[position].genreIds) {
+                    Genre g = MainActivity.bookDatabase.genreDao().getGenresOnId(id)[0];
+                    genreString += g.symbol + " ";
+                    index++;
+                }
+                genreString = genreString.substring(0, genreString.length() - 1);
+                holder.genre.setText(genreString);
             }
-            genreString = genreString.substring(0, genreString.length() - 1);
-            holder.genre.setText(genreString);
-
             //FINISHED
             String read = "✖";
             if (localDataset[position].finished) {

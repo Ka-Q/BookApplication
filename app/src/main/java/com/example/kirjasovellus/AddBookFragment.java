@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +57,11 @@ public class AddBookFragment extends Fragment {
                 Book b = new Book();
                 b.BookId = 0;
                 b.title = etBookTitle.getText().toString();
-                b.pageCount = Integer.parseInt(etPageCount.getText().toString());
+                try {
+                    b.pageCount = Integer.parseInt(etPageCount.getText().toString());
+                } catch (Exception e){
+                    b.pageCount = -1;
+                }
                 b.finished = false;
                 b.finishDate = null;
 
@@ -71,7 +76,17 @@ public class AddBookFragment extends Fragment {
 
                 b.genreIds = genreList;
 
-                MainActivity.bookDatabase.bookDao().insertAll(b);
+                TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsg);
+
+                if (b.title.length() > 0 && b.pageCount >= 0){
+                    MainActivity.bookDatabase.bookDao().insertAll(b);
+                    tvErrorMsg.setText("");
+                    FragmentManager fragmentManager = MainActivity.fragmentManager;
+                    fragmentManager.popBackStack();
+                }
+                else {
+                    tvErrorMsg.setText("Required data missing");
+                }
             }
         });
 

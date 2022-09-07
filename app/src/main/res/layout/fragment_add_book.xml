@@ -89,6 +89,15 @@
             app:layout_constraintStart_toStartOf="@+id/etPageCount"
             app:layout_constraintTop_toBottomOf="@+id/etPageCount" />
 
+        <TextView
+            android:id="@+id/tvErrorMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            app:layout_constraintEnd_toEndOf="@+id/btnSaveBook"
+            app:layout_constraintStart_toStartOf="@+id/btnSaveBook"
+            app:layout_constraintTop_toBottomOf="@+id/btnSaveBook" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
