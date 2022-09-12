@@ -61,6 +61,7 @@ public class BooksFragment extends Fragment {
 
         Button btnAddBook = getView().findViewById(R.id.btnAddBook);
         Button btnAddGenre = getView().findViewById(R.id.btnAddGenre);
+        Button btnEditGenre = getView().findViewById(R.id.btnEditGenre);
 
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
@@ -117,6 +118,16 @@ public class BooksFragment extends Fragment {
             public void onClick(View view) {
                 fragmentManager.beginTransaction()
                         .replace(R.id.contentContainer, AddGenreFragment.class, null)
+                        .addToBackStack("back")
+                        .commit();
+            }
+        });
+
+        btnEditGenre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.contentContainer, EditGenreFragment.class, null)
                         .addToBackStack("back")
                         .commit();
             }
