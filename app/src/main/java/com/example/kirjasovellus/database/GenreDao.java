@@ -21,5 +21,8 @@ public interface GenreDao {
     Genre[] getAllGenres();
 
     @Query("DELETE FROM genre")
-    public void nukeTable();
+    int nukeTable();
+
+    @Query("DELETE FROM genre WHERE genreId = :id")
+    int deleteGenre(int id);
 }
