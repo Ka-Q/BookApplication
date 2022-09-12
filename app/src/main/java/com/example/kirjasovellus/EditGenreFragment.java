@@ -1,5 +1,6 @@
 package com.example.kirjasovellus;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +18,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class EditGenreFragment extends Fragment {
@@ -50,7 +54,6 @@ public class EditGenreFragment extends Fragment {
 
         EditText etEmojiEdit = getView().findViewById(R.id.etEmojiEdit);
         etEmojiEdit.addTextChangedListener(new EmojiWatcher(symbolArray, etEmojiEdit));
-        //etEmojiEdit.setMovementMethod(null);
 
         Button btnSaveGenreEdit = getView().findViewById(R.id.btnSaveGenreEdit);
         TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsgEdit);
@@ -86,7 +89,15 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
-
+        etEmojiEdit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                etEmojiEdit.setText("");
+                symbolArray[0] = "";
+                symbolArray[1] = symbolArray[0];
+                return false;
+            }
+        });
 
         btnSaveGenreEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,5 +126,57 @@ public class EditGenreFragment extends Fragment {
                 }
             }
         });
+
+        Button btnCancel = getView().findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.fragmentManager.popBackStack();
+            }
+        });
+
+        Button btnDeleteGenre = getView().findViewById(R.id.btnDeleteGenre);
+        btnDeleteGenre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Genre selected = selectedGenre[0];
+                if (selectedGenre == null) return;
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+                builder.setMessage("Genre \"" + selected.name + "\" will be deleted and all books containing this genre will have it removed from them.");
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteGenre(selected);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    private void deleteGenre(Genre selected) {
+        Book[] booksWithGenre = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreId("", selected.genreId);
+        for (Book b : booksWithGenre) {
+            int[] newIds = new int[b.genreIds.length - 1];
+            int index = 0;
+            for (int gId : b.genreIds) {
+                if (gId != selected.genreId) {
+                    newIds[index] = gId;
+                    index++;
+                }
+            }
+            b.genreIds = newIds;
+        }
+        MainActivity.bookDatabase.bookDao().insertAll(booksWithGenre);
+        MainActivity.bookDatabase.genreDao().deleteGenre(selected.genreId);
+        MainActivity.fragmentManager.popBackStack();
     }
 }
