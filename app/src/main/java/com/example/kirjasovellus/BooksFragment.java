@@ -241,10 +241,10 @@ public class BooksFragment extends Fragment {
             arguments.putString("title", localDataset[position].title);
             arguments.putParcelable("book", localDataset[position]);
 
-            //TITLE
+            // TITLE
             holder.title.setText(localDataset[position].title);
 
-            //GENRE
+            // GENRE
             String genreString = "";
             int index = 0;
             if (localDataset[position].genreIds.length == 0) {
@@ -258,7 +258,7 @@ public class BooksFragment extends Fragment {
                 genreString = genreString.substring(0, genreString.length() - 1);
                 holder.genre.setText(genreString);
             }
-            //FINISHED
+            // FINISHED
             String read = "✖";
             if (localDataset[position].finished) {
                 read = "✔";
