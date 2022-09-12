@@ -38,19 +38,25 @@ public class AddBookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rvGenreList = getView().findViewById(R.id.rvGenreList);
-
+        // Hakee kaikki genret tietokannasta
         Genre[] datasetAllGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
+
+        // Ylläpitää käyttäjän asettamai genrejä kirjalle. Annetaan viittauksena 'GenreListAdapter'ille.
         ArrayList<Genre> selectedGenres = new ArrayList();
 
+        // Layout komponentit
+        RecyclerView rvGenreList = getView().findViewById(R.id.rvGenreList);
+        EditText etBookTitle = getView().findViewById(R.id.etBookTitle);
+        EditText etPageCount = getView().findViewById(R.id.etPageCount);
+        Button btnSaveBook = getView().findViewById(R.id.btnSaveBook);
+        TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsg);
+
+
+        // Genrelistan koodi. 'GenreListAdapter'ssa näytää tietokannassa olevat genret
         rvGenreList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvGenreList.setAdapter(new GenreListAdapter(datasetAllGenres, selectedGenres));
 
-        EditText etBookTitle = getView().findViewById(R.id.etBookTitle);
-        EditText etPageCount = getView().findViewById(R.id.etPageCount);
-
-        Button btnSaveBook = getView().findViewById(R.id.btnSaveBook);
-
+        // Tallennusnappi tallentaa uuden kirjan tietokantaan
         btnSaveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,8 +82,6 @@ public class AddBookFragment extends Fragment {
 
                 b.genreIds = genreList;
 
-                TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsg);
-
                 if (b.title.length() > 0 && b.pageCount >= 0){
                     MainActivity.bookDatabase.bookDao().insertAll(b);
                     tvErrorMsg.setText("");
@@ -99,9 +103,10 @@ public class AddBookFragment extends Fragment {
 
         public GenreListAdapter(Genre[] dataset, ArrayList<Genre> selectedGenres) {
             localDataset = dataset;
-            this.selectedGenres = selectedGenres;
+            this.selectedGenres = selectedGenres;                                                   // Viittaus listaan, jossa ylläpidetään valittuja genrejä
         }
 
+        // Päivittää listan
         public void updateDataset(Genre[] newDataset){
             localDataset = newDataset;
             notifyDataSetChanged();
@@ -118,10 +123,6 @@ public class AddBookFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull GenreListAdapter.ViewHolder holder, int position) {
-            Bundle arguments = new Bundle();
-            arguments.putString("name", localDataset[position].name);
-            arguments.putParcelable("genre", localDataset[position]);
-
             holder.icon.setText(localDataset[position].symbol);
             holder.name.setText(localDataset[position].name);
 
@@ -133,16 +134,13 @@ public class AddBookFragment extends Fragment {
                         if (!selectedGenres.contains(localDataset[holder.getAdapterPosition()])) {
                             selectedGenres.add(localDataset[holder.getAdapterPosition()]);
                         }
-
                     }
                     else {
                         holder.button.setText("🔴");
                         selectedGenres.remove(localDataset[holder.getAdapterPosition()]);
-
                     }
                 }
             });
-
         }
 
         @Override
@@ -161,8 +159,6 @@ public class AddBookFragment extends Fragment {
                 icon = (TextView) itemView.findViewById(R.id.tvGenreItemIcon);
                 name = (TextView) itemView.findViewById(R.id.tvGenreItemName);
                 button = (Button) itemView.findViewById(R.id.btnDeleteGenreItem);
-
-
             }
         }
     }

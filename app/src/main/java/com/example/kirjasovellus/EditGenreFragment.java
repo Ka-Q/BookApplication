@@ -36,12 +36,20 @@ public class EditGenreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Hakee tietokannasta olemassaolevat genret
         Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
+        // Layout-komponentit
         Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+        EditText etEmojiEdit = getView().findViewById(R.id.etEmojiEdit);
+        Button btnSaveGenreEdit = getView().findViewById(R.id.btnSaveGenreEdit);
+        TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsgEdit);
+        EditText etGenreNameEdit = getView().findViewById(R.id.etGenreNameEdit);
 
+        // Käyttäjän valitsema genre listassa, jotta muokattavissa kuuntelijoiden sisällä
         Genre[] selectedGenre = {null};
 
+        // Kerää genrejen nimet Merkkijonolistaan ja asettaa listan spinneriin
         String genreNames[] = new String[datasetGenres.length + 1];
         genreNames[0] = "-None-";
         for (int i = 1; i < genreNames.length; i++) {
@@ -50,20 +58,16 @@ public class EditGenreFragment extends Fragment {
         ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
         genreSelect.setAdapter(genreNameAdapter);
 
+        // Käyttäjän valitsema emoji listassa, jotta muokattavissa kuuntelijoiden sisällä
         String[] symbolArray = new String[]{null, ""};
 
-        EditText etEmojiEdit = getView().findViewById(R.id.etEmojiEdit);
+        // Emoji-valitsimen koodi. EmojiWatcher tarkistaa syötteen oikeellisuuden
         etEmojiEdit.addTextChangedListener(new EmojiWatcher(symbolArray, etEmojiEdit));
 
-        Button btnSaveGenreEdit = getView().findViewById(R.id.btnSaveGenreEdit);
-        TextView tvErrorMsg = getView().findViewById(R.id.tvErrorMsgEdit);
-
-        EditText etGenreNameEdit = getView().findViewById(R.id.etGenreNameEdit);
-
+        // Genre-spinnerin kuuntelija. Asettaa valitun genren 'selectedGenre'n ensimmäiseen alkioon
         genreSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                System.out.println("POS: " + pos);
                 if (pos > 0) {
                     Genre g = datasetGenres[pos - 1];
                     selectedGenre[0] = g;
@@ -75,20 +79,10 @@ public class EditGenreFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-        etEmojiEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                etEmojiEdit.setText("");
-                symbolArray[0] = "";
-                symbolArray[1] = symbolArray[0];
-            }
-        });
-
+        // Tyhjentää Emoji-valitsimen ja asettaa valitun tyhjäksi kosketettaessa.
         etEmojiEdit.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -99,6 +93,7 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
+        // Tallennusnappi tallentaa muutokset genreen korvaamalla vanhan genren tietokannassa
         btnSaveGenreEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +122,7 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
+        // Peruutusnappi palaa takaisin edelliseen näkymään
         Button btnCancel = getView().findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +131,7 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
+        // Poista-nappi kysyy käyttäjältä, haluaako varmasti poistaa
         Button btnDeleteGenre = getView().findViewById(R.id.btnDeleteGenre);
         btnDeleteGenre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +159,7 @@ public class EditGenreFragment extends Fragment {
         });
     }
 
+    // Poistaa annetun genren tietokannasta. Käy läpi kirjat, joihin genre on merkattu, ja poistaa genren niiden listoista.
     private void deleteGenre(Genre selected) {
         Book[] booksWithGenre = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreId("", selected.genreId);
         for (Book b : booksWithGenre) {

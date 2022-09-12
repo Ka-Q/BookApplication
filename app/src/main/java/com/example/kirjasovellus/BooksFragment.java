@@ -48,26 +48,28 @@ public class BooksFragment extends Fragment {
         Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getAllBooks();
         Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
+        // Main Layout komponentit
+        EditText searchBox = getView().findViewById(R.id.searchBox);
+        Button btnSearch = getView().findViewById(R.id.btnSearch);
+        Button btnMore = getView().findViewById(R.id.btnMore);
+        ConstraintLayout moreContainer = getView().findViewById(R.id.moreContainer);
+        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
+        // Kirjalistan koodi. 'BookListAdapter'ssa näytää tietokannassa olevat kirjat
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBookList.setAdapter(new BookListAdapter(datasetBooks));
 
-        Button btnSearch = getView().findViewById(R.id.btnSearch);
-        EditText searchBox = getView().findViewById(R.id.searchBox);
 
-        Button btnMore = getView().findViewById(R.id.btnMore);
-        ConstraintLayout moreContainer = getView().findViewById(R.id.moreContainer);
-
+        // FAB-menu Layout komponentit
+        FloatingActionButton fab = getView().findViewById(R.id.fab);
+        ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
         Button btnAddBook = getView().findViewById(R.id.btnAddBook);
         Button btnAddGenre = getView().findViewById(R.id.btnAddGenre);
         Button btnEditGenre = getView().findViewById(R.id.btnEditGenre);
 
-        FloatingActionButton fab = getView().findViewById(R.id.fab);
-        ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
 
-        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
-
+        // Kerää genrejen nimet Merkkijonolistaan ja asettaa listan spinneriin
         String genreNames[] = new String[datasetGenres.length + 1];
         genreNames[0] = "-All-";
         for (int i = 1; i < genreNames.length; i++) {
@@ -76,6 +78,7 @@ public class BooksFragment extends Fragment {
         ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
         genreSelect.setAdapter(genreNameAdapter);
 
+        // FAB-onclick, jossa avataan FAB-menu
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +90,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
+        // Piilottaa FAB-komponentit listaa vieritettäessä
         rvBookList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -101,7 +105,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //Add Book button action
+        //Lisää kirja onclick, jossa vaihdetaan fragmenttia 'AddBookFragment'tiin.
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +116,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //AddGenre button action
+        //Lisää genre onclick, jossa vaihdetaan fragmenttia 'AddGenreFragment'tiin.
         btnAddGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +126,7 @@ public class BooksFragment extends Fragment {
                         .commit();
             }
         });
-
+        //Muokkaa genreä onclick, jossa vaihdetaan fragmenttia 'EditGenreFragment'tiin.
         btnEditGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +137,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //More-menu button action
+        //Hakuasetusten toggle-nappi
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,7 +153,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //Keyboard search action
+        //tekee haun painettaessa softkeyboardin 'Done' tai 'Next' nappia
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -160,7 +164,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //Search button action
+        //tekee haun painettaessa hakunappia
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,6 +176,8 @@ public class BooksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    // Hakee kirjoja tietokannasta. Rajaa hakua kirjan nimen ja/tai valitun genren mukaan
+    // Päivittää haun jälkeen listan
     private void search(View view){
 
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -229,6 +235,8 @@ public class BooksFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull BookListAdapter.ViewHolder holder, int position) {
+
+            // Bundelssa kaikki tiedot kirjasta
             Bundle arguments = new Bundle();
             arguments.putString("title", localDataset[position].title);
             arguments.putParcelable("book", localDataset[position]);
