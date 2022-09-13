@@ -43,6 +43,7 @@ public class BookDetailsFragment extends Fragment {
         book.finished = false;
         book.finishDate = null;
 
+
         // Ottaa argumenteista bundlen ja asettaa kirja-olioon
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -52,7 +53,7 @@ public class BookDetailsFragment extends Fragment {
         // Hakee kirjan genreId:illä genret ja asettaa Merkkijonoon
         String bookGenresString = "Genres:";
         for (int id : book.genreIds) {
-            Genre g = MainActivity.bookDatabase.genreDao().getGenresOnId(id)[0];
+            Genre g = MainActivity.bookDatabase.genreDao().getGenreOnId(id);
             bookGenresString +=  "\n" + g.symbol + " " + g.name;
         }
 
