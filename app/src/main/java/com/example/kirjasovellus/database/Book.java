@@ -31,6 +31,9 @@ public class Book implements Parcelable {
     @ColumnInfo
     public Date finishDate;
 
+    @ColumnInfo
+    public String notes;
+
     @Override
     public int describeContents() {
         return 0;
