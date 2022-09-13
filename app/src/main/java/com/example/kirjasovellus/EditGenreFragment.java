@@ -93,10 +93,20 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
+        // Alert dialog, jos genreä ei ole valittu muokattavaksi
+        MaterialAlertDialogBuilder nullBuilder = new MaterialAlertDialogBuilder(getContext());
+        nullBuilder.setMessage("You must choose a genre to make edits");
+        nullBuilder.setPositiveButton("ok", (dialogInterface, i) -> {});
+
         // Tallennusnappi tallentaa muutokset genreen korvaamalla vanhan genren tietokannassa
         btnSaveGenreEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (selectedGenre[0] == null) {
+                    nullBuilder.show();
+                    return;
+                };
                 tvErrorMsg.setText("");
 
                 if (EmojiWatcher.isEmojiOnly(symbolArray[0])) {
@@ -110,7 +120,7 @@ public class EditGenreFragment extends Fragment {
                     tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Name is not valid.");
                 }
 
-                if(tvErrorMsg.getText().length() == 0) {
+                if (tvErrorMsg.getText().length() == 0) {
                     Genre g = new Genre();
                     g.genreId = selectedGenre[0].genreId;
                     g.name = etGenreNameEdit.getText().toString();
@@ -136,10 +146,11 @@ public class EditGenreFragment extends Fragment {
         btnDeleteGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Genre selected = selectedGenre[0];
-                if (selectedGenre == null) return;
-
+                if (selectedGenre[0] == null) {
+                    nullBuilder.show();
+                    return;
+                };
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
                 builder.setMessage("Genre \"" + selected.name + "\" will be deleted and all books containing this genre will have it removed from them.");
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
