@@ -1,5 +1,6 @@
 package com.example.kirjasovellus;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -54,11 +55,20 @@ public class BookDetailsFragment extends Fragment {
         }
 
         // Hakee kirjan genreId:illä genret ja asettaa Merkkijonoon
+        Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
         String bookGenresString = "Genres:";
         for (int id : book.genreIds) {
-            Genre g = MainActivity.bookDatabase.genreDao().getGenreOnId(id);
-            bookGenresString +=  "\n" + g.symbol + " " + g.name;
+
+            for(Genre g : allGenres) {
+                if (id == g.genreId) {
+                    bookGenresString +=  "\n" + g.symbol + " " + g.name;
+                }
+            }
+
+            //Genre g = MainActivity.bookDatabase.genreDao().getGenreOnId(id);
+
         }
+
 
         // Tarkistaa, onko käyttäjä merkannut kirjan luetuksi. Jos on, niin näyttää päivämäärän
         String finishedString = "Finished?: ";
