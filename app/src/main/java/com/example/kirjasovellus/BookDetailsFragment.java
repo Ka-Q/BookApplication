@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
@@ -75,6 +78,8 @@ public class BookDetailsFragment extends Fragment {
         TextView tvBookDetailsGenres = getView().findViewById(R.id.tvBookDetailsGenres);
         TextView tvBookDetailsPageCount = getView().findViewById(R.id.tvBookDetailsPageCount);
         TextView tvBookDetailsfinished = getView().findViewById(R.id.tvBookDetailsFinished);
+        EditText etBookDetailsNotes = getView().findViewById(R.id.etBookDetailsNotes);
+        Button btnSaveNotes = getView().findViewById(R.id.btnSaveNotes);
         Button btnMarkAsFinished = getView().findViewById(R.id.btnMarkAsFinished);
         Button btnEditBook = getView().findViewById(R.id.btnEditBook);
 
@@ -88,10 +93,25 @@ public class BookDetailsFragment extends Fragment {
         } else {
             btnMarkAsFinished.setText("Mark as unfinished");
         }
+        etBookDetailsNotes.setText(book.notes);
+
+        // Final book muokattavaksi eventeissä
+        Book finalBook = book;
+
+        // Tallentaa muistiinpanot tietokantaan;
+        btnSaveNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalBook.notes = etBookDetailsNotes.getText().toString();
+                MainActivity.bookDatabase.bookDao().insertAll(finalBook);
+                Toast noteSaved = new Toast(getContext());
+                noteSaved.setText("Notes saved!");
+                noteSaved.show();
+            }
+        });
 
         // Jos kirja merkattu luetuksi, merkaa lukemattomaksi ja toisinpäin. Asettaa nykyisen ajan
         // päivämääräksi. Tallentaa tiedot tietokantaan ja "päivittää" sivun.
-        Book finalBook = book;
         btnMarkAsFinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +131,7 @@ public class BookDetailsFragment extends Fragment {
             }
         });
 
+        // Avaa kirjan muokkausnäkymän
         btnEditBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
