@@ -1,5 +1,6 @@
 package com.example.kirjasovellus;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -104,6 +106,29 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity.fragmentManager.popBackStack();
+            }
+        });
+
+        btnDeleteBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+                builder.setMessage("Are you sure you want to delete this book and all data associated with it (including statistics) permanently. This action can not be reversed.");
+                builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity.bookDatabase.bookDao().deleteBook(finalBook.BookId);
+                        MainActivity.fragmentManager.popBackStack();
+                        MainActivity.fragmentManager.popBackStack();
+                    }
+                });
+
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {}
+                });
+                builder.show();
+
             }
         });
 
