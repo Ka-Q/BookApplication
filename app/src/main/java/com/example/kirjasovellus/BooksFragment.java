@@ -1,6 +1,7 @@
 package com.example.kirjasovellus;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -245,14 +247,18 @@ public class BooksFragment extends Fragment {
             holder.title.setText(localDataset[position].title);
 
             // GENRE
+            Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
             String genreString = "";
             int index = 0;
             if (localDataset[position].genreIds.length == 0) {
                 holder.genre.setText(genreString);
             } else {
                 for (int id : localDataset[position].genreIds) {
-                    Genre g = MainActivity.bookDatabase.genreDao().getGenresOnId(id)[0];
-                    genreString += g.symbol + " ";
+                    for (Genre g : allGenres) {
+                        if (id == g.genreId) {
+                            genreString += g.symbol + " ";
+                        }
+                    }
                     index++;
                 }
                 genreString = genreString.substring(0, genreString.length() - 1);
