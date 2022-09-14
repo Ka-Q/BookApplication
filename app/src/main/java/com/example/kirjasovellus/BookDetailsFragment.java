@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 
+import java.sql.SQLOutput;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,8 +39,10 @@ public class BookDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
         // Alustava kirja, jolla on oletustiedot
+        System.out.println();
         Book book = new Book();
         book.title = "Title";
         book.genreIds = new int[0];
@@ -51,22 +54,17 @@ public class BookDetailsFragment extends Fragment {
         // Ottaa argumenteista bundlen ja asettaa kirja-olioon
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            book  = (Book) bundle.getParcelable("book");
+            book = (Book) bundle.getParcelable("book");
         }
 
         // Hakee kirjan genreId:illä genret ja asettaa Merkkijonoon
-        Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
         String bookGenresString = "Genres:";
         for (int id : book.genreIds) {
-
             for(Genre g : allGenres) {
                 if (id == g.genreId) {
                     bookGenresString +=  "\n" + g.symbol + " " + g.name;
                 }
             }
-
-            //Genre g = MainActivity.bookDatabase.genreDao().getGenreOnId(id);
-
         }
 
 

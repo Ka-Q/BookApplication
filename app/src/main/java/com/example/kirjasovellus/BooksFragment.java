@@ -241,6 +241,7 @@ public class BooksFragment extends Fragment {
             // Bundelssa kaikki tiedot kirjasta
             Bundle arguments = new Bundle();
             arguments.putString("title", localDataset[position].title);
+            arguments.putInt("id", localDataset[position].BookId);
             arguments.putParcelable("book", localDataset[position]);
 
             // TITLE

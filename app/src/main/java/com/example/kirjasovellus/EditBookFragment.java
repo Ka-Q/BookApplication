@@ -46,7 +46,7 @@ public class EditBookFragment extends Fragment {
         // Ottaa argumenteista bundlen ja asettaa kirja-olioon
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            book  = (Book) bundle.getParcelable("book");
+            book = (Book) bundle.getParcelable("book");
         }
 
         // Layout komponentit
