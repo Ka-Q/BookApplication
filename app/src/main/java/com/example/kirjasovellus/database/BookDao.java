@@ -26,4 +26,6 @@ public interface BookDao {
     @Query("DELETE FROM book")
     public void nukeTable();
 
+    @Query("DELETE FROM book WHERE BookId = :id")
+    int deleteBook(int id);
 }
