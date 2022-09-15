@@ -25,7 +25,7 @@
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:text="genres"
-        android:textStyle="italic"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitleLabel"
         app:layout_constraintEnd_toStartOf="@+id/tvReadLabel"
         app:layout_constraintHorizontal_bias="0.5"
