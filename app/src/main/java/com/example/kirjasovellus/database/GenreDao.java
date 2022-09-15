@@ -20,7 +20,7 @@ public interface GenreDao {
     @Query("SELECT * FROM genre WHERE name = :name")
     Genre[] getGenresOnName(String name);
 
-    @Query("SELECT * FROM genre")
+    @Query("SELECT * FROM genre ORDER BY name ASC")
     Genre[] getAllGenres();
 
     @Query("DELETE FROM genre")
