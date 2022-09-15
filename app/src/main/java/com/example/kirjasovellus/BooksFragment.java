@@ -47,7 +47,7 @@ public class BooksFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         FragmentManager fragmentManager = MainActivity.fragmentManager;
-        Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getAllBooks();
+        Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc("");
         Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
         // Main Layout komponentit
@@ -55,6 +55,7 @@ public class BooksFragment extends Fragment {
         Button btnSearch = getView().findViewById(R.id.btnSearch);
         Button btnMore = getView().findViewById(R.id.btnMore);
         ConstraintLayout moreContainer = getView().findViewById(R.id.moreContainer);
+        Button btnSort = getView().findViewById(R.id.btnSort);
         Spinner genreSelect = getView().findViewById(R.id.genreSelect);
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
@@ -62,14 +63,12 @@ public class BooksFragment extends Fragment {
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBookList.setAdapter(new BookListAdapter(datasetBooks));
 
-
         // FAB-menu Layout komponentit
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
         Button btnAddBook = getView().findViewById(R.id.btnAddBook);
         Button btnAddGenre = getView().findViewById(R.id.btnAddGenre);
         Button btnEditGenre = getView().findViewById(R.id.btnEditGenre);
-
 
         // Kerää genrejen nimet Merkkijonolistaan ja asettaa listan spinneriin
         String genreNames[] = new String[datasetGenres.length + 1];
@@ -118,7 +117,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //Lisää genre onclick, jossa vaihdetaan fragmenttia 'AddGenreFragment'tiin.
+        // Lisää genre onclick, jossa vaihdetaan fragmenttia 'AddGenreFragment'tiin.
         btnAddGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +127,8 @@ public class BooksFragment extends Fragment {
                         .commit();
             }
         });
-        //Muokkaa genreä onclick, jossa vaihdetaan fragmenttia 'EditGenreFragment'tiin.
+
+        // Muokkaa genreä onclick, jossa vaihdetaan fragmenttia 'EditGenreFragment'tiin.
         btnEditGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +139,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //Hakuasetusten toggle-nappi
+        // Hakuasetusten toggle-nappi
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,7 +155,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //tekee haun painettaessa softkeyboardin 'Done' tai 'Next' nappia
+        // tekee haun painettaessa softkeyboardin 'Done' tai 'Next' nappia
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -166,12 +166,31 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        //tekee haun painettaessa hakunappia
+        // tekee haun painettaessa hakunappia
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 search(view);
                 view.invalidate();
+            }
+        });
+
+        btnSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("YEE");
+                if (btnSort.getText().toString().equals("A-Z")) {
+                    btnSort.setText("Z-A");
+                }
+                 else if (btnSort.getText().toString().equals("Z-A")) {
+                    btnSort.setText("N-O");
+                }
+                else if (btnSort.getText().toString().equals("N-O")) {
+                    btnSort.setText("O-N");
+                }
+                else if (btnSort.getText().toString().equals("O-N")) {
+                    btnSort.setText("A-Z");
+                }
             }
         });
 
@@ -201,13 +220,40 @@ public class BooksFragment extends Fragment {
         }
         genreName = genreName.substring(indexOfStart);
 
-        Book[] results;
+        Book[] results = new Book[0];
+
+        Button btnSort = getView().findViewById(R.id.btnSort);
 
         if (genreSelect.getSelectedItemId() != 0) {
             Genre genre = MainActivity.bookDatabase.genreDao().getGenresOnName(genreName)[0];
-            results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreId(text, genre.genreId);
+
+            if (btnSort.getText().toString().equals("A-Z")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleAsc(text, genre.genreId);
+            }
+            if (btnSort.getText().toString().equals("Z-A")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleDesc(text, genre.genreId);
+            }
+            if (btnSort.getText().toString().equals("N-O")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdDesc(text, genre.genreId);
+            }
+            if (btnSort.getText().toString().equals("O-N")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdAsc(text, genre.genreId);
+            }
+
         } else {
-            results = MainActivity.bookDatabase.bookDao().getBookOnTitle(text);
+
+            if (btnSort.getText().toString().equals("A-Z")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc(text);
+            }
+            if (btnSort.getText().toString().equals("Z-A")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleDesc(text);
+            }
+            if (btnSort.getText().toString().equals("N-O")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdDesc(text);
+            }
+            if (btnSort.getText().toString().equals("O-N")) {
+                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdAsc(text);
+            }
         }
         BookListAdapter adapter = (BookListAdapter) rvBookList.getAdapter();
         adapter.updateDataset(results);

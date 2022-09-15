@@ -23,6 +23,35 @@ public interface BookDao {
     @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%'")
     Book[] getBookOnTitleAndGenreId(String title, int id);
 
+
+    // Sorted queries title
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY title ASC")
+    Book[] getBookOnTitleSortedOnTitleAsc(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY title DESC")
+    Book[] getBookOnTitleSortedOnTitleDesc(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY BookId ASC")
+    Book[] getBookOnTitleSortedOnIdAsc(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY BookId DESC")
+    Book[] getBookOnTitleSortedOnIdDesc(String title);
+
+
+    // Sorted queries title and genre
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY title ASC")
+    Book[] getBookOnTitleAndGenreIdSortedOnTitleAsc(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY title DESC")
+    Book[] getBookOnTitleAndGenreIdSortedOnTitleDesc(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY BookId ASC")
+    Book[] getBookOnTitleAndGenreIdSortedOnIdAsc(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY BookId DESC")
+    Book[] getBookOnTitleAndGenreIdSortedOnIdDesc(String title, int id);
+
+
     @Query("DELETE FROM book")
     public void nukeTable();
 
