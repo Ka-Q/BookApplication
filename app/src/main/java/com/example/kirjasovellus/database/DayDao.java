@@ -13,4 +13,7 @@ public interface DayDao {
 
     @Query("SELECT * FROM day ORDER BY date ASC")
     Day[] getAllDays();
+
+    @Query("DELETE FROM day")
+    int nukeTable();
 }
