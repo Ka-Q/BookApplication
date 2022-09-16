@@ -15,24 +15,22 @@ import androidx.annotation.Nullable;
 import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.database.Day;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
-import java.util.Date;
-
 public class ChartCanvas extends View {
 
     private Day[] days;
     private Bar[] bars;
     private int lineCount = 24;
 
-    private int barWidth = 100;
+    private int barWidth;
     private int base = 500;
     private int xTranslation = 200;
 
     private Rect borderRect;
-    private Paint borderPaint;
-    private Paint linePaint;
+
+    private Paint borderPaint = new Paint();
+    private Paint linePaint = new Paint();
+    private Paint textPaint  = new Paint();;
+    private Paint labelPaint  = new Paint();;
 
     private int scale;
 
@@ -44,30 +42,35 @@ public class ChartCanvas extends View {
     }
 
     private void initialize() {
+
+        // Asetetaan päivät taulukkoon
         days = MainActivity.bookDatabase.dayDao().getAllDays();
 
+        // Asetetaan palkkien leveys niin, että ne mahtuvat leveydelle 700
         barWidth = 700/days.length;
 
-
-        System.out.println("PÄIVIÄ: " + days.length);
+        // Alustetaan taulukko palkeille
         bars = new Bar[days.length];
 
         Double sum = 0.0;
         Double maxHours = 0.0;
 
+        // Käydään läpi päivien tunnit ja lasketaan niiden summa, keskiarvo ja maksimi
         for (Day d : days) {
-            System.out.println(d.date + "  -  " + d.hours);
             if (d.hours > maxHours) maxHours = d.hours;
             sum += d.hours;
         }
         avgHours = sum/days.length;
 
+        // Kaavion vaakaviivojen määrä pyöristetään ylös, jotta suurin data ei leikkaannu pois
         int maxHoursInt = (int) Math.ceil(maxHours);
-
         lineCount = maxHoursInt;
 
+        // Skaalaus-arvon avulla skaalataan kaavio niin, että korkein arvo osuu aina kaavion ylälaitaan
         scale = (barWidth * days.length / maxHoursInt);
 
+        // Käydään läpi päivät ja muodostetaan niistä palkkeja. Palkit asetetaan omaan listaansa.
+        // Palkille annetaan myös päivämäärästä päivän ensimmäinen kirjain labeliksi.
         int index = 0;
         for (Day d : days) {
 
@@ -87,32 +90,38 @@ public class ChartCanvas extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        xTranslation = canvas.getWidth()/2 - (barWidth * bars.length)/2;
-
-        borderRect = new Rect(xTranslation, 0, xTranslation + barWidth * days.length, barWidth * days.length);
-        borderPaint = new Paint();
+        // Tyylimuotoilua kaavion eri komponenteille
         borderPaint.setColor(Color.DKGRAY);
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(5f);
 
-        linePaint = new Paint();
         linePaint.setColor(Color.DKGRAY);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setPathEffect(new DashPathEffect(new float[] {20f,50f}, 0f));
         linePaint.setStrokeWidth(1f);
 
-        Paint textPaint = new Paint();
         textPaint.setColor(Color.LTGRAY);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setStrokeWidth(1f);
         textPaint.setTextSize(30f);
 
-        Paint labelPaint = new Paint();
         labelPaint.setColor(Color.LTGRAY);
         labelPaint.setStyle(Paint.Style.FILL);
         labelPaint.setStrokeWidth(1f);
         labelPaint.setTextSize(30f);
 
+        // Muuttuja kaavion keskittämistä varten
+        xTranslation = canvas.getWidth()/2 - (barWidth * bars.length)/2;
+
+        // Asetetaan kaavion kehykselle koko ja sijainti
+        borderRect = new Rect(xTranslation, 0, xTranslation + barWidth * days.length, barWidth * days.length);
+
+        // Käydään läpi palkkien listaa ja asetetaan palkkien sijainnit ja väritys
+        // Pos-muuttuja on palkin "sijanumero" kaaviossa, xTranslation auttaa kaavion keskityksessä
+        // Palkit väritetään sen mukaan, kuinka ne eroavat keskimääräisestä palkin korkeudesta:
+        // Keskiarvon arvoaluetta laajennetaan yhdellä tunnilla ylös ja alas. Kaikki alemmat värjätään
+        // haaleammiksi ja ylemmät voimakkaammaksi
+        // Lopuksi piirretään vielä näkymään label palkin alapuolelle.
         int pos = 0;
         for (Bar b : bars) {
 
@@ -120,21 +129,19 @@ public class ChartCanvas extends View {
 
             if (b.getHeight() > (avgHours + 1) * scale) {
                 b.setFillColor(Color.rgb(100,100, 255));
-            }
-            else if (b.getHeight() < (avgHours - 1) * scale) {
+            } else if (b.getHeight() < (avgHours - 1) * scale) {
                 b.setFillColor(Color.rgb(220,220, 255));
-            }
-            else {
+            } else {
                 b.setFillColor(Color.rgb(150,150, 255));
             }
 
             b.drawFill(canvas);
-            pos++;
-
             canvas.drawText("" + b.getLabel().charAt(0), b.getPosition() - 10, borderRect.bottom + 30, labelPaint);
-
+            pos++;
         }
 
+        // Käydään läpi vaakaviivojen listaa ja piirretään ne. Vaakaviivoja on tunnin välein.
+        // Vaakaviivan eteen asetetaan label tuntimäärästä, jota se kuvastaa.
         for (int i = 0; i < lineCount; i++) {
             Path p = new Path();
 
@@ -144,19 +151,18 @@ public class ChartCanvas extends View {
             canvas.drawText((lineCount - i) + "h", xTranslation - 60, i * borderRect.bottom/lineCount, textPaint);
         }
 
+        // Piirretään kaavion reunus
         canvas.drawRect(borderRect, borderPaint);
 
+        // Lopuksi piirretään palkkien reunukset, jotta ne näkyvät "ylimmällä tasolla".
         for (Bar b : bars) {
             b.drawBorder(canvas);
         }
-
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //super.onMeasure(widthMeasureSpec , heightMeasureSpec);
-        //System.out.println(heightMeasureSpec);
-
+        // Asettaa kankaalle korkeuden, jotta sitä voidaan käyttää paremmin layouteissa
         setMeasuredDimension(widthMeasureSpec, 750);
     }
 }
