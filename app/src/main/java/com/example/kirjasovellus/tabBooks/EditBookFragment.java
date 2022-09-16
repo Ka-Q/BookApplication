@@ -64,7 +64,6 @@ public class EditBookFragment extends Fragment {
 
         // Ylläpitää käyttäjän asettamia genrejä kirjalle. Annetaan viittauksena 'GenreListAdapter'ille.
         ArrayList<Genre> selectedGenres = new ArrayList();
-
         for (int id : book.genreIds) {
             for (Genre g : datasetAllGenres) {
                 if (id == g.genreId) {
@@ -81,7 +80,10 @@ public class EditBookFragment extends Fragment {
         rvEditBookGenres.setLayoutManager(new LinearLayoutManager(getContext()));
         rvEditBookGenres.setAdapter(new EditBookFragment.GenreListAdapter(datasetAllGenres, selectedGenres));
 
+        // Final book, jota voidaan muokata eventeissä.
         Book finalBook = book;
+
+        // Tallentaa käyttäjän tekemät muutokset tietokantaan
         btnSaveEdits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +106,7 @@ public class EditBookFragment extends Fragment {
             }
         });
 
+        // Peruuta -nappi palaa edelliseen näkymään
         btnEditBookCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +114,8 @@ public class EditBookFragment extends Fragment {
             }
         });
 
+        /* Poista-nappi kysyy, haluaako käyttäjä varmasti poistaa genren.
+        /* Jos hyväksyy -> poistaa tietokannasta. */
         btnDeleteBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,10 +135,8 @@ public class EditBookFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 });
                 builder.show();
-
             }
         });
-
     }
 
 
@@ -144,7 +147,9 @@ public class EditBookFragment extends Fragment {
 
         public GenreListAdapter(Genre[] dataset, ArrayList<Genre> selectedGenres) {
             localDataset = dataset;
-            this.selectedGenres = selectedGenres;                                                   // Viittaus listaan, jossa ylläpidetään valittuja genrejä
+
+            // Viittaus listaan, jossa ylläpidetään valittuja genrejä
+            this.selectedGenres = selectedGenres;
         }
 
         // Päivittää listan
@@ -164,6 +169,8 @@ public class EditBookFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull EditBookFragment.GenreListAdapter.ViewHolder holder, int position) {
+
+            // Asetetaan genren tietoja layout-komponentteihin
             holder.icon.setText(localDataset[position].symbol);
             holder.name.setText(localDataset[position].name);
 
@@ -173,6 +180,7 @@ public class EditBookFragment extends Fragment {
                 }
             }
 
+            // toggle-nappi, jolla käyttäjä voi päättää onko kirjalla genre vai ei
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -196,13 +204,12 @@ public class EditBookFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final TextView icon;
-            public final TextView name;
-            public final Button button;
+            public final TextView icon; // Symboli
+            public final TextView name; // Nimi
+            public final Button button; // Toggle-nappi
 
             public ViewHolder(View itemView) {
                 super(itemView);
-
                 icon = (TextView) itemView.findViewById(R.id.tvGenreItemIcon);
                 name = (TextView) itemView.findViewById(R.id.tvGenreItemName);
                 button = (Button) itemView.findViewById(R.id.btnDeleteGenreItem);

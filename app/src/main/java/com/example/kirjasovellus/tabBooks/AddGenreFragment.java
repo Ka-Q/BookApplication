@@ -20,6 +20,7 @@ import com.example.kirjasovellus.database.Genre;
 
 public class AddGenreFragment extends Fragment {
 
+    // Ylläpitää tietoa siitä, mitkä ovat käyttäjän viimeisimmäksi syötetyt emojit.
     private String[] symbolArray = new String[]{null, ""};
 
     @Override
@@ -53,7 +54,9 @@ public class AddGenreFragment extends Fragment {
             }
         });
 
-        // Tallennusnappi tallentaa uuden genren tietokantaan
+        /* Tallennusnappi kerää syötetyn datan käyttöliittymästä ja tarkistaa, täyttääkö se vaatimukset.
+         * Mikäli vaatimukset täyttyvät, tallentaa uuden genren tietokantaan. Muulloin näyttää käyttäjälle
+         * virheviestin.*/
         btnSaveGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
