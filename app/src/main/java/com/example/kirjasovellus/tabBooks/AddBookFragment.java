@@ -58,7 +58,9 @@ public class AddBookFragment extends Fragment {
         rvGenreList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvGenreList.setAdapter(new GenreListAdapter(datasetAllGenres, selectedGenres));
 
-        // Tallennusnappi tallentaa uuden kirjan tietokantaan
+        /* Tallennusnappi kerää syötetyn datan käyttöliittymästä ja tarkistaa, täyttääkö se vaatimukset.
+        * Mikäli vaatimukset täyttyvät, tallentaa uuden kirjan tietokantaan. Muulloin näyttää käyttäjälle
+        * virheviestin.*/
         btnSaveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,9 +77,7 @@ public class AddBookFragment extends Fragment {
 
                 int[] genreList = new int[selectedGenres.size()];
                 int i = 0;
-                System.out.println("SELECTED GENRES");
                 for (Genre g: selectedGenres) {
-                    System.out.println(g.name);
                     genreList[i] = g.genreId;
                     i++;
                 }
@@ -95,7 +95,6 @@ public class AddBookFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private static class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.ViewHolder> {
@@ -105,10 +104,12 @@ public class AddBookFragment extends Fragment {
 
         public GenreListAdapter(Genre[] dataset, ArrayList<Genre> selectedGenres) {
             localDataset = dataset;
-            this.selectedGenres = selectedGenres;                                                   // Viittaus listaan, jossa ylläpidetään valittuja genrejä
+
+            // Viittaus listaan, jossa ylläpidetään valittuja genrejä
+            this.selectedGenres = selectedGenres;
         }
 
-        // Päivittää listan
+        // Päivittää näkymän
         public void updateDataset(Genre[] newDataset){
             localDataset = newDataset;
             notifyDataSetChanged();
@@ -125,9 +126,13 @@ public class AddBookFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull GenreListAdapter.ViewHolder holder, int position) {
+
+            // Asetetaan genren symboli ja nimi
             holder.icon.setText(localDataset[position].symbol);
             holder.name.setText(localDataset[position].name);
 
+            /* Toggle-nappi päivittää parametrina saatuun viittaukseen listasta tietoa siitä,
+             * mitkä genret on valittu.*/
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -151,13 +156,12 @@ public class AddBookFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final TextView icon;
-            public final TextView name;
-            public final Button button;
+            public final TextView icon; // Genren symboli
+            public final TextView name; // Genren nimi
+            public final Button button; // Toggel-nappi genrelle
 
             public ViewHolder(View itemView) {
                 super(itemView);
-
                 icon = (TextView) itemView.findViewById(R.id.tvGenreItemIcon);
                 name = (TextView) itemView.findViewById(R.id.tvGenreItemName);
                 button = (Button) itemView.findViewById(R.id.btnDeleteGenreItem);

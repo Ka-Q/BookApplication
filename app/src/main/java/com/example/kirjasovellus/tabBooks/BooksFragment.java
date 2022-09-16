@@ -45,7 +45,10 @@ public class BooksFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // FragmentManager MainActivity:stä
         FragmentManager fragmentManager = MainActivity.fragmentManager;
+
+        // Haetaan kirjojen ja genrejen datat tietokannasta omiin taulukoihinsa.
         Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc("");
         Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
@@ -62,14 +65,16 @@ public class BooksFragment extends Fragment {
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBookList.setAdapter(new BookListAdapter(datasetBooks));
 
-        // FAB-menu Layout komponentit
+        /* FAB-menu Layout komponentit. FAB-menussa napit, joilla voidaan lisätä kirja tai genre
+         * sekä muokata genrejä. */
         FloatingActionButton fab = getView().findViewById(R.id.fab);
         ConstraintLayout fabMenuContainer = getView().findViewById(R.id.fabMenuContainer);
         Button btnAddBook = getView().findViewById(R.id.btnAddBook);
         Button btnAddGenre = getView().findViewById(R.id.btnAddGenre);
         Button btnEditGenre = getView().findViewById(R.id.btnEditGenre);
 
-        // Kerää genrejen nimet Merkkijonolistaan ja asettaa listan spinneriin
+        /* Kerää genrejen nimet merkkijonolistaan ja asettaa listan spinneriin. Spinnerin
+         * ensimmäinen valinta on varattu "kaikki"-valinnalle. */
         String genreNames[] = new String[datasetGenres.length + 1];
         genreNames[0] = "-All-";
         for (int i = 1; i < genreNames.length; i++) {
@@ -90,7 +95,8 @@ public class BooksFragment extends Fragment {
             }
         });
 
-        // Piilottaa FAB-komponentit listaa vieritettäessä
+        /* Piilottaa FAB-komponentit listaa vieritettäessä, jotta FAB-menu ei peittäisi
+         * kirjan tietoja. */
         rvBookList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -174,6 +180,12 @@ public class BooksFragment extends Fragment {
             }
         });
 
+        /* Hakutulosten järjestyksen toggle-nappi. Järjestykselle on neljä vaihtoehtoa:
+         * - Aakkosellinen nouseva
+         * - Aakkosellinen laskeva
+         * - Lisäyspäivä nouseva
+         * - Lisäyspäivä laskeva
+         */
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,19 +208,24 @@ public class BooksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    // Hakee kirjoja tietokannasta. Rajaa hakua kirjan nimen ja/tai valitun genren mukaan
-    // Päivittää haun jälkeen listan
+    /* Hakee kirjoja järjestetysti tietokannasta. Rajaa hakua kirjan nimen ja/tai valitun
+     * genren mukaan. Päivittää haun jälkeen listan. */
     private void search(View view){
 
+        // Piilottaa androidin softkeyboardin, jos näkyvissä.
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+        // Layout komponentteja
         EditText searchBox = getView().findViewById(R.id.searchBox);
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
+        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+        Button btnSort = getView().findViewById(R.id.btnSort);
 
+        // String text:ssä käyttäjän antamat hakusanat.
         String text = searchBox.getText().toString();
 
-        Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+        // String genreName:ssa käyttäjän valitsema genre, jonka mukaan rajataan.
         String genreName = (String)genreSelect.getSelectedItem();
         int indexOfStart = 0;
         for (int i = 0; i < genreName.length(); i++) {
@@ -219,10 +236,15 @@ public class BooksFragment extends Fragment {
         }
         genreName = genreName.substring(indexOfStart);
 
+        // Alustetaan hakutuloksille tyhjä taulukko
         Book[] results = new Book[0];
 
-        Button btnSort = getView().findViewById(R.id.btnSort);
+        /* Alla haetaan kirjoja tietokannasta annetuilla hakuparametreilla. Halusin toteuttaa
+         * hakutulosten järjestämisen tietokannassa, mutta Room ei valitettavasti tue järjestyksen
+         * antamista parametreilla. Tämän vuoksi jouduin tehdä jokaiselle järjestykselle oman
+         * ORDER BY queryn. */
 
+        // Queryt jos grajataan genrellä:
         if (genreSelect.getSelectedItemId() != 0) {
             Genre genre = MainActivity.bookDatabase.genreDao().getGenresOnName(genreName)[0];
 
@@ -238,9 +260,9 @@ public class BooksFragment extends Fragment {
             if (btnSort.getText().toString().equals("O-N")) {
                 results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdAsc(text, genre.genreId);
             }
-
-        } else {
-
+        }
+        // Queryt, jos ei rajata genrellä:
+        else {
             if (btnSort.getText().toString().equals("A-Z")) {
                 results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc(text);
             }
@@ -254,6 +276,8 @@ public class BooksFragment extends Fragment {
                 results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdAsc(text);
             }
         }
+
+        // Päivittää listan uusilla hakutuloksilla.
         BookListAdapter adapter = (BookListAdapter) rvBookList.getAdapter();
         adapter.updateDataset(results);
     }
@@ -289,13 +313,14 @@ public class BooksFragment extends Fragment {
             arguments.putInt("id", localDataset[position].BookId);
             arguments.putParcelable("book", localDataset[position]);
 
-            // TITLE
+            // Asetetaan kirjan arvoja layout-komponentteihin
             holder.title.setText(localDataset[position].title);
 
-            // GENRE
+            // Hakee genret tietokannasta
             Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
+
+            // String genreString on kirjan genrejen symbolit peräkkäin.
             String genreString = "";
-            int index = 0;
             if (localDataset[position].genreIds.length == 0) {
                 holder.genre.setText(genreString);
             } else {
@@ -305,19 +330,18 @@ public class BooksFragment extends Fragment {
                             genreString += g.symbol + " ";
                         }
                     }
-                    index++;
                 }
                 genreString = genreString.substring(0, genreString.length() - 1);
                 holder.genre.setText(genreString);
             }
-            // FINISHED
+            // Asettaa merkinnän siitä, onko kirja merkattu luetuksi vai ei.
             String read = "✖";
             if (localDataset[position].finished) {
                 read = "✔";
             }
             holder.read.setText(read);
 
-
+            // Käyttäjän painaessa kirjaa, avautuu kirjan laajemmat tiedot 'BookDetailsFragment':ssa.
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -328,7 +352,7 @@ public class BooksFragment extends Fragment {
                             .commit();
                 }
             });
-
+            // Piilottaa FAB-menun komponentteja vierittäessä, jotta ne eivät peittäisi sisältöä.
             holder.itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -347,9 +371,9 @@ public class BooksFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final TextView title;
-            public final TextView genre;
-            public final TextView read;
+            public final TextView title; // Nimi
+            public final TextView genre; // Genre
+            public final TextView read;  // Onko luettu?
 
             public ViewHolder(View itemView) {
                 super(itemView);

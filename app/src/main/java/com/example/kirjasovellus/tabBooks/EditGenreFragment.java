@@ -60,7 +60,7 @@ public class EditGenreFragment extends Fragment {
         ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
         genreSelect.setAdapter(genreNameAdapter);
 
-        // Käyttäjän valitsema emoji listassa, jotta muokattavissa kuuntelijoiden sisällä
+        // Ylläpitää tietoa siitä, mitkä ovat käyttäjän viimeisimmäksi syötetyt emojit.
         String[] symbolArray = new String[]{null, ""};
 
         // Emoji-valitsimen koodi. EmojiWatcher tarkistaa syötteen oikeellisuuden
@@ -100,23 +100,29 @@ public class EditGenreFragment extends Fragment {
         nullBuilder.setMessage("You must choose a genre to make edits");
         nullBuilder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
-        // Tallennusnappi tallentaa muutokset genreen korvaamalla vanhan genren tietokannassa
+        /* Tallennusnappi tarkistaa annetut tiedot. Jos syötetyt tiedot eivät vastaa kriteerejä,
+         * ei tietoja tallenneta ja käyttäjälle näytetään virheviesti. Jos tiedot ok, korvataan
+         * kirjan tiedot tietokantaan ja palataan edelliselle sivulle. */
         btnSaveGenreEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // jos genreä ei ole valittu, kertoo käyttäjälle.
                 if (selectedGenre[0] == null) {
                     nullBuilder.show();
                     return;
                 };
+                // Alustetaan virheviesti tyhjäksi.
                 tvErrorMsg.setText("");
 
+                /* Tarkistetaan käyttäjän syöttämän emojin oikeellisuus 'EmojiWatcher' -luokan
+                 * isEmojiOnly()-metodilla. */
                 if (EmojiWatcher.isEmojiOnly(symbolArray[0])) {
                     System.out.println("EMOJI");
                 } else {
                     System.out.println("EI EMOJI");
                     tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Symbol is not a valid emoji. ");
                 }
+                // Nimen pitää olla vähintään yksi kirjain
                 if (etGenreNameEdit.getText().toString().length() < 1) {
                     System.out.println("Liian kyhyt nimi");
                     tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Name is not valid.");
@@ -143,7 +149,8 @@ public class EditGenreFragment extends Fragment {
             }
         });
 
-        // Poista-nappi kysyy käyttäjältä, haluaako varmasti poistaa
+        /* Poista-nappi kysyy käyttäjältä, haluaako varmasti poistaa. Jos hyväksyy, niin poistetaan
+         *tietokannasta. */
         Button btnDeleteGenre = getView().findViewById(R.id.btnDeleteGenre);
         btnDeleteGenre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,9 +170,7 @@ public class EditGenreFragment extends Fragment {
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {}
                 });
                 builder.show();
             }

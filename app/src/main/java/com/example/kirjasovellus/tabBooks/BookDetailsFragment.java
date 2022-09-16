@@ -38,6 +38,7 @@ public class BookDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Hakee genret tietokannasta
         Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
         // Alustava kirja, jolla on oletustiedot
@@ -117,8 +118,8 @@ public class BookDetailsFragment extends Fragment {
             }
         });
 
-        // Jos kirja merkattu luetuksi, merkaa lukemattomaksi ja toisinpäin. Asettaa nykyisen ajan
-        // päivämääräksi. Tallentaa tiedot tietokantaan ja "päivittää" sivun.
+        /* Jos kirja merkattu luetuksi, merkaa lukemattomaksi ja toisinpäin. Asettaa nykyisen ajan
+         * päivämääräksi. Tallentaa tiedot tietokantaan ja "päivittää" sivun.*/
         btnMarkAsFinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +131,10 @@ public class BookDetailsFragment extends Fragment {
                     finalBook.finishDate = null;
                 }
                 MainActivity.bookDatabase.bookDao().insertAll(finalBook);
+
+                /* Sivun "päivittäminen" tehty korvaamalla sivu kopiolla ja palaamalla heti takaisin vanhalle sivulle,
+                 * jonne tiedot ovat päivittyneet. Näin sivu ei ole kahteen kertaan backstack:ssä.
+                 * Outo toteutus, mutta toimii käytännössä halutulla tavalla.*/
                 MainActivity.fragmentManager.beginTransaction()
                         .replace(R.id.contentContainer, BookDetailsFragment.class, bundle)
                         .addToBackStack("back")
