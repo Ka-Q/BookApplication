@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".AddGenreFragment">
+    tools:context=".tabBooks.AddGenreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addGenreContainer"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="40dp"
         android:paddingVertical="20dp"
-        tools:context=".AddBookFragment">
+        tools:context=".tabBooks.AddBookFragment">
 
         <TextView
             android:id="@+id/textView6"

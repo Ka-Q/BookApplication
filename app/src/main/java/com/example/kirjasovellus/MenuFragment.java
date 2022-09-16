@@ -1,10 +1,5 @@
 package com.example.kirjasovellus;
 
-import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,11 +7,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.kirjasovellus.tabBooks.BooksFragment;
+import com.example.kirjasovellus.tabData.DataFragment;
+import com.example.kirjasovellus.tabToday.TodayFragment;
 
 /**
  * A simple {@link Fragment} subclass.
