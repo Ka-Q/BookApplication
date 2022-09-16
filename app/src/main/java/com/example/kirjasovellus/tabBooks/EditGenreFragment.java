@@ -1,4 +1,4 @@
-package com.example.kirjasovellus;
+package com.example.kirjasovellus.tabBooks;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.kirjasovellus.MainActivity;
+import com.example.kirjasovellus.R;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;

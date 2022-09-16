@@ -1,13 +1,11 @@
-package com.example.kirjasovellus;
+package com.example.kirjasovellus.tabBooks;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kirjasovellus.MainActivity;
+import com.example.kirjasovellus.R;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 
-import java.sql.SQLOutput;
 import java.util.Calendar;
 import java.util.Date;
 

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="40dp"
         android:paddingVertical="20dp"
-        tools:context=".BookDetailsFragment">
+        tools:context=".tabBooks.BookDetailsFragment">
 
         <TextView
             android:id="@+id/tvBookDetailsTitle"

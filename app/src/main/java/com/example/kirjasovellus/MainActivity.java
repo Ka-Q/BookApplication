@@ -11,6 +11,8 @@ import android.os.Bundle;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.BookDao;
 import com.example.kirjasovellus.database.BookDatabase;
+import com.example.kirjasovellus.database.Day;
+import com.example.kirjasovellus.database.DayDao;
 import com.example.kirjasovellus.database.Genre;
 import com.example.kirjasovellus.database.GenreDao;
 
@@ -36,17 +38,21 @@ public class MainActivity extends AppCompatActivity {
                 "bookDatabase").allowMainThreadQueries().build();
         BookDao bookDao = bookDatabase.bookDao();
         GenreDao genreDao = bookDatabase.genreDao();
-        generateTestData(bookDao, genreDao);
+        DayDao dayDao = bookDatabase.dayDao();
+
+
+        generateTestData(bookDao, genreDao, dayDao);
 
         //Get a global FragmentManager
         fragmentManager = getSupportFragmentManager();
     }
 
 
-    private void generateTestData(BookDao bookDao, GenreDao genreDao) {
+    private void generateTestData(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
 
         bookDao.nukeTable();
         genreDao.nukeTable();
+        dayDao.nukeTable();
 
         Genre history = new Genre();
         history.genreId = 0;
@@ -110,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         historyForNewbies.finished = false;
         historyForNewbies.finishDate = null;
         historyForNewbies.genreIds = new int[]{history.genreId,culture.genreId};
+        historyForNewbies.notes = "- Sivulla 134 on mielenkiintoinen kohta Suomen talvisodasta \n- Sivulla 1572 Alkaa hyvä luku mannerlaattojen historiasta";
 
         System.out.println(history.genreId);
 
@@ -178,6 +185,88 @@ public class MainActivity extends AppCompatActivity {
         algo4.genreIds = new int[]{math.genreId};
 
         bookDao.insertAll(historyForNewbies, historyOfEarth, mathIsFun, encyclopedia, lotr, algo, algo2, algo3, algo4);
+
+        /*Day d = new Day();
+        d.hours = 3;
+        d.date = Calendar.getInstance().getTime();
+
+        Day d2 = new Day();
+        d2.hours = 5;
+        d2.date = Calendar.getInstance().getTime();
+        d2.date.setTime(d.date.getTime() + 100000);
+
+        Day d3 = new Day();
+        d3.hours = 2;
+        d3.date = Calendar.getInstance().getTime();
+        d3.date.setTime(d.date.getTime() + 200000);
+
+        Day d4 = new Day();
+        d4.hours = 3.5;
+        d4.date = Calendar.getInstance().getTime();
+        d4.date.setTime(d.date.getTime() + 300000);
+
+        Day d5 = new Day();
+        d5.hours = 4.5;
+        d5.date = Calendar.getInstance().getTime();
+        d5.date.setTime(d.date.getTime() + 400000);
+
+        Day d6 = new Day();
+        d6.hours = 6.75;
+        d6.date = Calendar.getInstance().getTime();
+        d6.date.setTime(d.date.getTime() + 500000);
+
+        Day d7 = new Day();
+        d7.hours = 3.75;
+        d7.date = Calendar.getInstance().getTime();
+        d7.date.setTime(d.date.getTime() + 600000);
+
+
+        Day d1 = new Day();
+        d1.hours = 3;
+        d1.date = Calendar.getInstance().getTime();
+
+        Day d21 = new Day();
+        d21.hours = 5;
+        d21.date = Calendar.getInstance().getTime();
+        d21.date.setTime(d1.date.getTime() + 100000);
+
+        Day d31 = new Day();
+        d31.hours = 2;
+        d31.date = Calendar.getInstance().getTime();
+        d31.date.setTime(d1.date.getTime() + 200000);
+
+        Day d41 = new Day();
+        d41.hours = 3.5;
+        d41.date = Calendar.getInstance().getTime();
+        d41.date.setTime(d1.date.getTime() + 300000);
+
+        Day d51 = new Day();
+        d51.hours = 4.5;
+        d51.date = Calendar.getInstance().getTime();
+        d51.date.setTime(d1.date.getTime() + 400000);
+
+        Day d61 = new Day();
+        d61.hours = 6.75;
+        d61.date = Calendar.getInstance().getTime();
+        d61.date.setTime(d1.date.getTime() + 500000);
+
+        Day d71 = new Day();
+        d71.hours = 3.75;
+        d71.date = Calendar.getInstance().getTime();
+        d71.date.setTime(d1.date.getTime() + 600000);*/
+
+        for (int i = 0; i < 14; i++) {
+            Day x = new Day();
+            x.hours = Math.random() * 4;
+            x.date = Calendar.getInstance().getTime();
+            //x.date.setTime((long) (x.date.getTime() + i*Math.random()*100*Math.random()));
+            x.date.setDate(x.date.getDate() - i);
+            dayDao.insertAll(x);
+        }
+
+        //dayDao.insertAll(d, d2, d3, d4, d5, d6, d7);
+        //dayDao.insertAll(d, d2, d3, d4, d5, d6, d7, d1, d21, d31, d41, d51, d61, d71);
+
 
     }
 }

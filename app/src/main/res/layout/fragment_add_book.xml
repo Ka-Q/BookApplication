@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="40dp"
         android:paddingVertical="20dp"
-        tools:context=".AddBookFragment">
+        tools:context=".tabBooks.AddBookFragment">
 
         <TextView
             android:id="@+id/textView6"

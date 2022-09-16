@@ -1,4 +1,4 @@
-package com.example.kirjasovellus;
+package com.example.kirjasovellus.tabToday;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.kirjasovellus.MainActivity;
+import com.example.kirjasovellus.R;
 import com.example.kirjasovellus.database.Day;
 
 import java.util.Calendar;
