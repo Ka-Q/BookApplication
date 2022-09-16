@@ -38,13 +38,19 @@ public class ChartCanvas extends View {
 
     public ChartCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initialize();
+        //initialize();
     }
 
-    private void initialize() {
+    public void initialize(Day[] daysReversed) {
 
         // Asetetaan päivät taulukkoon
-        days = MainActivity.bookDatabase.dayDao().getAllDays();
+        this.days = new Day[daysReversed.length];
+
+        this.days = new Day[daysReversed.length];
+        for (int i = 0; i < daysReversed.length; i++) {
+            this.days[i] = daysReversed[((daysReversed.length - 1) - i)];
+        }
+        //days = MainActivity.bookDatabase.dayDao().getAllDays();
 
         // Asetetaan palkkien leveys niin, että ne mahtuvat leveydelle 700
         barWidth = 700/days.length;
@@ -64,6 +70,8 @@ public class ChartCanvas extends View {
 
         // Kaavion vaakaviivojen määrä pyöristetään ylös, jotta suurin data ei leikkaannu pois
         int maxHoursInt = (int) Math.ceil(maxHours);
+        if (maxHoursInt == 0) maxHoursInt = 1;
+
         lineCount = maxHoursInt;
 
         // Skaalaus-arvon avulla skaalataan kaavio niin, että korkein arvo osuu aina kaavion ylälaitaan
