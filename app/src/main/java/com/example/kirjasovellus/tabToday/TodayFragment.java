@@ -42,20 +42,24 @@ public class TodayFragment extends Fragment {
                 Double hours = Double.parseDouble(etHours.getText().toString());
                 System.out.println("TUNNIT: " + hours);
 
+
                 Date rawDate = Calendar.getInstance().getTime();
+                Date d = Calendar.getInstance().getTime();
+                d.setTime(0);
+                d.setYear(rawDate.getYear());
+                d.setMonth(rawDate.getMonth());
+                d.setDate(rawDate.getDate());
 
-                // Ei oteta huomioon kellonaikaa
-                Date date = new Date();
-                date.setTime(0);
-                date.setDate(rawDate.getDay());
-                date.setMonth(rawDate.getMonth());
-                date.setYear(rawDate.getYear());
+                d.setHours(6);
 
-                Day d = new Day();
-                d.date = date;
-                d.hours = hours;
+                System.out.println(d);
+                System.out.println(d.getTime());
 
-                MainActivity.bookDatabase.dayDao().insertAll(d);
+                Day day = new Day();
+                day.date = d;
+                day.hours = hours;
+
+                MainActivity.bookDatabase.dayDao().insertAll(day);
             }
         });
     }

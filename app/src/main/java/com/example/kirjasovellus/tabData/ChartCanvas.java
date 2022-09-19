@@ -44,13 +44,13 @@ public class ChartCanvas extends View {
     public void initialize(Day[] daysReversed) {
 
         // Asetetaan päivät taulukkoon
-        this.days = new Day[daysReversed.length];
+        //this.days = new Day[daysReversed.length];
 
         this.days = new Day[daysReversed.length];
         for (int i = 0; i < daysReversed.length; i++) {
             this.days[i] = daysReversed[((daysReversed.length - 1) - i)];
         }
-        //days = MainActivity.bookDatabase.dayDao().getAllDays();
+        //days = daysReversed;
 
         // Asetetaan palkkien leveys niin, että ne mahtuvat leveydelle 700
         barWidth = 700/days.length;
