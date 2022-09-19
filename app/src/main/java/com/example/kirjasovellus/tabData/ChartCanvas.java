@@ -127,7 +127,7 @@ public class ChartCanvas extends View {
         // Käydään läpi palkkien listaa ja asetetaan palkkien sijainnit ja väritys
         // Pos-muuttuja on palkin "sijanumero" kaaviossa, xTranslation auttaa kaavion keskityksessä
         // Palkit väritetään sen mukaan, kuinka ne eroavat keskimääräisestä palkin korkeudesta:
-        // Keskiarvon arvoaluetta laajennetaan yhdellä tunnilla ylös ja alas. Kaikki alemmat värjätään
+        // Keskiarvon arvoaluetta laajennetaan puolella tunnilla ylös ja alas. Kaikki alemmat värjätään
         // haaleammiksi ja ylemmät voimakkaammaksi
         // Lopuksi piirretään vielä näkymään label palkin alapuolelle.
         int pos = 0;
@@ -135,9 +135,9 @@ public class ChartCanvas extends View {
 
             b.setPosition(pos, xTranslation);
 
-            if (b.getHeight() > (avgHours + 1) * scale) {
+            if (b.getHeight() > (avgHours + 0.5) * scale) {
                 b.setFillColor(Color.rgb(100,100, 255));
-            } else if (b.getHeight() < (avgHours - 1) * scale) {
+            } else if (b.getHeight() < (avgHours - 0.5) * scale) {
                 b.setFillColor(Color.rgb(220,220, 255));
             } else {
                 b.setFillColor(Color.rgb(150,150, 255));
