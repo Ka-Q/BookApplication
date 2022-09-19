@@ -112,6 +112,16 @@
             android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/btnSaveBookEdits"
+            app:layout_constraintTop_toBottomOf="@+id/tvEditError" />
+
+        <TextView
+            android:id="@+id/tvEditError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#FF0000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnSaveBookEdits" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
