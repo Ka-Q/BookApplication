@@ -58,6 +58,7 @@ public class EditBookFragment extends Fragment {
         Button btnSaveEdits = getView().findViewById(R.id.btnSaveBookEdits);
         Button btnDeleteBook = getView().findViewById(R.id.btnDeleteBook);
         Button btnEditBookCancel = getView().findViewById(R.id.btnEditBookCancel);
+        TextView tvEditError = getView().findViewById(R.id.tvEditError);
 
         // Hakee kaikki genret tietokannasta
         Genre[] datasetAllGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
@@ -75,6 +76,7 @@ public class EditBookFragment extends Fragment {
         // Asetetaan dataa Layout komponenteille kirjan perusteella
         etEditBookTitle.setText(book.title);
         etEditBookPageCount.setText(""  + book.pageCount);
+        tvEditError.setText("");
 
         // Genrelistan koodi. 'GenreListAdapter'ssa näytää tietokannassa olevat genret
         rvEditBookGenres.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -83,26 +85,37 @@ public class EditBookFragment extends Fragment {
         // Final book, jota voidaan muokata eventeissä.
         Book finalBook = book;
 
-        // Tallentaa käyttäjän tekemät muutokset tietokantaan
+        // Tarkstaa käyttäjän syötteen. Jos syöte on oikeanlainen, tallentaa käyttäjän tekemät muutokset tietokantaan
         btnSaveEdits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalBook.title = etEditBookTitle.getText().toString();
-                finalBook.pageCount = Integer.parseInt(etEditBookPageCount.getText().toString());
-
-                int[] genreIds = new int[selectedGenres.size()];
-                int index = 0;
-                for (Genre g : selectedGenres) {
-                    genreIds[index] = g.genreId;
-                    index++;
+                tvEditError.setText("");
+                if (etEditBookTitle.getText().length() < 1) {
+                    tvEditError.setText(tvEditError.getText() + "Title not valid. ");
                 }
-                finalBook.genreIds = genreIds;
-                MainActivity.bookDatabase.bookDao().insertAll(finalBook);
-                MainActivity.fragmentManager.popBackStack();
-                MainActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.contentContainer, BookDetailsFragment.class, bundle)
-                        .addToBackStack("back")
-                        .commit();
+                if (etEditBookPageCount.getText().length() == 0) {
+                    tvEditError.setText(tvEditError.getText() + "Page count not valid. ");
+                }
+
+                if (tvEditError.getText().length() == 0) {
+                    tvEditError.setText("");
+                    finalBook.title = etEditBookTitle.getText().toString();
+                    finalBook.pageCount = Integer.parseInt(etEditBookPageCount.getText().toString());
+
+                    int[] genreIds = new int[selectedGenres.size()];
+                    int index = 0;
+                    for (Genre g : selectedGenres) {
+                        genreIds[index] = g.genreId;
+                        index++;
+                    }
+                    finalBook.genreIds = genreIds;
+                    MainActivity.bookDatabase.bookDao().insertAll(finalBook);
+                    MainActivity.fragmentManager.popBackStack();
+                    MainActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.contentContainer, BookDetailsFragment.class, bundle)
+                            .addToBackStack("back")
+                            .commit();
+                }
             }
         });
 
