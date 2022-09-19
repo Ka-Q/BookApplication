@@ -89,9 +89,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
-                Button btnData = view.findViewById(R.id.btnData);
-                Button btnBooks = view.findViewById(R.id.btnBooks);
-                Button btnToday = view.findViewById(R.id.btnToday);
+                btnData.setEnabled(false);
+                btnBooks.setEnabled(true);
+                btnToday.setEnabled(true);
 
             }});
 
@@ -104,9 +104,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
-                Button btnData = view.findViewById(R.id.btnData);
-                Button btnBooks = view.findViewById(R.id.btnBooks);
-                Button btnToday = view.findViewById(R.id.btnToday);
+                btnData.setEnabled(true);
+                btnBooks.setEnabled(false);
+                btnToday.setEnabled(true);
 
             }});
 
@@ -119,9 +119,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
-                Button btnData = view.findViewById(R.id.btnData);
-                Button btnBooks = view.findViewById(R.id.btnBooks);
-                Button btnToday = view.findViewById(R.id.btnToday);
+                btnData.setEnabled(true);
+                btnBooks.setEnabled(true);
+                btnToday.setEnabled(false);
 
             }});
     }
