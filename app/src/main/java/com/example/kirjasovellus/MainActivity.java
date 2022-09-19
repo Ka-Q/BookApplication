@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Generoi eiliselle 3h
 
-        for (int i = 0; i < 28; i++) {
+        for (int i = 0; i < 40; i++) {
 
             Date rawDate = Calendar.getInstance().getTime();
             Date d = new Date();
