@@ -65,12 +65,7 @@ public class MainActivity extends AppCompatActivity {
             h24.setHours(i * 24);
             d.setTime(d.getTime() - h24.getTime());
 
-            System.out.println(d+ "\n");
-
-
-
             Day day = dayDao.getDayOnDate(d);
-//            System.out.println(day.date + ", tunteja: " + day.hours);
             if (day == null) {
                 day = new Day();
                 day.date = d;
@@ -241,37 +236,6 @@ public class MainActivity extends AppCompatActivity {
                 dayDao.insertAll(day);
             }
         }
-/*
-        Date rawDate = Calendar.getInstance().getTime();
-        Date d = new Date();
-        d.setTime(0);
-        d.setYear(rawDate.getYear());
-        d.setMonth(rawDate.getMonth());
-        d.setDate(rawDate.getDate());
-
-        Date h24 = new Date();
-        h24.setTime(0);
-        h24.setHours(24);
-        d.setTime(d.getTime() - h24.getTime());
-
-        Day day1 = new Day();
-        day1.hours = 3;
-        day1.date = d;
-
-        Date d2 = new Date();
-        d2.setTime(0);
-        d2.setYear(rawDate.getYear());
-        d2.setMonth(rawDate.getMonth());
-        d2.setDate(rawDate.getDate());
-        d2.setTime(d2.getTime() - 2 * h24.getTime());
-
-        Day day2 = new Day();
-        day2.hours = 2.25;
-        day2.date = d2;
-
-
-        dayDao.insertAll(day1, day2);*/
-
 
     }
 }
