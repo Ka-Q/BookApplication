@@ -111,6 +111,7 @@ public class EditBookFragment extends Fragment {
                     finalBook.genreIds = genreIds;
                     MainActivity.bookDatabase.bookDao().insertAll(finalBook);
                     MainActivity.fragmentManager.popBackStack();
+                    MainActivity.fragmentManager.popBackStack();
                     MainActivity.fragmentManager.beginTransaction()
                             .replace(R.id.contentContainer, BookDetailsFragment.class, bundle)
                             .addToBackStack("back")
