@@ -40,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
         GenreDao genreDao = bookDatabase.genreDao();
         DayDao dayDao = bookDatabase.dayDao();
 
-        initializeDatabase(bookDao, genreDao, dayDao);
 
         generateTestData(bookDao, genreDao, dayDao);
+        initializeDatabase(bookDao, genreDao, dayDao);
+
+
 
         //Set a global FragmentManager
         fragmentManager = getSupportFragmentManager();
@@ -51,17 +53,24 @@ public class MainActivity extends AppCompatActivity {
     private void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
         // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
         for (int i = 0; i < 28; i++) {
-            Date d = Calendar.getInstance().getTime();
-            d.setHours(0);
-            d.setMonth(0);
-            d.setSeconds(0);
+            Date rawDate = Calendar.getInstance().getTime();
+            Date d = new Date();
+            d.setTime(0);
+            d.setYear(rawDate.getYear());
+            d.setMonth(rawDate.getMonth());
+            d.setDate(rawDate.getDate());
 
             Date h24 = new Date();
             h24.setTime(0);
-            h24.setHours(24);
-            d.setTime(d.getTime() - i * h24.getTime());
+            h24.setHours(i * 24);
+            d.setTime(d.getTime() - h24.getTime());
+
+            System.out.println(d+ "\n");
+
+
 
             Day day = dayDao.getDayOnDate(d);
+//            System.out.println(day.date + ", tunteja: " + day.hours);
             if (day == null) {
                 day = new Day();
                 day.date = d;
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookDao.nukeTable();
         genreDao.nukeTable();
-        //dayDao.nukeTable();
+        dayDao.nukeTable();
 
         Genre history = new Genre();
         history.genreId = 0;
@@ -209,25 +218,60 @@ public class MainActivity extends AppCompatActivity {
 
         bookDao.insertAll(historyForNewbies, historyOfEarth, mathIsFun, encyclopedia, lotr, algo, algo2, algo3, algo4);
 
-        // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
-        /*for (int i = 0; i < 28; i++) {
-            Date d = Calendar.getInstance().getTime();
-            d.setHours(0);
-            d.setMonth(0);
-            d.setSeconds(0);
+        // Generoi eiliselle 3h
+
+        for (int i = 0; i < 28; i++) {
+
+            Date rawDate = Calendar.getInstance().getTime();
+            Date d = new Date();
+            d.setTime(0);
+            d.setYear(rawDate.getYear());
+            d.setMonth(rawDate.getMonth());
+            d.setDate(rawDate.getDate());
 
             Date h24 = new Date();
             h24.setTime(0);
-            h24.setHours(24);
-            d.setTime(d.getTime() - i * h24.getTime());
+            h24.setHours(i*24);
+            d.setTime(d.getTime() - h24.getTime());
 
-            Day day = dayDao.getDayOnDate(d);
-            if (day == null) {
-                day = new Day();
+            if (i * Math.random() > 1.00 * i/5) {
+                Day day = new Day();
+                day.hours = Math.random() * 3.5;
                 day.date = d;
-                day.hours = 0;
                 dayDao.insertAll(day);
             }
-        }*/
+        }
+/*
+        Date rawDate = Calendar.getInstance().getTime();
+        Date d = new Date();
+        d.setTime(0);
+        d.setYear(rawDate.getYear());
+        d.setMonth(rawDate.getMonth());
+        d.setDate(rawDate.getDate());
+
+        Date h24 = new Date();
+        h24.setTime(0);
+        h24.setHours(24);
+        d.setTime(d.getTime() - h24.getTime());
+
+        Day day1 = new Day();
+        day1.hours = 3;
+        day1.date = d;
+
+        Date d2 = new Date();
+        d2.setTime(0);
+        d2.setYear(rawDate.getYear());
+        d2.setMonth(rawDate.getMonth());
+        d2.setDate(rawDate.getDate());
+        d2.setTime(d2.getTime() - 2 * h24.getTime());
+
+        Day day2 = new Day();
+        day2.hours = 2.25;
+        day2.date = d2;
+
+
+        dayDao.insertAll(day1, day2);*/
+
+
     }
 }
