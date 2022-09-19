@@ -13,7 +13,7 @@ public interface DayDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Day... days);
 
-    @Query("SELECT * FROM day ORDER BY date ASC")
+    @Query("SELECT * FROM day ORDER BY date DESC")
     Day[] getAllDays();
 
     @Query("SELECT * FROM day WHERE date = :d")
