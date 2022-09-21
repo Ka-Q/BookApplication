@@ -44,17 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(),
                 BookDatabase.class,
                 "bookDatabase").allowMainThreadQueries().build();
-        /*bookDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                BookDatabase.class,
-                "bookDatabase").build();*/
         BookDao bookDao = bookDatabase.bookDao();
         GenreDao genreDao = bookDatabase.genreDao();
         DayDao dayDao = bookDatabase.dayDao();
 
 
-        generateTestData(bookDao, genreDao, dayDao);
-        //initializeDatabase(bookDao, genreDao, dayDao);
+        //generateTestData(bookDao, genreDao, dayDao);
+        initializeDatabase(bookDao, genreDao, dayDao);
 
         // Set a global FragmentManager
         fragmentManager = getSupportFragmentManager();
@@ -80,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.end();
     }
 
-    private void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
+    private static void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
         // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
         for (int i = 0; i < 28; i++) {
             Date rawDate = Calendar.getInstance().getTime();
@@ -105,11 +101,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void generateTestData(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
+    public static void nukeAllData(){
+        BookDao bookDao = MainActivity.bookDatabase.bookDao();
+        GenreDao genreDao = MainActivity.bookDatabase.genreDao();
+        DayDao dayDao = MainActivity.bookDatabase.dayDao();
 
         bookDao.nukeTable();
         genreDao.nukeTable();
         dayDao.nukeTable();
+
+        initializeDatabase(bookDao, genreDao, dayDao);
+    }
+
+    public static void generateTestData() {
+        BookDao bookDao = MainActivity.bookDatabase.bookDao();
+        GenreDao genreDao = MainActivity.bookDatabase.genreDao();
+        DayDao dayDao = MainActivity.bookDatabase.dayDao();
 
         Genre history = new Genre();
         history.genreId = 0;
@@ -277,6 +284,8 @@ public class MainActivity extends AppCompatActivity {
                 dayDao.insertAll(day);
             }
         }
+
+        initializeDatabase(bookDao, genreDao, dayDao);
 
     }
 }
