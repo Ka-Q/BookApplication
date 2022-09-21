@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <ImageView
+        android:id="@+id/ivLoadingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/contentContainer"
+        app:layout_constraintEnd_toEndOf="@+id/contentContainer"
+        app:layout_constraintStart_toStartOf="@+id/contentContainer"
+        app:layout_constraintTop_toBottomOf="@+id/menuContainer"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/menuContainer"
         android:name="com.example.kirjasovellus.MenuFragment"
@@ -17,11 +28,12 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/contentContainer"
-        android:name="com.example.kirjasovellus.tabBooks.BooksFragment"
+        android:name="com.example.kirjasovellus.tabToday.TodayFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuContainer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

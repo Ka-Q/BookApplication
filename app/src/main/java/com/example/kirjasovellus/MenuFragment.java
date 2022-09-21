@@ -81,6 +81,8 @@ public class MenuFragment extends Fragment {
         Button btnBooks = view.findViewById(R.id.btnBooks);
         Button btnToday = view.findViewById(R.id.btnToday);
 
+        btnToday.setEnabled(false);
+
         btnData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +95,7 @@ public class MenuFragment extends Fragment {
                 btnBooks.setEnabled(true);
                 btnToday.setEnabled(true);
 
+                MainActivity.startLoading();
             }});
 
 
@@ -108,6 +111,7 @@ public class MenuFragment extends Fragment {
                 btnBooks.setEnabled(false);
                 btnToday.setEnabled(true);
 
+                MainActivity.startLoading();
             }});
 
 
@@ -123,6 +127,7 @@ public class MenuFragment extends Fragment {
                 btnBooks.setEnabled(true);
                 btnToday.setEnabled(false);
 
+                MainActivity.startLoading();
             }});
     }
 }

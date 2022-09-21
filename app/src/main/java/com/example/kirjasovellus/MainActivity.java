@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.BookDao;
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     public static BookDatabase bookDatabase;
     public static FragmentManager fragmentManager;
 
+    private static ImageView loadingIcon;
+    private static ObjectAnimator loadingAnimation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +44,40 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(),
                 BookDatabase.class,
                 "bookDatabase").allowMainThreadQueries().build();
+        /*bookDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                BookDatabase.class,
+                "bookDatabase").build();*/
         BookDao bookDao = bookDatabase.bookDao();
         GenreDao genreDao = bookDatabase.genreDao();
         DayDao dayDao = bookDatabase.dayDao();
 
 
         generateTestData(bookDao, genreDao, dayDao);
-        initializeDatabase(bookDao, genreDao, dayDao);
+        //initializeDatabase(bookDao, genreDao, dayDao);
 
-
-
-        //Set a global FragmentManager
+        // Set a global FragmentManager
         fragmentManager = getSupportFragmentManager();
+
+        // Loading icon
+        loadingIcon = findViewById(R.id.ivLoadingIcon);
+        loadingIcon.setBackgroundResource(R.drawable.loadingiconframe1);
+        loadingIcon.setVisibility(View.GONE);
+
+        loadingAnimation = ObjectAnimator.ofFloat(loadingIcon, "rotation", 0, 360);
+        loadingAnimation.setDuration(1000);
+        loadingAnimation.setRepeatCount(ObjectAnimator.INFINITE);
+        loadingAnimation.setRepeatMode(ObjectAnimator.RESTART);
+    }
+
+    public static void startLoading() {
+        loadingIcon.setVisibility(View.VISIBLE);
+        loadingAnimation.start();
+    }
+
+    public static void stopLoading() {
+        loadingIcon.setVisibility(View.GONE);
+        loadingAnimation.end();
     }
 
     private void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
@@ -212,6 +242,17 @@ public class MainActivity extends AppCompatActivity {
         algo4.genreIds = new int[]{math.genreId};
 
         bookDao.insertAll(historyForNewbies, historyOfEarth, mathIsFun, encyclopedia, lotr, algo, algo2, algo3, algo4);
+
+        for (int i = 0; i < 100; i++) {
+            Book b = new Book();
+            b.title = "Kirja " + i;
+            b.pageCount = (int)(i * Math.random() * 115);
+            b.BookId = 0;
+            b.finished = false;
+            b.finishDate = null;
+            b.genreIds = new int[]{math.genreId};
+            bookDao.insertAll(b);
+        }
 
         // Generoi eiliselle 3h
 
