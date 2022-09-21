@@ -348,6 +348,16 @@ public class BooksFragment extends Fragment {
         public BookListAdapter(Book[] dataset, Genre[] newGenreDataset) {
             localDataset = dataset;
             genreDataset = newGenreDataset;
+
+            if (dataset.length == 0) {
+                Book[] noDB = new Book[1];
+                Book b = new Book();
+                b.title = "No books in database";
+                b.genreIds = new int[0];
+                b.finished = false;
+                noDB[0] = b;
+                updateDataset(noDB);
+            }
         }
 
         public void updateDataset(Book[] newDataset){
