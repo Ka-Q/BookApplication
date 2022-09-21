@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.R;
@@ -35,6 +36,7 @@ public class TodayFragment extends Fragment {
         // Layout komponentit
         EditText etHours = getView().findViewById(R.id.etHours);
         Button btnSaveHours = getView().findViewById(R.id.btnSavehours);
+        TextView tvTodayError = getView().findViewById(R.id.tvTodayError);
 
         btnSaveHours.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,25 +44,34 @@ public class TodayFragment extends Fragment {
                 Double hours = Double.parseDouble(etHours.getText().toString());
                 System.out.println("TUNNIT: " + hours);
 
+                if (hours > 24) {
+                    tvTodayError.setText("I refuse to believe you've read more than 24 hours i a day...");
+                }
+                else {
+                    tvTodayError.setText("");
 
-                Date rawDate = Calendar.getInstance().getTime();
-                Date d = Calendar.getInstance().getTime();
-                d.setTime(0);
-                d.setYear(rawDate.getYear());
-                d.setMonth(rawDate.getMonth());
-                d.setDate(rawDate.getDate());
 
-                d.setHours(6);
+                    Date rawDate = Calendar.getInstance().getTime();
+                    Date d = Calendar.getInstance().getTime();
+                    d.setTime(0);
+                    d.setYear(rawDate.getYear());
+                    d.setMonth(rawDate.getMonth());
+                    d.setDate(rawDate.getDate());
 
-                System.out.println(d);
-                System.out.println(d.getTime());
+                    d.setHours(6);
 
-                Day day = new Day();
-                day.date = d;
-                day.hours = hours;
+                    System.out.println(d);
+                    System.out.println(d.getTime());
 
-                MainActivity.bookDatabase.dayDao().insertAll(day);
+                    Day day = new Day();
+                    day.date = d;
+                    day.hours = hours;
+
+                    MainActivity.bookDatabase.dayDao().insertAll(day);
+                }
             }
         });
+
+        MainActivity.stopLoading();
     }
 }
