@@ -124,7 +124,7 @@ public class DataFragment extends Fragment {
         tvHoursStats.setText("Hours read past 7 days: " + String.format("%.2f", hours7) + "h (avg " + String.format("%.2f", avg7) +  "h/day)" + "\n" +
                 "Hours read past 14 days: " + String.format("%.2f", hours14) + "h (avg " + String.format("%.2f", avg14) +  "h/day)"  +"\n" +
                 "Hours read past 28 days: " + String.format("%.2f", hours28) + "h (avg " + String.format("%.2f", avg28) +  "h/day)"  +"\n" +
-                "Hours read all-time: " + String.format("%.2f", hoursAll) + "h (avg " + String.format("%.2f", avgAll) +  "h/day)" + "\n");
+                "Hours read all-time: " + String.format("%.2f", hoursAll));
 
 
 
@@ -162,5 +162,7 @@ public class DataFragment extends Fragment {
                 }
             }
         });
+
+        MainActivity.stopLoading();
     }
 }
