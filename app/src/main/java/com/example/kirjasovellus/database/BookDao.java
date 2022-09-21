@@ -1,9 +1,12 @@
 package com.example.kirjasovellus.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import java.util.List;
 
 @Dao
 public interface BookDao {
@@ -50,6 +53,33 @@ public interface BookDao {
 
     @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY BookId DESC")
     Book[] getBookOnTitleAndGenreIdSortedOnIdDesc(String title, int id);
+
+
+    // Sorted queries title LIVE QUERIES
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY title ASC")
+    LiveData<List<Book>> getBookOnTitleSortedOnTitleAscLive(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY title DESC")
+    LiveData<List<Book>> getBookOnTitleSortedOnTitleDescLive(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY BookId ASC")
+    LiveData<List<Book>> getBookOnTitleSortedOnIdAscLive(String title);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' ORDER BY BookId DESC")
+    LiveData<List<Book>> getBookOnTitleSortedOnIdDescLive(String title);
+
+    // Sorted queries title and genre LIVE QUERIES
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY title ASC")
+    LiveData<List<Book>> getBookOnTitleAndGenreIdSortedOnTitleAscLive(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY title DESC")
+    LiveData<List<Book>> getBookOnTitleAndGenreIdSortedOnTitleDescLive(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY BookId ASC")
+    LiveData<List<Book>> getBookOnTitleAndGenreIdSortedOnIdAscLive(String title, int id);
+
+    @Query("SELECT * FROM book WHERE title LIKE '%' || :title || '%' AND GenreIds LIKE '%' || :id || ',%' ORDER BY BookId DESC")
+    LiveData<List<Book>> getBookOnTitleAndGenreIdSortedOnIdDescLive(String title, int id);
 
 
     @Query("DELETE FROM book")
