@@ -1,6 +1,8 @@
 package com.example.kirjasovellus.tabBooks;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -29,6 +35,9 @@ import com.example.kirjasovellus.R;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+import java.util.Objects;
 
 public class BooksFragment extends Fragment {
 
@@ -49,8 +58,57 @@ public class BooksFragment extends Fragment {
         FragmentManager fragmentManager = MainActivity.fragmentManager;
 
         // Haetaan kirjojen ja genrejen datat tietokannasta omiin taulukoihinsa.
-        Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc("");
-        Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
+        //Book[] datasetBooks = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc("");
+        //Genre[] datasetGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
+
+        Book[] datasetBooks;
+        Genre[] datasetGenres;
+
+        final Book[][] dataset = {new Book[0]};
+        final Genre[][] datasetG = {new Genre[0]};
+
+        Observer bookObserver = new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                dataset[0] = new Book[books.size()];
+                for (int i = 0; i < books.size(); i++) {
+                    dataset[0][i] = books.get(i);
+                }
+                RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
+                rvBookList.setAdapter(new BookListAdapter(dataset[0], datasetG[0]));
+            }
+        };
+
+        MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAscLive("").observe(this.getViewLifecycleOwner(), bookObserver);
+
+        datasetBooks = dataset[0];
+
+        Observer genreObserver = new Observer<List<Genre>>() {
+            @Override
+            public void onChanged(List<Genre> genres) {
+                datasetG[0] = new Genre[genres.size()];
+                for (int i = 0; i < genres.size(); i++) {
+                    datasetG[0][i] = genres.get(i);
+                }
+                RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
+                rvBookList.setAdapter(new BookListAdapter(dataset[0], datasetG[0]));
+
+                /* Kerää genrejen nimet merkkijonolistaan ja asettaa listan spinneriin. Spinnerin
+                 * ensimmäinen valinta on varattu "kaikki"-valinnalle. */
+                String genreNames[] = new String[datasetG[0].length + 1];
+                genreNames[0] = "-All-";
+                for (int i = 1; i < genreNames.length; i++) {
+                    genreNames[i] =  datasetG[0][i-1].symbol + " " + datasetG[0][i-1].name;
+                }
+                Spinner genreSelect = getView().findViewById(R.id.genreSelect);
+                ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
+                genreSelect.setAdapter(genreNameAdapter);
+            }
+        };
+
+        MainActivity.bookDatabase.genreDao().getAllGenresLive().observe(this.getViewLifecycleOwner(), genreObserver);
+
+        datasetGenres = datasetG[0];
 
         // Main Layout komponentit
         EditText searchBox = getView().findViewById(R.id.searchBox);
@@ -62,8 +120,9 @@ public class BooksFragment extends Fragment {
         RecyclerView rvBookList = getView().findViewById(R.id.rvBookList);
 
         // Kirjalistan koodi. 'BookListAdapter'ssa näytää tietokannassa olevat kirjat
+        //rvBookList.setVisibility(View.GONE);
         rvBookList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvBookList.setAdapter(new BookListAdapter(datasetBooks));
+        rvBookList.setAdapter(new BookListAdapter(datasetBooks, datasetGenres));
 
         /* FAB-menu Layout komponentit. FAB-menussa napit, joilla voidaan lisätä kirja tai genre
          * sekä muokata genrejä. */
@@ -75,11 +134,8 @@ public class BooksFragment extends Fragment {
 
         /* Kerää genrejen nimet merkkijonolistaan ja asettaa listan spinneriin. Spinnerin
          * ensimmäinen valinta on varattu "kaikki"-valinnalle. */
-        String genreNames[] = new String[datasetGenres.length + 1];
+        String genreNames[] = new String[1];
         genreNames[0] = "-All-";
-        for (int i = 1; i < genreNames.length; i++) {
-            genreNames[i] =  datasetGenres[i-1].symbol + " " + datasetGenres[i-1].name;
-        }
         ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
         genreSelect.setAdapter(genreNameAdapter);
 
@@ -156,7 +212,6 @@ public class BooksFragment extends Fragment {
                     moreContainer.setVisibility(View.GONE);
                     btnMore.setText("+");
                 }
-
             }
         });
 
@@ -165,7 +220,7 @@ public class BooksFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT){
-                    search(getView());
+                    search(getView(), dataset[0], bookObserver);
                 }
                 return false;
             }
@@ -175,7 +230,7 @@ public class BooksFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(view);
+                search(view, dataset[0], bookObserver);
                 view.invalidate();
             }
         });
@@ -210,7 +265,9 @@ public class BooksFragment extends Fragment {
 
     /* Hakee kirjoja järjestetysti tietokannasta. Rajaa hakua kirjan nimen ja/tai valitun
      * genren mukaan. Päivittää haun jälkeen listan. */
-    private void search(View view){
+    private void search(View view, Book[] dataset, Observer<List<Book>> bookObserver){
+
+        MainActivity.startLoading();
 
         // Piilottaa androidin softkeyboardin, jos näkyvissä.
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -237,57 +294,60 @@ public class BooksFragment extends Fragment {
         genreName = genreName.substring(indexOfStart);
 
         // Alustetaan hakutuloksille tyhjä taulukko
-        Book[] results = new Book[0];
 
         /* Alla haetaan kirjoja tietokannasta annetuilla hakuparametreilla. Halusin toteuttaa
          * hakutulosten järjestämisen tietokannassa, mutta Room ei valitettavasti tue järjestyksen
          * antamista parametreilla. Tämän vuoksi jouduin tehdä jokaiselle järjestykselle oman
          * ORDER BY queryn. */
 
-        // Queryt jos grajataan genrellä:
+        // Queryt jos rajataan genrellä:
         if (genreSelect.getSelectedItemId() != 0) {
             Genre genre = MainActivity.bookDatabase.genreDao().getGenresOnName(genreName)[0];
 
             if (btnSort.getText().toString().equals("A-Z")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleAsc(text, genre.genreId);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleAscLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
             if (btnSort.getText().toString().equals("Z-A")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleDesc(text, genre.genreId);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleDescLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
+
             }
             if (btnSort.getText().toString().equals("N-O")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdDesc(text, genre.genreId);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdAscLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
             if (btnSort.getText().toString().equals("O-N")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdAsc(text, genre.genreId);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdDescLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
         }
         // Queryt, jos ei rajata genrellä:
         else {
             if (btnSort.getText().toString().equals("A-Z")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAsc(text);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAscLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
             if (btnSort.getText().toString().equals("Z-A")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleDesc(text);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleDescLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
             if (btnSort.getText().toString().equals("N-O")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdDesc(text);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdAscLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
             if (btnSort.getText().toString().equals("O-N")) {
-                results = MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdAsc(text);
+                MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdDescLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
         }
 
         // Päivittää listan uusilla hakutuloksilla.
         BookListAdapter adapter = (BookListAdapter) rvBookList.getAdapter();
-        adapter.updateDataset(results);
+        adapter.updateDataset(dataset);
     }
 
     private static class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
 
         Book[] localDataset;
+        Genre[] genreDataset;
+        RecyclerView rv;
 
-        public BookListAdapter(Book[] dataset) {
+        public BookListAdapter(Book[] dataset, Genre[] newGenreDataset) {
             localDataset = dataset;
+            genreDataset = newGenreDataset;
         }
 
         public void updateDataset(Book[] newDataset){
@@ -317,7 +377,7 @@ public class BooksFragment extends Fragment {
             holder.title.setText(localDataset[position].title);
 
             // Hakee genret tietokannasta
-            Genre[] allGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
+            Genre[] allGenres = genreDataset;
 
             // String genreString on kirjan genrejen symbolit peräkkäin.
             String genreString = "";
@@ -331,7 +391,7 @@ public class BooksFragment extends Fragment {
                         }
                     }
                 }
-                genreString = genreString.substring(0, genreString.length() - 1);
+                if (genreString.length() != 0) genreString = genreString.substring(0, genreString.length() - 1);
                 holder.genre.setText(genreString);
             }
             // Asettaa merkinnän siitä, onko kirja merkattu luetuksi vai ei.
@@ -363,6 +423,9 @@ public class BooksFragment extends Fragment {
                     return false;
                 }
             });
+
+            if (position == localDataset.length - 1);
+            MainActivity.stopLoading();
         }
 
         @Override
