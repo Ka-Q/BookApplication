@@ -352,6 +352,7 @@ public class BooksFragment extends Fragment {
             if (dataset.length == 0) {
                 Book[] noDB = new Book[1];
                 Book b = new Book();
+                b.BookId = -1;
                 b.title = "No books in database";
                 b.genreIds = new int[0];
                 b.finished = false;
@@ -415,11 +416,18 @@ public class BooksFragment extends Fragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentManager fragmentManager = MainActivity.fragmentManager;
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.contentContainer, BookDetailsFragment.class, arguments)
-                            .addToBackStack("back")
-                            .commit();
+                    if (localDataset[holder.getAdapterPosition()].BookId == -1) {
+                        FloatingActionButton fab = v.getRootView().findViewById(R.id.fab);
+                        ConstraintLayout fabMenuContainer = v.getRootView().findViewById((R.id.fabMenuContainer));
+                        fab.setVisibility(View.VISIBLE);
+                        fabMenuContainer.setVisibility(View.GONE);
+                    } else {
+                        FragmentManager fragmentManager = MainActivity.fragmentManager;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.contentContainer, BookDetailsFragment.class, arguments)
+                                .addToBackStack("back")
+                                .commit();
+                    }
                 }
             });
             // Piilottaa FAB-menun komponentteja vierittäessä, jotta ne eivät peittäisi sisältöä.
