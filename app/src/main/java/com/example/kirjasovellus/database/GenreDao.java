@@ -1,9 +1,12 @@
 package com.example.kirjasovellus.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import java.util.List;
 
 @Dao
 public interface GenreDao {
@@ -22,6 +25,10 @@ public interface GenreDao {
 
     @Query("SELECT * FROM genre ORDER BY name ASC")
     Genre[] getAllGenres();
+
+    // LIVE QUERY
+    @Query("SELECT * FROM genre ORDER BY name ASC")
+    LiveData<List<Genre>> getAllGenresLive();
 
     @Query("DELETE FROM genre")
     int nukeTable();
