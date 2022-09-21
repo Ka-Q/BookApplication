@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
         math.name = "Mathematics";
         math.symbol = "🗿";
 
-        Genre sci = new Genre();
-        sci.genreId = 0;
-        sci.name = "Science";
-        sci.symbol = "🔬";
+        Genre science = new Genre();
+        science.genreId = 0;
+        science.name = "Science";
+        science.symbol = "🔬";
 
         Genre fantasy = new Genre();
         fantasy.genreId = 0;
@@ -163,42 +163,95 @@ public class MainActivity extends AppCompatActivity {
         music.name = "Music";
         music.symbol = "🎵";
 
-        genreDao.insertAll(history, culture, math, sci, fantasy, thriller, detective, romance, music);
+        Genre nature = new Genre();
+        nature.genreId = 0;
+        nature.name = "Nature";
+        nature.symbol = "🌳";
+
+        Genre humanity = new Genre();
+        humanity.genreId = 0;
+        humanity.name = "Humanity";
+        humanity.symbol = "🧍‍♂️";
+
+        Genre programming = new Genre();
+        programming.genreId = 0;
+        programming.name = "Programming";
+        programming.symbol = "💻";
+
+        Genre space = new Genre();
+        space.genreId = 0;
+        space.name = "Space";
+        space.symbol = "🚀";
+
+        Genre crafts = new Genre();
+        crafts.genreId = 0;
+        crafts.name = "Crafts";
+        crafts.symbol = "🛠";
+
+        genreDao.insertAll(history, culture, math, science, fantasy, thriller, detective, romance, music, nature, humanity, programming, space, crafts);
 
         history = genreDao.getGenresOnName("History")[0];
-        culture = genreDao.getGenresOnName("Culture")[0];
         math = genreDao.getGenresOnName("Mathematics")[0];
-        sci = genreDao.getGenresOnName("Science")[0];
+        science = genreDao.getGenresOnName("Science")[0];
         fantasy = genreDao.getGenresOnName("Fantasy")[0];
+        crafts = genreDao.getGenresOnName("Crafts")[0];
+        space = genreDao.getGenresOnName("Space")[0];
+        programming = genreDao.getGenresOnName("Programming")[0];
+        humanity = genreDao.getGenresOnName("Humanity")[0];
+        nature = genreDao.getGenresOnName("Nature")[0];
+        thriller = genreDao.getGenresOnName("Thriller")[0];
+        detective = genreDao.getGenresOnName("Detective")[0];
+        romance = genreDao.getGenresOnName("Romance")[0];
 
-        System.out.println(math.genreId);
+        Book ihminenJaluonto = new Book();
+        ihminenJaluonto.BookId = 0;
+        ihminenJaluonto.title = "Ihminen ja luonto";
+        ihminenJaluonto.pageCount = 1734;
+        ihminenJaluonto.finished = false;
+        ihminenJaluonto.finishDate = null;
+        ihminenJaluonto.genreIds = new int[]{humanity.genreId, nature.genreId};
+        ihminenJaluonto.notes = "- Sivulla 134 on mielenkiintoinen kohta Suomen talvisodasta \n- Sivulla 1572 Alkaa hyvä luku luonnon vaikutuksesta ihmisyyteen";
 
-        Book historyForNewbies = new Book();
-        historyForNewbies.BookId = 0;
-        historyForNewbies.title = "History for newbies";
-        historyForNewbies.pageCount = 1734;
-        historyForNewbies.finished = false;
-        historyForNewbies.finishDate = null;
-        historyForNewbies.genreIds = new int[]{history.genreId,culture.genreId};
-        historyForNewbies.notes = "- Sivulla 134 on mielenkiintoinen kohta Suomen talvisodasta \n- Sivulla 1572 Alkaa hyvä luku mannerlaattojen historiasta";
+        Book android101 = new Book();
+        android101.BookId = 0;
+        android101.title = "Android ohjelmointi 101";
+        android101.pageCount = 893;
+        android101.finished = true;
+        android101.finishDate = Calendar.getInstance().getTime();
+        android101.genreIds = new int[]{science.genreId, programming.genreId};
 
-        System.out.println(history.genreId);
+        Book huimaJannitysKertomus = new Book();
+        huimaJannitysKertomus.BookId = 0;
+        huimaJannitysKertomus.title = "Huima jännityskertomus";
+        huimaJannitysKertomus.pageCount = 152;
+        huimaJannitysKertomus.finished = false;
+        huimaJannitysKertomus.finishDate = null;
+        huimaJannitysKertomus.genreIds = new int[]{thriller.genreId, detective.genreId, romance.genreId};
 
-        Book historyOfEarth = new Book();
-        historyOfEarth.BookId = 0;
-        historyOfEarth.title = "History of Earth";
-        historyOfEarth.pageCount = 893;
-        historyOfEarth.finished = true;
-        historyOfEarth.finishDate = Calendar.getInstance().getTime();
-        historyOfEarth.genreIds = new int[]{history.genreId};
+        Book avaruudenMysteerit = new Book();
+        avaruudenMysteerit.BookId = 0;
+        avaruudenMysteerit.title = "Avaruuden mysteerit";
+        avaruudenMysteerit.pageCount = 210;
+        avaruudenMysteerit.finished = false;
+        avaruudenMysteerit.finishDate = null;
+        avaruudenMysteerit.genreIds = new int[]{science.genreId, space.genreId};
 
-        Book mathIsFun = new Book();
-        mathIsFun.BookId = 0;
-        mathIsFun.title = "Math Is Fun!!";
-        mathIsFun.pageCount = 152;
-        mathIsFun.finished = false;
-        mathIsFun.finishDate = null;
-        mathIsFun.genreIds = new int[]{math.genreId, sci.genreId};
+        Book lotr = new Book();
+        lotr.BookId = 0;
+        lotr.title = "Taru Sormusten Herrasta";
+        lotr.pageCount = 768;
+        lotr.finished = true;
+        lotr.finishDate = Calendar.getInstance().getTime();
+        lotr.genreIds = new int[]{fantasy.genreId};
+
+
+        Book puusepanKasikirja = new Book();
+        puusepanKasikirja.BookId = 0;
+        puusepanKasikirja.title = "Puusepän käsikirja";
+        puusepanKasikirja.pageCount = 210;
+        puusepanKasikirja.finished = false;
+        puusepanKasikirja.finishDate = null;
+        puusepanKasikirja.genreIds = new int[]{crafts.genreId};
 
         Book encyclopedia = new Book();
         encyclopedia.BookId = 0;
@@ -206,15 +259,7 @@ public class MainActivity extends AppCompatActivity {
         encyclopedia.pageCount = 2442;
         encyclopedia.finished = true;
         encyclopedia.finishDate = Calendar.getInstance().getTime();
-        encyclopedia.genreIds = new int[]{history.genreId, sci.genreId};
-
-        Book lotr = new Book();
-        lotr.BookId = 0;
-        lotr.title = "Lord Of The Rings";
-        lotr.pageCount = 768;
-        lotr.finished = true;
-        lotr.finishDate = Calendar.getInstance().getTime();
-        lotr.genreIds = new int[]{fantasy.genreId};
+        encyclopedia.genreIds = new int[]{history.genreId, science.genreId};
 
         Book algo = new Book();
         algo.BookId = 0;
@@ -222,46 +267,9 @@ public class MainActivity extends AppCompatActivity {
         algo.pageCount = 210;
         algo.finished = false;
         algo.finishDate = null;
-        algo.genreIds = new int[]{math.genreId};
+        algo.genreIds = new int[]{math.genreId, programming.genreId};
 
-        Book algo2 = new Book();
-        algo2.BookId = 0;
-        algo2.title = "Algorithms and you but with a long title ";
-        algo2.pageCount = 210;
-        algo2.finished = false;
-        algo2.finishDate = null;
-        algo2.genreIds = new int[]{math.genreId};
-
-        Book algo3 = new Book();
-        algo3.BookId = 0;
-        algo3.title = "Algorithms and you but with a longest title am I right? HAHA XDDDDDDDDDDDDD";
-        algo3.pageCount = 210;
-        algo3.finished = false;
-        algo3.finishDate = null;
-        algo3.genreIds = new int[]{math.genreId};
-
-        Book algo4 = new Book();
-        algo4.BookId = 0;
-        algo4.title = "Algorithms and you but with a longest title am I right? HAHA XDDDDDDDDDDDDD";
-        algo4.pageCount = 210;
-        algo4.finished = false;
-        algo4.finishDate = null;
-        algo4.genreIds = new int[]{math.genreId};
-
-        bookDao.insertAll(historyForNewbies, historyOfEarth, mathIsFun, encyclopedia, lotr, algo, algo2, algo3, algo4);
-
-        for (int i = 0; i < 100; i++) {
-            Book b = new Book();
-            b.title = "Kirja " + i;
-            b.pageCount = (int)(i * Math.random() * 115);
-            b.BookId = 0;
-            b.finished = false;
-            b.finishDate = null;
-            b.genreIds = new int[]{math.genreId};
-            bookDao.insertAll(b);
-        }
-
-        // Generoi eiliselle 3h
+        bookDao.insertAll(ihminenJaluonto, android101, huimaJannitysKertomus, avaruudenMysteerit, lotr, puusepanKasikirja, algo, encyclopedia);
 
         for (int i = 0; i < 40; i++) {
 
