@@ -52,5 +52,15 @@
             android:text="Give the total number of hours. New data will replace previous data submitted today"
             app:layout_constraintStart_toStartOf="@+id/etHours"
             app:layout_constraintTop_toBottomOf="@+id/etHours" />
+
+        <TextView
+            android:id="@+id/tvTodayError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#FF0000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSavehours" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
