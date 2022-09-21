@@ -56,13 +56,13 @@
             android:layout_height="wrap_content"
             android:text="Today"
             app:layout_constraintBottom_toBottomOf="@+id/btnBooks"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/btnSettings"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btnBooks"
             app:layout_constraintTop_toTopOf="@+id/btnBooks" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnSettings"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="⚙"
