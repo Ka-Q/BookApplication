@@ -42,14 +42,12 @@ public class TodayFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Double hours = Double.parseDouble(etHours.getText().toString());
-                System.out.println("TUNNIT: " + hours);
 
                 if (hours > 24) {
-                    tvTodayError.setText("I refuse to believe you've read more than 24 hours i a day...");
+                    tvTodayError.setText(R.string.hours_check);
                 }
                 else {
                     tvTodayError.setText("");
-
 
                     Date rawDate = Calendar.getInstance().getTime();
                     Date d = Calendar.getInstance().getTime();

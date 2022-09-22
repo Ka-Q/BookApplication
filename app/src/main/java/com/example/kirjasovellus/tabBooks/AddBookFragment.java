@@ -91,7 +91,7 @@ public class AddBookFragment extends Fragment {
                     fragmentManager.popBackStack();
                 }
                 else {
-                    tvErrorMsg.setText("Required data missing");
+                    tvErrorMsg.setText(R.string.add_book_error_data);
                 }
             }
         });

@@ -13,6 +13,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.kirjasovellus.MainActivity;
+import com.example.kirjasovellus.R;
 import com.example.kirjasovellus.database.Day;
 
 public class ChartCanvas extends View {
@@ -86,6 +87,14 @@ public class ChartCanvas extends View {
             String dateStr = d.date.toString();
             String[] dateSplit = dateStr.split(" ");
             label = dateSplit[0];
+
+            if (label.equals("Mon")) label = getContext().getString(R.string.label_mon);
+            if (label.equals("Tue")) label = getContext().getString(R.string.label_tue);
+            if (label.equals("Wed")) label = getContext().getString(R.string.label_wed);
+            if (label.equals("Thu")) label = getContext().getString(R.string.label_thu);
+            if (label.equals("Fri")) label = getContext().getString(R.string.label_fri);
+            if (label.equals("Sat")) label = getContext().getString(R.string.label_sat);
+            if (label.equals("Sun")) label = getContext().getString(R.string.label_sun);
 
             Bar b = new Bar((int)(d.hours * scale), barWidth, barWidth * days.length, label);
             bars[index] = b;

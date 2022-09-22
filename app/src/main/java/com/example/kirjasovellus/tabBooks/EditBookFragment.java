@@ -91,10 +91,10 @@ public class EditBookFragment extends Fragment {
             public void onClick(View view) {
                 tvEditError.setText("");
                 if (etEditBookTitle.getText().length() < 1) {
-                    tvEditError.setText(tvEditError.getText() + "Title not valid. ");
+                    tvEditError.setText(tvEditError.getText() + getString(R.string.edit_book_error_title));
                 }
                 if (etEditBookPageCount.getText().length() == 0) {
-                    tvEditError.setText(tvEditError.getText() + "Page count not valid. ");
+                    tvEditError.setText(tvEditError.getText() + getString(R.string.edit_book_error_page_count));
                 }
 
                 if (tvEditError.getText().length() == 0) {
@@ -134,8 +134,8 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-                builder.setMessage("Are you sure you want to delete this book and all data associated with it (including statistics) permanently. This action can not be reversed.");
-                builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.edit_book_delete_book_warning);
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         MainActivity.bookDatabase.bookDao().deleteBook(finalBook.BookId);
@@ -144,7 +144,7 @@ public class EditBookFragment extends Fragment {
                     }
                 });
 
-                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.alert_negative, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 });

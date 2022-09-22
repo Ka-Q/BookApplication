@@ -17,7 +17,7 @@
             android:id="@+id/textView17"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="How many hours have you read today?"
+            android:text="@string/today_header"
             android:textAlignment="viewStart"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Save"
+            android:text="@string/save"
             app:layout_constraintEnd_toEndOf="@+id/etHours"
             app:layout_constraintStart_toStartOf="@+id/etHours"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -49,7 +49,7 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Give the total number of hours. New data will replace previous data submitted today"
+            android:text="@string/today_hint"
             app:layout_constraintStart_toStartOf="@+id/etHours"
             app:layout_constraintTop_toBottomOf="@+id/etHours" />
 

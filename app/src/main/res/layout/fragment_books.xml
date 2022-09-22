@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
-                android:hint="Search by title"
+                android:hint="@string/search_by_title"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toStartOf="@+id/btnSearch"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Search"
+                android:text="@string/search"
                 app:layout_constraintEnd_toStartOf="@+id/btnMore"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/searchBox"
@@ -78,7 +78,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sort: "
+                    android:text="@string/sort"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Filter Genre: "
+                    android:text="@string/filter_genre"
                     app:layout_constraintStart_toEndOf="@+id/btnSort"
                     app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -113,9 +113,9 @@
 
             <TextView
                 android:id="@+id/tvTitleLabel"
-                android:layout_width="256dp"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:text="Title"
+                android:text="@string/title"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toStartOf="@+id/tvGenreLabel"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -126,7 +126,7 @@
                 android:id="@+id/tvGenreLabel"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:text="genres"
+                android:text="@string/genres"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitleLabel"
                 app:layout_constraintEnd_toStartOf="@+id/tvReadLabel"
@@ -135,9 +135,9 @@
 
             <TextView
                 android:id="@+id/tvReadLabel"
-                android:layout_width="40dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="read"
+                android:text="@string/finished"
                 app:layout_constraintBottom_toBottomOf="@+id/tvGenreLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -185,7 +185,7 @@
                     android:id="@+id/btnAddBook"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="new Book"
+                    android:text="@string/new_book"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -194,7 +194,7 @@
                     android:id="@+id/btnAddGenre"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="new Genre"
+                    android:text="@string/new_genre"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btnAddBook" />
@@ -203,7 +203,7 @@
                     android:id="@+id/btnEditGenre"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="edit a genre"
+                    android:text="@string/edit_genre"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btnAddGenre" />

@@ -353,7 +353,7 @@ public class BooksFragment extends Fragment {
                 Book[] noDB = new Book[1];
                 Book b = new Book();
                 b.BookId = -1;
-                b.title = "No books in database";
+                b.title = MainActivity.getContext().getString(R.string.books_no_books_in_db);
                 b.genreIds = new int[0];
                 b.finished = false;
                 noDB[0] = b;
@@ -442,7 +442,6 @@ public class BooksFragment extends Fragment {
                 }
             });
 
-            if (position == localDataset.length - 1);
             MainActivity.stopLoading();
         }
 

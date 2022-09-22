@@ -58,7 +58,7 @@ public class BookDetailsFragment extends Fragment {
         }
 
         // Hakee kirjan genreId:illä genret ja asettaa Merkkijonoon
-        String bookGenresString = "Genres:";
+        String bookGenresString = getString(R.string.details_genres);
         for (int id : book.genreIds) {
             for(Genre g : allGenres) {
                 if (id == g.genreId) {
@@ -69,16 +69,16 @@ public class BookDetailsFragment extends Fragment {
 
 
         // Tarkistaa, onko käyttäjä merkannut kirjan luetuksi. Jos on, niin näyttää päivämäärän
-        String finishedString = "Finished?: ";
+        String finishedString = getString(R.string.details_finished);
         if (book.finished) {
             Date finishDate = book.finishDate;
             String dateString = finishDate.toLocaleString();
             String[] dateSplit = dateString.split(" ");
             dateString = dateSplit[0] + " " + dateSplit[1] + " " + dateSplit[2];
 
-            finishedString += "Yes, finished on " + dateString;
+            finishedString += getString(R.string.details_finished_positive) + dateString;
         } else {
-            finishedString += "No";
+            finishedString += getString(R.string.details_finished_negative);
         }
 
         // Layout komponentit
@@ -94,12 +94,12 @@ public class BookDetailsFragment extends Fragment {
         // Asetetaan dataa Layout komponenteille kirjan perusteella
         tvBookDetailsTitle.setText(book.title);
         tvBookDetailsGenres.setText(bookGenresString);
-        tvBookDetailsPageCount.setText("Page count: " + book.pageCount);
+        tvBookDetailsPageCount.setText(getString(R.string.details_page_count) + book.pageCount);
         tvBookDetailsfinished.setText(finishedString);
         if (!book.finished) {
-            btnMarkAsFinished.setText("Mark as finished");
+            btnMarkAsFinished.setText(R.string.details_mark_as_finished);
         } else {
-            btnMarkAsFinished.setText("Mark as unfinished");
+            btnMarkAsFinished.setText(R.string.details_mark_as_unfinished);
         }
         etBookDetailsNotes.setText(book.notes);
 
@@ -113,7 +113,7 @@ public class BookDetailsFragment extends Fragment {
                 finalBook.notes = etBookDetailsNotes.getText().toString();
                 MainActivity.bookDatabase.bookDao().insertAll(finalBook);
                 Toast noteSaved = new Toast(getContext());
-                noteSaved.setText("Notes saved!");
+                noteSaved.setText(R.string.details_notes_saved);
                 noteSaved.show();
             }
         });

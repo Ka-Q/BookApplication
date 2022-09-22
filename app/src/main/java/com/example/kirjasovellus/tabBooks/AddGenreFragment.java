@@ -64,14 +64,11 @@ public class AddGenreFragment extends Fragment {
                 tvErrorMsg.setText("");
 
                 if (EmojiWatcher.isEmojiOnly(symbolArray[0])) {
-                    System.out.println("EMOJI");
                 } else {
-                    System.out.println("EI EMOJI");
-                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Symbol is not a valid emoji. ");
+                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + getString(R.string.add_genre_error_symbol));
                 }
                 if (etGenreName.getText().toString().length() < 1) {
-                    System.out.println("Liian kyhyt nimi");
-                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Name is not valid.");
+                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + getString(R.string.add_genre_error_name));
                 }
 
                 if(tvErrorMsg.getText().length() == 0) {
