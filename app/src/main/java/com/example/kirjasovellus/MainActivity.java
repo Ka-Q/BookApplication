@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     public static BookDatabase bookDatabase;
     public static FragmentManager fragmentManager;
 
+    private static Context context;
+
     private static ImageView loadingIcon;
     private static ObjectAnimator loadingAnimation;
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
 
         //Create database for books
         bookDatabase = Room.databaseBuilder(
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     public static void stopLoading() {
         loadingIcon.setVisibility(View.GONE);
         loadingAnimation.end();
+    }
+
+    public static Context getContext(){
+        return context;
     }
 
     private static void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
@@ -202,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         thriller = genreDao.getGenresOnName("Thriller")[0];
         detective = genreDao.getGenresOnName("Detective")[0];
         romance = genreDao.getGenresOnName("Romance")[0];
+        culture = genreDao.getGenresOnName("Culture")[0];
 
         Book ihminenJaluonto = new Book();
         ihminenJaluonto.BookId = 0;
@@ -269,7 +278,31 @@ public class MainActivity extends AppCompatActivity {
         algo.finishDate = null;
         algo.genreIds = new int[]{math.genreId, programming.genreId};
 
-        bookDao.insertAll(ihminenJaluonto, android101, huimaJannitysKertomus, avaruudenMysteerit, lotr, puusepanKasikirja, algo, encyclopedia);
+        Book kirjaKirjojenHistoriasta = new Book();
+        kirjaKirjojenHistoriasta.BookId = 0;
+        kirjaKirjojenHistoriasta.title = "Kirja kirjojen historiasta";
+        kirjaKirjojenHistoriasta.pageCount = 2000;
+        kirjaKirjojenHistoriasta.finished = true;
+        kirjaKirjojenHistoriasta.finishDate = Calendar.getInstance().getTime();
+        kirjaKirjojenHistoriasta.genreIds = new int[]{culture.genreId, history.genreId};
+
+        Book algo2 = new Book();
+        algo2.BookId = 0;
+        algo2.title = "Algorithms and me?";
+        algo2.pageCount = 210;
+        algo2.finished = true;
+        algo2.finishDate = Calendar.getInstance().getTime();
+        algo2.genreIds = new int[]{math.genreId, programming.genreId};
+
+        Book puutarha = new Book();
+        puutarha.BookId = 0;
+        puutarha.title = "Puutarhan hoidon perusteet";
+        puutarha.pageCount = 156;
+        puutarha.finished = false;
+        puutarha.finishDate = null;
+        puutarha.genreIds = new int[]{nature.genreId, crafts.genreId};
+
+        bookDao.insertAll(ihminenJaluonto, android101, huimaJannitysKertomus, avaruudenMysteerit, lotr, puusepanKasikirja, algo, encyclopedia, kirjaKirjojenHistoriasta, algo2, puutarha);
 
         for (int i = 0; i < 40; i++) {
 

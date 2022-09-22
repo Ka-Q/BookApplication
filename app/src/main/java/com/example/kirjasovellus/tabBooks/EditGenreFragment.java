@@ -97,7 +97,7 @@ public class EditGenreFragment extends Fragment {
 
         // Alert dialog, jos genreä ei ole valittu muokattavaksi
         MaterialAlertDialogBuilder nullBuilder = new MaterialAlertDialogBuilder(getContext());
-        nullBuilder.setMessage("You must choose a genre to make edits");
+        nullBuilder.setMessage(R.string.edit_genre_alert_choose_genre);
         nullBuilder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         /* Tallennusnappi tarkistaa annetut tiedot. Jos syötetyt tiedot eivät vastaa kriteerejä,
@@ -117,15 +117,12 @@ public class EditGenreFragment extends Fragment {
                 /* Tarkistetaan käyttäjän syöttämän emojin oikeellisuus 'EmojiWatcher' -luokan
                  * isEmojiOnly()-metodilla. */
                 if (EmojiWatcher.isEmojiOnly(symbolArray[0])) {
-                    System.out.println("EMOJI");
                 } else {
-                    System.out.println("EI EMOJI");
-                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Symbol is not a valid emoji. ");
+                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + getString(R.string.edit_genre_error_symbol));
                 }
                 // Nimen pitää olla vähintään yksi kirjain
                 if (etGenreNameEdit.getText().toString().length() < 1) {
-                    System.out.println("Liian kyhyt nimi");
-                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + "Name is not valid.");
+                    tvErrorMsg.setText(tvErrorMsg.getText().toString() + getString(R.string.edit_genre_error_name));
                 }
 
                 if (tvErrorMsg.getText().length() == 0) {
@@ -161,14 +158,14 @@ public class EditGenreFragment extends Fragment {
                     return;
                 };
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-                builder.setMessage("Genre \"" + selected.name + "\" will be deleted and all books containing this genre will have it removed from them.");
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                builder.setMessage(getString(R.string.edit_genre_warning_delete_1) + selected.name + getString(R.string.edit_genre_warning_delete_2));
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteGenre(selected);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 });

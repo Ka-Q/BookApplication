@@ -33,7 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="days"
+                android:text="@string/hours_read_past_days_2"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tvHoursPeriod"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -45,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="300dp"
-                android:text="Hours read past"
+                android:text="@string/hours_read_past_days_1"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/btnToggleHoursPeriod"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -70,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Tekstiä"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvHoursStats" />
 
@@ -79,7 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="lisää tekstiä"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSumStats" />
 
@@ -88,7 +87,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvHoursPeriod" />
         </androidx.constraintlayout.widget.ConstraintLayout>

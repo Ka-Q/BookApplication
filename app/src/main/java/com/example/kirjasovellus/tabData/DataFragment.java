@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,10 +89,25 @@ public class DataFragment extends Fragment {
         }
 
         for (Genre g : genresWithBooks.keySet()) {
+            System.out.println("Genre: " + g + ", Books: " + genresWithBooks.get(g).toString());
             if (genresWithBooks.get(g).size() == biggestGenreSize) {
                 favouriteGenres.add(g);
-                for (Book b : genresWithBooks.get(g)) {
-                    if (!booksInFavouriteGenres.contains(genresWithBooks.get(g))){
+            }
+        }
+        for (Genre g : favouriteGenres) {
+            ArrayList<Book> booksInGenre = genresWithBooks.get(g);
+            for (Book b : booksInGenre) {
+                if (booksInFavouriteGenres.size() == 0) {
+                    booksInFavouriteGenres.add(b);
+                } else {
+                    Boolean found = false;
+                    for (Book c : booksInFavouriteGenres) {
+                        if (c.BookId == b.BookId) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
                         booksInFavouriteGenres.add(b);
                     }
                 }
@@ -119,25 +135,24 @@ public class DataFragment extends Fragment {
         double avg7 = hours7/7;
         double avg14 = hours14/14;
         double avg28 = hours28/28;
-        double avgAll = hours28/allDays.length;
 
-        tvHoursStats.setText("Hours read past 7 days: " + String.format("%.2f", hours7) + "h (avg " + String.format("%.2f", avg7) +  "h/day)" + "\n" +
-                "Hours read past 14 days: " + String.format("%.2f", hours14) + "h (avg " + String.format("%.2f", avg14) +  "h/day)"  +"\n" +
-                "Hours read past 28 days: " + String.format("%.2f", hours28) + "h (avg " + String.format("%.2f", avg28) +  "h/day)"  +"\n" +
-                "Hours read all-time: " + String.format("%.2f", hoursAll));
-
+        tvHoursStats.setText(getString(R.string.hours_past_seven_days) + String.format("%.2f", hours7) + getString(R.string.avg_format_start) + String.format("%.2f", avg7) +  getString(R.string.avg_format_end) + "\n" +
+                getString(R.string.hours_past_fourteen_days) + String.format("%.2f", hours14) + getString(R.string.avg_format_start) + String.format("%.2f", avg14) +  getString(R.string.avg_format_end)  +"\n" +
+                getString(R.string.hours_past_twenty_eight_days) + String.format("%.2f", hours28) + getString(R.string.avg_format_start) + String.format("%.2f", avg28) +  getString(R.string.avg_format_end)  +"\n" +
+                getString(R.string.hours_all_time) + String.format("%.2f", hoursAll));
 
 
 
-        tvSumStats.setText("You've added a total of " + allBooks.length
-                + " books, of which you've finished " + finishedCount
-                + ". You've read at least " + pagesRead + " pages in total.");
 
-        tvGenreStats.setText("Your favourite genre(s): ");
+        tvSumStats.setText(getString(R.string.sum_data_1) + allBooks.length
+                + getString(R.string.sum_data_2) + finishedCount + ". "
+                + getString(R.string.sum_data_3) + pagesRead + getString(R.string.sum_data_4));
+
+        tvGenreStats.setText(R.string.favourite_genres);
         for (int i = 0; i < favouriteGenres.size(); i++) {
             tvGenreStats.setText(tvGenreStats.getText() + "\"" + favouriteGenres.get(i).name + "\" , ");
         }
-        tvGenreStats.setText(tvGenreStats.getText() + "(" + booksInFavouriteGenres.size() + " out of " + finishedCount + " finished books)");
+        tvGenreStats.setText(tvGenreStats.getText() + "(" + booksInFavouriteGenres.size() + getString(R.string.out_of) + finishedCount + getString(R.string.finished_books) + ")");
 
 
         // Käyttäjä voi valita 7, 14 ja 28 päivän kaavioista

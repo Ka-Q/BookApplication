@@ -18,7 +18,7 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add a new genre"
+            android:text="@string/add_genre_header"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Name:"
+            android:text="@string/add_genre_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name of the genre"
+            android:hint="@string/add_genre_name_hint"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Symbol (Emoji): "
+            android:text="@string/add_genre_symbol"
             app:layout_constraintStart_toStartOf="@+id/etGenreName"
             app:layout_constraintTop_toBottomOf="@+id/etGenreName" />
 
@@ -62,7 +62,6 @@
             android:cursorVisible="false"
             android:ems="10"
             android:fontFamily="monospace"
-            android:hint="symbol of the genre"
             android:inputType="textShortMessage"
             android:textAlignment="center"
             android:textSize="60sp"
@@ -75,7 +74,7 @@
             android:layout_width="331dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Save"
+            android:text="@string/save"
             app:layout_constraintEnd_toEndOf="@+id/etGenreName"
             app:layout_constraintStart_toStartOf="@+id/etGenreName"
             app:layout_constraintTop_toBottomOf="@+id/etGenreSymbol" />

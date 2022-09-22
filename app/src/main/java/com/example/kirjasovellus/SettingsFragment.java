@@ -1,6 +1,8 @@
 package com.example.kirjasovellus;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Locale;
 
 
 public class SettingsFragment extends Fragment {
@@ -30,20 +35,56 @@ public class SettingsFragment extends Fragment {
 
         Button btnGenerateTestData = getView().findViewById(R.id.btnGenerateTestData);
         Button btnDeleteAllData = getView().findViewById(R.id.btnDeleteAllData);
+        TextView tvLanguageSelection = getView().findViewById(R.id.tvLanguageSelection);
+
+        Configuration config = getContext().getResources().getConfiguration();
+        if (config.locale.getLanguage().equals("fi")) {
+            tvLanguageSelection.setText("\uD83C\uDDEB\uD83C\uDDEE");
+        }
+
+        tvLanguageSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Locale locale = new Locale("en");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+
+                if (tvLanguageSelection.getText().toString().equals("\uD83C\uDDEC\uD83C\uDDE7")) {
+                    locale = new Locale("fi");
+                    tvLanguageSelection.setText("\uD83C\uDDEB\uD83C\uDDEE");
+                }
+                else if (tvLanguageSelection.getText().toString().equals("\uD83C\uDDEB\uD83C\uDDEE")) {
+                    locale = new Locale("en");
+                    tvLanguageSelection.setText("\uD83C\uDDEC\uD83C\uDDE7");
+                }
+
+
+                Locale.setDefault(locale);
+                config.locale = locale;
+                getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         btnGenerateTestData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-                builder.setMessage("This action will replace all user-data with pre-generated data. This action can NOT be reversed. Are you sure you want to continue?");
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.settings_warning_test_data);
+                builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         MainActivity.nukeAllData();
                         MainActivity.generateTestData();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 });
@@ -55,14 +96,14 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-                builder.setMessage("This action will remove all user-data permanently. This action can NOT be reversed. Are you sure you want to continue?");
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.settings_warning_delete_all);
+                builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         MainActivity.nukeAllData();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 });

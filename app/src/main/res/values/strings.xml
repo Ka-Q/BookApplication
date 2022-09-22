@@ -1,5 +1,119 @@
 <resources>
+    //App
     <string name="app_name">KirjaSovellus</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Menu
+    <string name="menu_data">Data</string>
+    <string name="menu_books">Books</string>
+    <string name="menu_today">Today</string>
+
+    //Functions
+    <string name="confirm">Confirm</string>
+    <string name="alert_negative">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    //Data
+    <string name="hours_read_past_days_1">Hours read past</string>
+    <string name="hours_read_past_days_2">days</string>
+
+    <string name="hours_past_seven_days">"Hours read past 7 days: "</string>
+    <string name="hours_past_fourteen_days">"Hours read past 14 days: "</string>
+    <string name="hours_past_twenty_eight_days">"Hours read past 28 days: "</string>
+
+    <string name="avg_format_start">"h (avg "</string>
+    <string name="avg_format_end">h/day)</string>
+    <string name="hours_all_time">"Hours read all-time: "</string>
+    <string name="sum_data_1">"You've added a total of "</string>
+    <string name="sum_data_2">" books, of which you've finished "</string>
+    <string name="sum_data_3">"You've read at least "</string>
+    <string name="sum_data_4">" pages in total."</string>
+    <string name="favourite_genres">"Your favourite genre(s): "</string>
+    <string name="out_of">" out of "</string>
+    <string name="finished_books">" finished books"</string>
+
+    <string name="label_mon">"M"</string>
+    <string name="label_tue">"T"</string>
+    <string name="label_wed">"W"</string>
+    <string name="label_thu">"T"</string>
+    <string name="label_fri">"F"</string>
+    <string name="label_sat">"S"</string>
+    <string name="label_sun">"S"</string>
+
+    //Books
+    <string name="search_by_title">Search by title</string>
+    <string name="search">Search</string>
+    <string name="sort">"Sort: "</string>
+    <string name="filter_genre">"Filter Genre: "</string>
+    <string name="title">Title</string>
+    <string name="genres">genres</string>
+    <string name="finished">finished</string>
+    <string name="new_book">new Book</string>
+    <string name="new_genre">new Genre</string>
+    <string name="edit_genre">edit a genre</string>
+    <string name="books_no_books_in_db">No books in database</string>
+
+    //Book details
+    <string name="details_genres">Genres:</string>
+    <string name="details_finished">"Finished?: "</string>
+    <string name="details_finished_positive">"Yes, finished on "</string>
+    <string name="details_finished_negative">No</string>
+    <string name="details_notes_saved">Notes saved!</string>
+    <string name="details_page_count">"Page count: "</string>
+    <string name="details_mark_as_finished">Mark as finished</string>
+    <string name="details_mark_as_unfinished">Mark as unfinished</string>
+    <string name="details_notes">Notes:</string>
+    <string name="details_save_notes">save notes</string>
+    <string name="details_edit_book">Edit book</string>
+
+    //Edit book
+    <string name="edit_book_error_title">"Title not valid. "</string>
+    <string name="edit_book_error_page_count">"Page count not valid. "</string>
+    <string name="edit_book_delete_book_warning">Are you sure you want to delete this book and all data associated with it (including statistics) permanently. This action can NOT be reversed.</string>
+    <string name="edit_book_header">Editing book</string>
+    <string name="editing_book_title">Title</string>
+    <string name="edit_book_page_count">Page count</string>
+    <string name="edit_book_genres">Genres</string>
+
+    //Add book
+    <string name="add_book_error_data">Required data missing</string>
+    <string name="add_book_header">Add a new book</string>
+    <string name="add_book_title">Title</string>
+    <string name="add_book_genres">Genres</string>
+    <string name="add_book_page_count">Page count</string>
+
+    //Add genre
+    <string name="add_genre_header">Add a new genre</string>
+    <string name="add_genre_name">Name</string>
+    <string name="add_genre_name_hint">Name of the genre</string>
+    <string name="add_genre_symbol">Symbol (Emoji):</string>
+    <string name="add_genre_error_symbol">"Symbol is not a valid emoji. "</string>
+    <string name="add_genre_error_name">Name is not valid.</string>
+
+    //Edit genre
+    <string name="edit_genre_alert_choose_genre">You must choose a genre to make edits</string>
+    <string name="edit_genre_error_symbol">"Symbol is not a valid emoji. "</string>
+    <string name="edit_genre_error_name">Name is not valid.</string>
+    <string name="edit_genre_warning_delete_1">Genre "</string>
+    <string name="edit_genre_warning_delete_2">" will be deleted and all books containing this genre will have it removed from them.</string>
+    <string name="edit_genre_header">Edit genre</string>
+    <string name="edit_genre_select_a_genre">select a genre to edit:</string>
+    <string name="edit_genre_name">Name</string>
+    <string name="edit_genre_editing">Editing:</string>
+    <string name="edit_genre_symbol">"Symbol (Emoji): "</string>
+
+    //Today
+    <string name="hours_check">I refuse to believe you\'ve read more than 24 hours i a day...</string>
+    <string name="today_header">How many hours have you read today?</string>
+    <string name="today_hint">Give the total number of hours. New data will replace previous data submitted today</string>
+
+    //Settings
+    <string name="settings_warning_test_data">This action will replace all user-data with pre-generated data. This action can NOT be reversed. Are you sure you want to continue?</string>
+    <string name="settings_warning_delete_all">This action will remove all user-data permanently. This action can NOT be reversed. Are you sure you want to continue?</string>
+    <string name="settings_header">User settings</string>
+    <string name="settings_generate_test_data">Generate test data</string>
+    <string name="settings_delete_all_data">Wipe all data</string>
+
+
 </resources>
