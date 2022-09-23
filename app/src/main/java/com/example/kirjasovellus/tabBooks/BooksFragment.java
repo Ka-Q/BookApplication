@@ -242,6 +242,7 @@ public class BooksFragment extends Fragment {
             }
         });
 
+        btnSort.setText("\uD83D\uDD24 ⬇️");
         /* Hakutulosten järjestyksen toggle-nappi. Järjestykselle on neljä vaihtoehtoa:
          * - Aakkosellinen nouseva
          * - Aakkosellinen laskeva
@@ -251,18 +252,17 @@ public class BooksFragment extends Fragment {
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("YEE");
-                if (btnSort.getText().toString().equals("A-Z")) {
-                    btnSort.setText("Z-A");
+                if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬇️")) {
+                    btnSort.setText("\uD83D\uDD24 ⬆️");
                 }
-                 else if (btnSort.getText().toString().equals("Z-A")) {
-                    btnSort.setText("N-O");
+                 else if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬆️")) {
+                    btnSort.setText("\uD83D\uDD5D ⬇️");
                 }
-                else if (btnSort.getText().toString().equals("N-O")) {
-                    btnSort.setText("O-N");
+                else if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬇️")) {
+                    btnSort.setText("\uD83D\uDD5D ⬆️");
                 }
-                else if (btnSort.getText().toString().equals("O-N")) {
-                    btnSort.setText("A-Z");
+                else if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬆️")) {
+                    btnSort.setText("\uD83D\uDD24 ⬇️");
                 }
             }
         });
@@ -322,32 +322,31 @@ public class BooksFragment extends Fragment {
         if (genreSelect.getSelectedItemId() != 0) {
             Genre genre = MainActivity.bookDatabase.genreDao().getGenresOnName(genreName)[0];
 
-            if (btnSort.getText().toString().equals("A-Z")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬇️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleAscLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
-            if (btnSort.getText().toString().equals("Z-A")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬆️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnTitleDescLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
-
             }
-            if (btnSort.getText().toString().equals("N-O")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬇️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdAscLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
-            if (btnSort.getText().toString().equals("O-N")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬆️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleAndGenreIdSortedOnIdDescLive(text, genre.genreId).observe(this.getViewLifecycleOwner(), bookObserver);
             }
         }
         // Queryt, jos ei rajata genrellä:
         else {
-            if (btnSort.getText().toString().equals("A-Z")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬇️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleAscLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
-            if (btnSort.getText().toString().equals("Z-A")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD24 ⬆️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnTitleDescLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
-            if (btnSort.getText().toString().equals("N-O")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬇️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdAscLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
-            if (btnSort.getText().toString().equals("O-N")) {
+            if (btnSort.getText().toString().equals("\uD83D\uDD5D ⬆️")) {
                 MainActivity.bookDatabase.bookDao().getBookOnTitleSortedOnIdDescLive(text).observe(this.getViewLifecycleOwner(), bookObserver);
             }
         }
