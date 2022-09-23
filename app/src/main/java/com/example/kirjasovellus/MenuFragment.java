@@ -31,6 +31,18 @@ public class MenuFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_menu, container, false);
     }
 
+    /**
+     * Asettaa valikon napeille toiminnallisuuden.
+ *     Napit vaihtavat Valikon alla näkyvää fragmentta seuraavasti:
+ *     <ul>
+ *         <li>Data - DataFragment</li>
+ *         <li>Books - BooksFragment</li>
+ *         <li>Today - TodayFragment</li>
+ *         <li>Settings - SettingsFragment</li>
+ *     </ul>
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
