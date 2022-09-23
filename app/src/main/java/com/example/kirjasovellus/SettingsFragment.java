@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.kirjasovellus.database.UserSettings;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
@@ -46,29 +47,32 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Locale locale = new Locale("en");
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+                String lang = "en";
 
                 if (tvLanguageSelection.getText().toString().equals("\uD83C\uDDEC\uD83C\uDDE7")) {
-                    locale = new Locale("fi");
+                    lang = "fi";
                     tvLanguageSelection.setText("\uD83C\uDDEB\uD83C\uDDEE");
                 }
                 else if (tvLanguageSelection.getText().toString().equals("\uD83C\uDDEB\uD83C\uDDEE")) {
-                    locale = new Locale("en");
+                    lang = "en";
                     tvLanguageSelection.setText("\uD83C\uDDEC\uD83C\uDDE7");
                 }
 
+                Locale locale = new Locale(lang);
+                UserSettings us = new UserSettings();
+                us.language = lang;
+                us.settingsID = 0;
 
                 Locale.setDefault(locale);
+                Configuration config = getContext().getResources().getConfiguration();
                 config.locale = locale;
                 getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
 
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                getContext().startActivity(intent);
+
+                MainActivity.bookDatabase.userSettingsDao().insertAll(us);
             }
         });
 

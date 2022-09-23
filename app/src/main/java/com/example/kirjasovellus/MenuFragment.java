@@ -1,6 +1,8 @@
 package com.example.kirjasovellus;
 
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.kirjasovellus.database.UserSettings;
 import com.example.kirjasovellus.tabBooks.BooksFragment;
 import com.example.kirjasovellus.tabData.DataFragment;
 import com.example.kirjasovellus.tabToday.TodayFragment;
+
+import java.util.Locale;
 
 public class MenuFragment extends Fragment {
 
@@ -100,5 +105,25 @@ public class MenuFragment extends Fragment {
                 btnToday.setEnabled(true);
             }
         });
+
+        UserSettings us = MainActivity.bookDatabase.userSettingsDao().getSettings();
+        String lang = us.language;
+
+        if (!getContext().getResources().getConfiguration().locale.getLanguage().equals(lang)) {
+            Locale locale = new Locale(lang);
+            us.language = lang;
+            us.settingsID = 0;
+
+            Locale.setDefault(locale);
+            Configuration config = getContext().getResources().getConfiguration();
+            config.locale = locale;
+            getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            getContext().startActivity(intent);
+        }
+
+
     }
 }
