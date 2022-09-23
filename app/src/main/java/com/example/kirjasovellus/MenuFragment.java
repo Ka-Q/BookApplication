@@ -35,6 +35,7 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // FragmentManager MainActivity:sta
         FragmentManager fragmentManager = MainActivity.fragmentManager;
 
         Button btnData = view.findViewById(R.id.btnData);
@@ -42,6 +43,7 @@ public class MenuFragment extends Fragment {
         Button btnToday = view.findViewById(R.id.btnToday);
         Button btnSettings = getView().findViewById(R.id.btnSettings);
 
+        // Vaihtaa data-välilehdelle
         btnData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +60,7 @@ public class MenuFragment extends Fragment {
             }
         });
 
-
+        // Vaihtaa kirjat-välilehdelle
         btnBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +77,7 @@ public class MenuFragment extends Fragment {
             }
         });
 
-
+        // Vaihtaa tänään-välilehdelle
         btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +94,7 @@ public class MenuFragment extends Fragment {
             }
         });
 
+        // Vaihtaa asetus-näkymään
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +108,9 @@ public class MenuFragment extends Fragment {
                 btnToday.setEnabled(true);
             }
         });
+
+        // MenuFragment:in latautuessa, hakee käyttäjän asettaman kielen tietokannasta.
+        // Jos kieli on eri, kuin nykyinen, vaihtaa sen.
 
         UserSettings us = MainActivity.bookDatabase.userSettingsDao().getSettings();
         String lang = us.language;
@@ -123,7 +129,5 @@ public class MenuFragment extends Fragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             getContext().startActivity(intent);
         }
-
-
     }
 }
