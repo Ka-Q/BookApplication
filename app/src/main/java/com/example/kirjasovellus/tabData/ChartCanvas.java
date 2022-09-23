@@ -45,6 +45,10 @@ public class ChartCanvas extends View {
         super(context, attrs);
     }
 
+    /**
+     * Rakentaa kaavion annetusta listasta päiviä.
+     * @param daysReversed Lista päivistä käänteisessä järjestyksessä
+     */
     public void initialize(Day[] daysReversed) {
 
         // Asetetaan päivät taulukkoon kääänteisessä järjestyksessä
@@ -102,6 +106,10 @@ public class ChartCanvas extends View {
 
     }
 
+    /**
+     * Piirtää kaavion pylväät, reunuksen ja labelit näytölle.
+     * @param canvas canvas
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -175,9 +183,13 @@ public class ChartCanvas extends View {
         }
     }
 
+    /**
+     * Asettaa kankaalle korkeuden, jotta sitä voidaan käyttää paremmin layouteissa.
+     * @param widthMeasureSpec widthMeasureSpec
+     * @param heightMeasureSpec heightMeasureSpec
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // Asettaa kankaalle korkeuden, jotta sitä voidaan käyttää paremmin layouteissa
         setMeasuredDimension(widthMeasureSpec, 750);
     }
 }
