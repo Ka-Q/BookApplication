@@ -33,6 +33,14 @@ public class EditBookFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_edit_book, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden kirjan muokkaamiseen ja poistamiseen.
+     * Tallenna-nappia painettaessa kirjan uudet tiedot luetaan käyttäjältä
+     * ja päivitetään tietokantaan. Poista-nappia painetaessa kysytään varmistus käyttäjältä
+     * ja poistetaan kirja tietokannasta.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -159,9 +167,13 @@ public class EditBookFragment extends Fragment {
         Genre[] localDataset;
         ArrayList<Genre> selectedGenres;
 
+        /**
+         * Konstruktori GenreListAdapter:ille.
+         * @param dataset taulukko tietokannan genreistä
+         * @param selectedGenres viittaus Listaan, jossa ylläpidetään tietoa valituista genreistä
+         */
         public GenreListAdapter(Genre[] dataset, ArrayList<Genre> selectedGenres) {
             localDataset = dataset;
-
             // Viittaus listaan, jossa ylläpidetään valittuja genrejä
             this.selectedGenres = selectedGenres;
         }
@@ -181,6 +193,13 @@ public class EditBookFragment extends Fragment {
             return new EditBookFragment.GenreListAdapter.ViewHolder(view);
         }
 
+        /**
+         * Asettaa toiminnallisuutta Recyclerview-komponenttiin.
+         * Jokaisella listan jäsenellä on symboli ja nimi.
+         * Jäsenellä on myös toggle-nappi, jota painamalla tieto päivittyy listaan valituista genreistä.
+         * @param holder holder
+         * @param position position
+         */
         @Override
         public void onBindViewHolder(@NonNull EditBookFragment.GenreListAdapter.ViewHolder holder, int position) {
 
@@ -212,6 +231,10 @@ public class EditBookFragment extends Fragment {
             });
         }
 
+        /**
+         * Metodi listan pituuden palautukseen
+         * @return palauttaa listan koon.
+         */
         @Override
         public int getItemCount() {
             return localDataset.length;

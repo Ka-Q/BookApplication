@@ -41,10 +41,6 @@ import java.util.Objects;
 
 public class BooksFragment extends Fragment {
 
-    public BooksFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +48,17 @@ public class BooksFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_books, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden kirjalistan tarkasteluun, kirjojen hakemiseen, järjestämiseen ja
+     * hakutulosten rajaamiseen. Tämän näkymän haut tehdään pääosin erillisessä säikeesssä.
+     * Kirjat näytetään recyclerView-komponentissa, jonka listan alkiota painettaessa avautuu
+     * {@link BookDetailsFragment} kirjan tiedoilla.
+     *
+     * Näytöllä olevasta FAB-napista painamalla avautuu valikko, josta on pääsy {@link AddBookFragment},
+     * {@link AddGenreFragment} ja {@link EditGenreFragment} -näkymiin.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // FragmentManager MainActivity:stä
@@ -265,6 +272,19 @@ public class BooksFragment extends Fragment {
 
     /* Hakee kirjoja järjestetysti tietokannasta. Rajaa hakua kirjan nimen ja/tai valitun
      * genren mukaan. Päivittää haun jälkeen listan. */
+
+    /**
+     * Tekee asynkronisen haun tietokantaan.
+     * Asettaa hakukriteerejä vastaavat tulokset viittauksena annettuun taulukkoon.
+     * Hakukriteerit luetaan layout-komponenteista.
+     * Kriteerejä ovat: Kirjan nimi ja genre.
+     * Tulokset voidaan järjestää aakkosellisesti nousevasti ja laskevasti tai lisäysjärjestyksessä
+     * nousevasti ja laskevasti.
+     * Kun haku on tehty, päivitetään RecyclerView
+     * @param view view
+     * @param dataset viittaus listaan kirjoista
+     * @param bookObserver viittaus Observer-olioon
+     */
     private void search(View view, Book[] dataset, Observer<List<Book>> bookObserver){
 
         MainActivity.startLoading();
@@ -292,8 +312,6 @@ public class BooksFragment extends Fragment {
             }
         }
         genreName = genreName.substring(indexOfStart);
-
-        // Alustetaan hakutuloksille tyhjä taulukko
 
         /* Alla haetaan kirjoja tietokannasta annetuilla hakuparametreilla. Halusin toteuttaa
          * hakutulosten järjestämisen tietokannassa, mutta Room ei valitettavasti tue järjestyksen
@@ -343,8 +361,14 @@ public class BooksFragment extends Fragment {
 
         Book[] localDataset;
         Genre[] genreDataset;
-        RecyclerView rv;
 
+        /**
+         * Kontruktori BookListAdapter:ille.
+         * Jos annettu kirjataulukko on tyhjä, asetetaan taulukkoon vain yksi kirja,
+         * jonka nimenä on virheviesti.
+         * @param dataset Näytettävät kirjat taulukossa
+         * @param newGenreDataset tietokannan genret taulukossa
+         */
         public BookListAdapter(Book[] dataset, Genre[] newGenreDataset) {
             localDataset = dataset;
             genreDataset = newGenreDataset;
@@ -361,6 +385,10 @@ public class BooksFragment extends Fragment {
             }
         }
 
+        /**
+         * Päivittää näkymän uudella datalla
+         * @param newDataset lista uutta dataa
+         */
         public void updateDataset(Book[] newDataset){
             localDataset = newDataset;
             notifyDataSetChanged();
@@ -371,10 +399,16 @@ public class BooksFragment extends Fragment {
         public BookListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.book_list_item, parent, false);
-
             return new ViewHolder(view);
         }
 
+        /**
+         * Asettaa toiminnallisuutta Recyclerview-komponenttiin.
+         * Jokaisella listan kirjalla on nimi, lista genrejä ja tieto siitä, onko kirja luettu vai ei.
+         * Kirjaa painamalla avautuu {@link BookDetailsFragment} kirjan tiedoilla.
+         * @param holder holder
+         * @param position position
+         */
         @Override
         public void onBindViewHolder(@NonNull BookListAdapter.ViewHolder holder, int position) {
 

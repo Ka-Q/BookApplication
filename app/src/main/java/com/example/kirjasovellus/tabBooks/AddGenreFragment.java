@@ -30,6 +30,14 @@ public class AddGenreFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_genre, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden genren lisäys -näkymään.
+     * Käyttäjä syöttää tiedot lisättävästä genrestä.
+     *  Tarkistetaan  {@link EmojiWatcher} -luokan avulla symbolin oikeellisuus.
+     * Uusi genre talletetaan tietokantaan.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

@@ -35,6 +35,16 @@ public class BookDetailsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_book_details, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden kirjan tarkastelu -näkymään.
+     * Saa argumenteissaan tiedot tarkasteltavasta kirjasta Bundlessa.
+     * Jos tiedot ovat virheelliset, näytetään oletusdataa.
+     * Listätään toiminnallisuus myös muistiinpanojen muokkaamiseen ja tallennukseen.
+     * Lisätään toiminnallisuus myös kirjan muokkaus -napille, jota painettaessa avautuu
+     * {@link EditBookFragment} kirjan tiedoilla.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -49,7 +59,6 @@ public class BookDetailsFragment extends Fragment {
         book.pageCount = 0;
         book.finished = false;
         book.finishDate = null;
-
 
         // Ottaa argumenteista bundlen ja asettaa kirja-olioon
         Bundle bundle = this.getArguments();
@@ -66,7 +75,6 @@ public class BookDetailsFragment extends Fragment {
                 }
             }
         }
-
 
         // Tarkistaa, onko käyttäjä merkannut kirjan luetuksi. Jos on, niin näyttää päivämäärän
         String finishedString = getString(R.string.details_finished);
