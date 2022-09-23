@@ -34,21 +34,23 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Layout-komponentit
         Button btnGenerateTestData = getView().findViewById(R.id.btnGenerateTestData);
         Button btnDeleteAllData = getView().findViewById(R.id.btnDeleteAllData);
         TextView tvLanguageSelection = getView().findViewById(R.id.tvLanguageSelection);
 
+        // Jos kielenä on suomi, vaihtaa kielivalinnan kuvan
         Configuration config = getContext().getResources().getConfiguration();
         if (config.locale.getLanguage().equals("fi")) {
             tvLanguageSelection.setText("\uD83C\uDDEB\uD83C\uDDEE");
         }
 
+        // Vaihtaa kielen painettaessa lippua. Tallentaa uuden kielen tietokantaan ja
+        // päivittää sovelluksen käyttöliittymän
         tvLanguageSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String lang = "en";
-
                 if (tvLanguageSelection.getText().toString().equals("\uD83C\uDDEC\uD83C\uDDE7")) {
                     lang = "fi";
                     tvLanguageSelection.setText("\uD83C\uDDEB\uD83C\uDDEE");
@@ -76,6 +78,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        // Generoi käyttäjän hyväksyessä testidataa. Poistaa aiemman datan tietokannasta
         btnGenerateTestData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +98,8 @@ public class SettingsFragment extends Fragment {
                 builder.show();
             }
         });
-
+        // Kysyy käyttäjältä varmistuksen. Hyväksyttäessä poistaa kaiken datan kieltä
+        // lukuunottamatta tietokannasta.
         btnDeleteAllData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
