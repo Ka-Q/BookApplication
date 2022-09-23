@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
         Book puutarha = new Book();
         puutarha.BookId = 0;
-        puutarha.title = "Puutarhan hoidon perusteet";
+        puutarha.title = "Puutarhanhoidon perusteet";
         puutarha.pageCount = 156;
         puutarha.finished = false;
         puutarha.finishDate = null;
