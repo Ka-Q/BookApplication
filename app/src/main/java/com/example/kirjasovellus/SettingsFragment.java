@@ -20,7 +20,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 
-
 public class SettingsFragment extends Fragment {
 
     @Override
@@ -30,6 +29,13 @@ public class SettingsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+    /**
+     * Asettaa Asetus-näkymän napeille toiminnallisuuden.
+     * Talletetaan tarvittaessa tietoa kielestä tietokantaan.
+     * Napeille toiminnallisuudet testi-datan luontiin ja tietokannan tyhjentämiseen
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

@@ -29,6 +29,12 @@ public class TodayFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_today, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden today-näkymälle.
+     * Käyttäjän syöte tarkistetaan ja talletetaan tietokantaan.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
