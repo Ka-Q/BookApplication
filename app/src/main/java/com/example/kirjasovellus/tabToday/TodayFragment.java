@@ -38,6 +38,7 @@ public class TodayFragment extends Fragment {
         Button btnSaveHours = getView().findViewById(R.id.btnSavehours);
         TextView tvTodayError = getView().findViewById(R.id.tvTodayError);
 
+        // Tarkistaa käyttäjän syöttämän datan ja tallentaa tietokantaan.
         btnSaveHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
