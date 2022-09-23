@@ -26,21 +26,22 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static BookDatabase bookDatabase;
-    public static FragmentManager fragmentManager;
+    public static BookDatabase bookDatabase;        // Tietokanta sovelluksen datan käsittelyyn ja säilömiseen.
+    public static FragmentManager fragmentManager;  // FragmentManager, jolla vaihdetaan sovelluksessa näkyviä fragmentteja
 
     private static Context context;
 
     private static ImageView loadingIcon;
     private static ObjectAnimator loadingAnimation;
 
-
+    /**
+     * Rakentaa ja alustaa tietokannan, Daot ja lataus-ikonin
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Annetaan MainActivity:n context julkiseksi.
         context = getApplicationContext();
 
         // Alustetaan tietokanta
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.bookDatabase.userSettingsDao().insertAll(us);
         }
 
-        // Täyttää tietokantaan tyhjää dataa viimeiselle 28 päivälle, joilla ei ole ennestään dataa.
+        // Täyttää tietokantaan 0h dataa viimeiselle 28 päivälle, joilla ei ole ennestään dataa.
         // Tämä, jotta data-välilehden kuvaaja näyttää datan oikein.
         initializeDatabase(bookDao, genreDao, dayDao);
 
@@ -81,23 +82,34 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.setRepeatMode(ObjectAnimator.RESTART);
     }
 
-    // Näyttää lataus-ikonin ja aloittaa animaation
+    /** Näyttää lataus-ikonin ja aloittaa animaation
+     */
     public static void startLoading() {
         loadingIcon.setVisibility(View.VISIBLE);
         loadingAnimation.start();
     }
 
-    // Piilottaa lataus-ikonin ja pysäyttää animaation
+    /** Piilottaa lataus-ikonin ja pysäyttää animaation
+     */
     public static void stopLoading() {
         loadingIcon.setVisibility(View.GONE);
         loadingAnimation.end();
     }
 
+    /**
+     * Annetaan MainActivity:n context julkiseksi.
+     * @return context, jota voidaan hyödyntää muualla koodissa.
+     */
     public static Context getContext(){
         return context;
     }
 
-    // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
+    /** Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
+     *
+     * @param bookDao bookDatabasen Dao kirjoille
+     * @param genreDao bookDatabasen Dao genreille
+     * @param dayDao bookDatabasen Dao päiville
+     */
     private static void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
         for (int i = 0; i < 28; i++) {
             Date rawDate = Calendar.getInstance().getTime();
@@ -122,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Poistaa kaiken syötetyn datan tietokannasta. Kieliasetus säilyy
+    /**
+     * Poistaa kaiken syötetyn datan tietokannasta. Kieliasetus säilyy
+     */
     public static void nukeAllData(){
         BookDao bookDao = MainActivity.bookDatabase.bookDao();
         GenreDao genreDao = MainActivity.bookDatabase.genreDao();
@@ -135,7 +149,9 @@ public class MainActivity extends AppCompatActivity {
         initializeDatabase(bookDao, genreDao, dayDao);
     }
 
-    // Generoi ennaltamääritettyä ja satunnaista testidataa tietokantaan
+    /**
+     * Generoi ennaltamääritettyä ja satunnaista testidataa tietokantaan
+     */
     public static void generateTestData() {
         BookDao bookDao = MainActivity.bookDatabase.bookDao();
         GenreDao genreDao = MainActivity.bookDatabase.genreDao();
@@ -179,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         Genre romance = new Genre();
         romance.genreId = 0;
         romance.name = "Romance";
-        romance.symbol = "❤";
+        romance.symbol = "\uD83D\uDC9E";
 
         Genre music = new Genre();
         music.genreId = 0;
@@ -194,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         Genre humanity = new Genre();
         humanity.genreId = 0;
         humanity.name = "Humanity";
-        humanity.symbol = "🧍‍♂️";
+        humanity.symbol = "\uD83E\uDDCD";
 
         Genre programming = new Genre();
         programming.genreId = 0;
