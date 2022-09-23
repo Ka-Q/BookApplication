@@ -15,7 +15,7 @@ public class Bar {
     private Paint fill;
     private Paint border;
 
-    // Tiedot pylvään kokeudesta, leveydestä, alareunan korkeudesta ja x-sijainnista
+    // Pylvään sijainnin ja koon ominaisuudet
     private int height;
     private int width;
     private int base;
@@ -24,6 +24,14 @@ public class Bar {
     // Pylvään label. Käytännössä Pylvään kuvastaman viikonpäivän alkukirjain
     private String label;
 
+    /**
+     * Konstruktori pylväälle.
+     * Rakennetaan pylväs ja tyylit.
+     * @param height pylvään korkeus
+     * @param width pylvään leveys
+     * @param base pylvään alareunan y-sijainti
+     * @param label pylvään label
+     */
     public Bar (int height, int width, int base, String label) {
         this.height = height;
         this.width = width;
@@ -44,37 +52,59 @@ public class Bar {
         border.setStrokeWidth(3f);
     }
 
-    // Paluttaa korkeuden
+    /**
+     * Metodi pylvään korkeuden palautukseen.
+     * @return Paluttaa pylvään korkeuden.
+     */
     public int getHeight() {
         return height;
     }
 
-    // Palauttaa labelin
+    /**
+     * Metodi pylvään labelin palautukseen.
+     * @return Paluttaa pylvään labelin.
+     */
     public String getLabel() {
         return label;
     }
 
-    // Palauttaa x-sijainnin
+    /**
+     * Metodi pylvään x-sijainnin palautukseen.
+     * @return Palauttaa pylvään x-sijainnin.
+     */
     public int getPosition() {
         return position;
     }
 
-    // Asettaa uuden täyttövärin
+    /**
+     * Metodi pylvään täyttövärin asettamiseen.
+     * @param c uusi väri
+     */
     public void setFillColor(int c) {
         fill.setColor(c);
     }
 
-    // Piirtää täytön
+    /**
+     * Metodi pylvään täyttötyylin piirtämiseen.
+     * @param canvas ChartCanvasin canvas
+     */
     public void drawFill(Canvas canvas) {
         canvas.drawRect(rect, fill);
     }
 
-    // Piirtää reunuksen
+    /**
+     * Metodi pylvään reunatyylin piirtämiseen.
+     * @param canvas ChartCanvasin canvas
+     */
     public void drawBorder(Canvas canvas) {
         canvas.drawRect(rect, border);
     }
 
-    // Asettaa x-sijainnin
+    /**
+     * Metodi pylvään sijainnin asettamiseen.
+     * @param pos pylvään järjestysnumero
+     * @param translationX kaavion x-sijainti
+     */
     public void setPosition(int pos, int translationX) {
         rect.left = pos * width + translationX;
         rect.right = pos * width + width + translationX;

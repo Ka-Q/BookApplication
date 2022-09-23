@@ -34,6 +34,14 @@ public class DataFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_data, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden Data-näkymälle.
+     * Hakee tietokannasta dataa kirjoista, genreistä ja päivistä.
+     * Muodostaa pylväskaavion lukutunneista/päivä määrätyltä aikaväliltä.
+     * Analysoi dataa ja muotoilee sitä layout-komponentteihin luettavaan muotoon.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
