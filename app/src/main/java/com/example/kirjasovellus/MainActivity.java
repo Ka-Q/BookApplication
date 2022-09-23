@@ -5,14 +5,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.BookDao;
@@ -21,8 +18,9 @@ import com.example.kirjasovellus.database.Day;
 import com.example.kirjasovellus.database.DayDao;
 import com.example.kirjasovellus.database.Genre;
 import com.example.kirjasovellus.database.GenreDao;
+import com.example.kirjasovellus.database.UserSettings;
+import com.example.kirjasovellus.database.UserSettingsDao;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,7 +49,16 @@ public class MainActivity extends AppCompatActivity {
         BookDao bookDao = bookDatabase.bookDao();
         GenreDao genreDao = bookDatabase.genreDao();
         DayDao dayDao = bookDatabase.dayDao();
+        UserSettingsDao usDao = bookDatabase.userSettingsDao();
 
+        UserSettings us = usDao.getSettings();
+        if (us == null) {
+            us = new UserSettings();
+            us.language = "en";
+            us.settingsID = 0;
+            usDao.insertAll(us);
+            MainActivity.bookDatabase.userSettingsDao().insertAll(us);
+        }
 
         //generateTestData(bookDao, genreDao, dayDao);
         initializeDatabase(bookDao, genreDao, dayDao);
