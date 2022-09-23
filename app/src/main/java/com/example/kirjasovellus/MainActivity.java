@@ -39,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Annetaan MainActivity:n context julkiseksi.
         context = getApplicationContext();
 
-        //Create database for books
+        // Alustetaan tietokanta
         bookDatabase = Room.databaseBuilder(
                 getApplicationContext(),
                 BookDatabase.class,
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         DayDao dayDao = bookDatabase.dayDao();
         UserSettingsDao usDao = bookDatabase.userSettingsDao();
 
+        // Jos tietokannassa ei ole käyttäjän antamaa tietoa kielestä, asettaa oletukseksi englannin
         UserSettings us = usDao.getSettings();
         if (us == null) {
             us = new UserSettings();
@@ -60,13 +63,14 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.bookDatabase.userSettingsDao().insertAll(us);
         }
 
-        //generateTestData(bookDao, genreDao, dayDao);
+        // Täyttää tietokantaan tyhjää dataa viimeiselle 28 päivälle, joilla ei ole ennestään dataa.
+        // Tämä, jotta data-välilehden kuvaaja näyttää datan oikein.
         initializeDatabase(bookDao, genreDao, dayDao);
 
-        // Set a global FragmentManager
+        // Annetaan FragmentManager julkiseksi
         fragmentManager = getSupportFragmentManager();
 
-        // Loading icon
+        // Lataus-ikoni ja sen animaatio
         loadingIcon = findViewById(R.id.ivLoadingIcon);
         loadingIcon.setBackgroundResource(R.drawable.loadingiconframe1);
         loadingIcon.setVisibility(View.GONE);
@@ -77,11 +81,13 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.setRepeatMode(ObjectAnimator.RESTART);
     }
 
+    // Näyttää lataus-ikonin ja aloittaa animaation
     public static void startLoading() {
         loadingIcon.setVisibility(View.VISIBLE);
         loadingAnimation.start();
     }
 
+    // Piilottaa lataus-ikonin ja pysäyttää animaation
     public static void stopLoading() {
         loadingIcon.setVisibility(View.GONE);
         loadingAnimation.end();
@@ -91,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
+    // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
     private static void initializeDatabase(BookDao bookDao, GenreDao genreDao, DayDao dayDao) {
-        // Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
         for (int i = 0; i < 28; i++) {
             Date rawDate = Calendar.getInstance().getTime();
             Date d = new Date();
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Poistaa kaiken syötetyn datan tietokannasta. Kieliasetus säilyy
     public static void nukeAllData(){
         BookDao bookDao = MainActivity.bookDatabase.bookDao();
         GenreDao genreDao = MainActivity.bookDatabase.genreDao();
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         initializeDatabase(bookDao, genreDao, dayDao);
     }
 
+    // Generoi ennaltamääritettyä ja satunnaista testidataa tietokantaan
     public static void generateTestData() {
         BookDao bookDao = MainActivity.bookDatabase.bookDao();
         GenreDao genreDao = MainActivity.bookDatabase.genreDao();
@@ -260,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
         lotr.finishDate = Calendar.getInstance().getTime();
         lotr.genreIds = new int[]{fantasy.genreId};
 
-
         Book puusepanKasikirja = new Book();
         puusepanKasikirja.BookId = 0;
         puusepanKasikirja.title = "Puusepän käsikirja";
@@ -334,6 +341,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initializeDatabase(bookDao, genreDao, dayDao);
-
     }
 }
