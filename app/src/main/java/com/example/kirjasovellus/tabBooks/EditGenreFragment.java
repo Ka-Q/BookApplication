@@ -34,6 +34,16 @@ public class EditGenreFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_edit_genre, container, false);
     }
 
+    /**
+     * Aettaa toiminnallisuuden genren muokkaamiselle ja poistolle.
+     * Käyttäjä valitsee ensin genren jota muokata. Jos ei valittu, näytetään virheviesti.
+     * Genren nimen oikeellisuus tarkistetaan. Genren symbolitarkistetaan {@link EmojiWatcher}
+     * -luokan avulla.
+     * Tallennettaessa, genren tiedot päivitetään tietokantaan.
+     * Poistettaessa kysytään käyttäjältä varmistus ja poistetaan genre tietokannasta.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

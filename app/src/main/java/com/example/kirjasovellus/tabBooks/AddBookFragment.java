@@ -25,10 +25,6 @@ import java.util.ArrayList;
 
 public class AddBookFragment extends Fragment {
 
-    public AddBookFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +32,14 @@ public class AddBookFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_book, container, false);
     }
 
+    /**
+     * Asettaa toiminnallisuuden kirjan lisäys -näkymään.
+     * Hakee tietokannasta genret ja näyttää new käyttäjälle.
+     * Käyttäjä syöttää tiedot lisättävästä kirjasta.
+     * Tiedot talletetaan tietokantaan.
+     * @param view view
+     * @param savedInstanceState savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -43,7 +47,7 @@ public class AddBookFragment extends Fragment {
         // Hakee kaikki genret tietokannasta
         Genre[] datasetAllGenres = MainActivity.bookDatabase.genreDao().getAllGenres();
 
-        // Ylläpitää käyttäjän asettamai genrejä kirjalle. Annetaan viittauksena 'GenreListAdapter'ille.
+        // Ylläpitää käyttäjän asettamia genrejä kirjalle. Annetaan viittauksena 'GenreListAdapter'ille.
         ArrayList<Genre> selectedGenres = new ArrayList();
 
         // Layout komponentit
@@ -102,14 +106,21 @@ public class AddBookFragment extends Fragment {
         Genre[] localDataset;
         ArrayList<Genre> selectedGenres;
 
+        /**
+         * Konstruktori GenreListAdapterille
+         * @param dataset lista näytettävistä genreistä
+         * @param selectedGenres viittaus listaan, jossa ylläpidetään tietoa käyttäjän valinnoista
+         */
         public GenreListAdapter(Genre[] dataset, ArrayList<Genre> selectedGenres) {
             localDataset = dataset;
-
             // Viittaus listaan, jossa ylläpidetään valittuja genrejä
             this.selectedGenres = selectedGenres;
         }
 
-        // Päivittää näkymän
+        /**
+         * Päivittää näkymän uudella datalla
+         * @param newDataset lista uutta dataa
+         */
         public void updateDataset(Genre[] newDataset){
             localDataset = newDataset;
             notifyDataSetChanged();
@@ -124,6 +135,13 @@ public class AddBookFragment extends Fragment {
             return new GenreListAdapter.ViewHolder(view);
         }
 
+        /**
+         * Asettaa toiminnallisuutta Recyclerview-komponenttiin.
+         * Jokaisella listan jäsenellä on symboli ja nimi.
+         * Jäsenellä on myös toggle-nappi, jota painamalla tieto päivittyy listaan valituista genreistä.
+         * @param holder holder
+         * @param position position
+         */
         @Override
         public void onBindViewHolder(@NonNull GenreListAdapter.ViewHolder holder, int position) {
 
@@ -150,6 +168,10 @@ public class AddBookFragment extends Fragment {
             });
         }
 
+        /**
+         * Metodi listan pituuden palautukseen
+         * @return palauttaa listan koon.
+         */
         @Override
         public int getItemCount() {
             return localDataset.length;
