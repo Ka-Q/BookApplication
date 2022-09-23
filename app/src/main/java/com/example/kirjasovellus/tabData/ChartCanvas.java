@@ -28,30 +28,30 @@ public class ChartCanvas extends View {
 
     private Rect borderRect;
 
+    // Tyylejä kaavion komponenteille
     private Paint borderPaint = new Paint();
     private Paint linePaint = new Paint();
     private Paint textPaint  = new Paint();;
     private Paint labelPaint  = new Paint();;
 
+    // Kaavion korkeuden skaala. Muuttuu dynaamisesti suurimman arvon mukaan.
     private int scale;
 
+    // Aikavälin tuntien keskiarvo. Käytetään värittämään keskiarvoa alemmat, ylemmät ja
+    // lähellä olevat päivät eri värisiksi.
     private double avgHours;
 
     public ChartCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        //initialize();
     }
 
     public void initialize(Day[] daysReversed) {
 
-        // Asetetaan päivät taulukkoon
-        //this.days = new Day[daysReversed.length];
-
+        // Asetetaan päivät taulukkoon kääänteisessä järjestyksessä
         this.days = new Day[daysReversed.length];
         for (int i = 0; i < daysReversed.length; i++) {
             this.days[i] = daysReversed[((daysReversed.length - 1) - i)];
-        }
-        //days = daysReversed;
+        };
 
         // Asetetaan palkkien leveys niin, että ne mahtuvat leveydelle 700
         barWidth = 700/days.length;
@@ -72,7 +72,6 @@ public class ChartCanvas extends View {
         // Kaavion vaakaviivojen määrä pyöristetään ylös, jotta suurin data ei leikkaannu pois
         int maxHoursInt = (int) Math.ceil(maxHours);
         if (maxHoursInt == 0) maxHoursInt = 1;
-
         lineCount = maxHoursInt;
 
         // Skaalaus-arvon avulla skaalataan kaavio niin, että korkein arvo osuu aina kaavion ylälaitaan
@@ -133,15 +132,14 @@ public class ChartCanvas extends View {
         // Asetetaan kaavion kehykselle koko ja sijainti
         borderRect = new Rect(xTranslation, 0, xTranslation + barWidth * days.length, barWidth * days.length);
 
-        // Käydään läpi palkkien listaa ja asetetaan palkkien sijainnit ja väritys
-        // Pos-muuttuja on palkin "sijanumero" kaaviossa, xTranslation auttaa kaavion keskityksessä
+        // Käydään läpi palkkien listaa ja asetetaan palkkien sijainnit ja väritys.
+        // Pos-muuttuja on palkin "sijanumero" kaaviossa, xTranslation auttaa kaavion keskityksessä.
         // Palkit väritetään sen mukaan, kuinka ne eroavat keskimääräisestä palkin korkeudesta:
         // Keskiarvon arvoaluetta laajennetaan puolella tunnilla ylös ja alas. Kaikki alemmat värjätään
-        // haaleammiksi ja ylemmät voimakkaammaksi
+        // haaleammiksi ja ylemmät voimakkaammaksi.
         // Lopuksi piirretään vielä näkymään label palkin alapuolelle.
         int pos = 0;
         for (Bar b : bars) {
-
             b.setPosition(pos, xTranslation);
 
             if (b.getHeight() > (avgHours + 0.5) * scale) {
