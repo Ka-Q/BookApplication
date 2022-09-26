@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.UserSettings;
+import com.example.kirjasovellus.database.UserSettingsDao;
 import com.example.kirjasovellus.tabBooks.BooksFragment;
 import com.example.kirjasovellus.tabData.DataFragment;
 import com.example.kirjasovellus.tabToday.TodayFragment;
@@ -64,6 +66,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
+                MainActivity.currentFragment = new DataFragment();
+                System.out.println("LÖYTYI: " + MainActivity.currentFragment);
+
                 btnData.setEnabled(false);
                 btnBooks.setEnabled(true);
                 btnToday.setEnabled(true);
@@ -80,6 +85,9 @@ public class MenuFragment extends Fragment {
                         .replace(R.id.contentContainer, BooksFragment.class, null)
                         .addToBackStack("back")
                         .commit();
+
+                MainActivity.currentFragment = new BooksFragment();
+                System.out.println("LÖYTYI: " + MainActivity.currentFragment);
 
                 btnData.setEnabled(true);
                 btnBooks.setEnabled(false);
@@ -98,6 +106,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
+                MainActivity.currentFragment = new TodayFragment();
+                System.out.println("LÖYTYI: " + MainActivity.currentFragment);
+
                 btnData.setEnabled(true);
                 btnBooks.setEnabled(true);
                 btnToday.setEnabled(false);
@@ -115,6 +126,9 @@ public class MenuFragment extends Fragment {
                         .addToBackStack("back")
                         .commit();
 
+                MainActivity.currentFragment = new SettingsFragment();
+                System.out.println("LÖYTYI: " + MainActivity.currentFragment);
+
                 btnData.setEnabled(true);
                 btnBooks.setEnabled(true);
                 btnToday.setEnabled(true);
@@ -124,21 +138,35 @@ public class MenuFragment extends Fragment {
         // MenuFragment:in latautuessa, hakee käyttäjän asettaman kielen tietokannasta.
         // Jos kieli on eri, kuin nykyinen, vaihtaa sen.
 
-        UserSettings us = MainActivity.bookDatabase.userSettingsDao().getSettings();
-        String lang = us.language;
+        /*MainActivity.currentFragment = fragmentManager.findFragmentById(R.id.contentContainer);
+        System.out.println("LÖYTYI: " + MainActivity.currentFragment);*/
 
-        if (!getContext().getResources().getConfiguration().locale.getLanguage().equals(lang)) {
-            Locale locale = new Locale(lang);
-            us.language = lang;
+        // Jos tietokannassa ei ole käyttäjän antamaa tietoa kielestä, asettaa oletukseksi englannin
+        UserSettingsDao usDao = MainActivity.bookDatabase.userSettingsDao();
+        UserSettings us = usDao.getSettings();
+        if (us == null) {
+            System.out.println("EI KIELTÄ TIETOKANNASSA");
+            us = new UserSettings();
+            us.language = "en";
             us.settingsID = 0;
+            usDao.insertAll(us);
+            MainActivity.bookDatabase.userSettingsDao().insertAll(us);
+        }
+        String lang = us.language;
+        Configuration config = getContext().getResources().getConfiguration();
+
+        if (!config.locale.getLanguage().equals(lang)) {
+            Locale locale = new Locale(lang);
 
             Locale.setDefault(locale);
-            Configuration config = getContext().getResources().getConfiguration();
+
             config.locale = locale;
             getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
 
             Intent intent = new Intent(getContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             getContext().startActivity(intent);
         }
     }

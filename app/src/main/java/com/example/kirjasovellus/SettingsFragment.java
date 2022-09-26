@@ -71,6 +71,8 @@ public class SettingsFragment extends Fragment {
                 us.language = lang;
                 us.settingsID = 0;
 
+                MainActivity.bookDatabase.userSettingsDao().insertAll(us);
+
                 Locale.setDefault(locale);
                 Configuration config = getContext().getResources().getConfiguration();
                 config.locale = locale;
@@ -78,9 +80,8 @@ public class SettingsFragment extends Fragment {
 
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                getContext().startActivity(intent);
 
-                MainActivity.bookDatabase.userSettingsDao().insertAll(us);
+                getContext().startActivity(intent);
             }
         });
 
