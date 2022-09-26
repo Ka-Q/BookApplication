@@ -103,7 +103,7 @@ public class BooksFragment extends Fragment {
                 /* Kerää genrejen nimet merkkijonolistaan ja asettaa listan spinneriin. Spinnerin
                  * ensimmäinen valinta on varattu "kaikki"-valinnalle. */
                 String genreNames[] = new String[datasetG[0].length + 1];
-                genreNames[0] = "-All-";
+                genreNames[0] = getString(R.string.filter_genre_all);
                 for (int i = 1; i < genreNames.length; i++) {
                     genreNames[i] =  datasetG[0][i-1].symbol + " " + datasetG[0][i-1].name;
                 }
@@ -142,7 +142,7 @@ public class BooksFragment extends Fragment {
         /* Kerää genrejen nimet merkkijonolistaan ja asettaa listan spinneriin. Spinnerin
          * ensimmäinen valinta on varattu "kaikki"-valinnalle. */
         String genreNames[] = new String[1];
-        genreNames[0] = "-All-";
+        genreNames[0] = getString(R.string.filter_genre_all);
         ArrayAdapter<String> genreNameAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, genreNames);
         genreSelect.setAdapter(genreNameAdapter);
 
@@ -356,7 +356,7 @@ public class BooksFragment extends Fragment {
         adapter.updateDataset(dataset);
     }
 
-    private static class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
+    private class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
 
         Book[] localDataset;
         Genre[] genreDataset;
@@ -376,7 +376,7 @@ public class BooksFragment extends Fragment {
                 Book[] noDB = new Book[1];
                 Book b = new Book();
                 b.BookId = -1;
-                b.title = MainActivity.getContext().getString(R.string.books_no_books_in_db);
+                b.title = getContext().getString(R.string.books_no_books_in_db);
                 b.genreIds = new int[0];
                 b.finished = false;
                 noDB[0] = b;
@@ -483,7 +483,7 @@ public class BooksFragment extends Fragment {
             return localDataset.length;
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             public final TextView title; // Nimi
             public final TextView genre; // Genre
             public final TextView read;  // Onko luettu?
@@ -496,5 +496,11 @@ public class BooksFragment extends Fragment {
                 read = (TextView) itemView.findViewById(R.id.tvReadLabel);
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "BooksFragment";
     }
 }

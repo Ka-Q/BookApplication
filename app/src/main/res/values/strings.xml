@@ -46,13 +46,14 @@
     <string name="search">Search</string>
     <string name="sort">"Sort: "</string>
     <string name="filter_genre">"Filter Genre: "</string>
+    <string name="filter_genre_all">-All-</string>
     <string name="title">Title</string>
     <string name="genres">genres</string>
     <string name="finished">finished</string>
     <string name="new_book">new Book</string>
     <string name="new_genre">new Genre</string>
     <string name="edit_genre">edit a genre</string>
-    <string name="books_no_books_in_db">No books in database</string>
+    <string name="books_no_books_in_db">No books found</string>
 
     //Book details
     <string name="details_genres">Genres:</string>
