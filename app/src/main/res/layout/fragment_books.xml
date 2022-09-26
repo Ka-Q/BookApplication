@@ -94,10 +94,11 @@
 
                 <Spinner
                     android:id="@+id/genreSelect"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView4"
                     app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -183,7 +184,7 @@
 
                 <Button
                     android:id="@+id/btnAddBook"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/new_book"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -192,7 +193,7 @@
 
                 <Button
                     android:id="@+id/btnAddGenre"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/new_genre"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +202,7 @@
 
                 <Button
                     android:id="@+id/btnEditGenre"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_genre"
                     app:layout_constraintEnd_toEndOf="parent"
