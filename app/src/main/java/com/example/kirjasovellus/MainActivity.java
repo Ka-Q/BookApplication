@@ -80,14 +80,20 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.setRepeatCount(ObjectAnimator.INFINITE);
         loadingAnimation.setRepeatMode(ObjectAnimator.RESTART);
 
+        // Palauttaa näkyviin fragmentin, joka oli näkyvissä näyttöä käännettäessä.
+        updateRotation(currentFragment);
+    }
 
-        System.out.println("CURRENT FRAGMENT: " + currentFragment);
+    /**
+     * Metodi näkymän säilyttämiseen näyttöä käännettäessä.
+     * @param currentFragment Fragment, joka oli esillä näyttöä käännettäessä
+     */
+    private void updateRotation(Fragment currentFragment) {
         if (currentFragment == null) currentFragment = new TodayFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.contentContainer, currentFragment.getClass(), null)
                 .addToBackStack("back")
                 .commit();
-
     }
 
     /** Näyttää lataus-ikonin ja aloittaa animaation

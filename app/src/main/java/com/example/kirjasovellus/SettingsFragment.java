@@ -66,26 +66,8 @@ public class SettingsFragment extends Fragment {
                     tvLanguageSelection.setText("\uD83C\uDDEC\uD83C\uDDE7");
                 }
 
-                Locale locale = new Locale(lang);
-                UserSettings us = new UserSettings();
-                us.language = lang;
-                us.settingsID = 0;
-
-                MainActivity.bookDatabase.userSettingsDao().insertAll(us);
-
-                Locale.setDefault(locale);
-                Configuration config = getContext().getResources().getConfiguration();
-                config.locale = locale;
-                getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
-
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                for(int i = 0; i < MainActivity.fragmentManager.getBackStackEntryCount(); ++i) {
-                    MainActivity.fragmentManager.popBackStack();
-                }
-
-                getContext().startActivity(intent);
+                // Lokalisaatio
+                changeLanguage(lang);
             }
         });
 
@@ -129,5 +111,33 @@ public class SettingsFragment extends Fragment {
                 builder.show();
             }
         });
+    }
+
+    /**
+     * Vaihtaa sovelluksen kielen ja tyhjentää backstackin
+     * @param lang uuden kielen tunnus merkkijonossa.
+     */
+    private void changeLanguage(String lang){
+        Locale locale = new Locale(lang);
+        UserSettings us = new UserSettings();
+        us.language = lang;
+        us.settingsID = 0;
+
+        MainActivity.bookDatabase.userSettingsDao().insertAll(us);
+
+        Locale.setDefault(locale);
+        Configuration config = getContext().getResources().getConfiguration();
+        config.locale = locale;
+        getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Tyhjentää backstackin kieltä vaihdettaessa
+        for(int i = 0; i < MainActivity.fragmentManager.getBackStackEntryCount(); ++i) {
+            MainActivity.fragmentManager.popBackStack();
+        }
+        // Activity uudella kielellä
+        getContext().startActivity(intent);
     }
 }
