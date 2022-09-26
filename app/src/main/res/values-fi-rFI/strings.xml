@@ -15,12 +15,12 @@
     <string name="hours_past_fourteen_days">"Tunteja luettu viimeisenä 14 päivänä: "</string>
     <string name="hours_past_twenty_eight_days">"Tunteja luettu viimeisenä 28 päivänä: "</string>
     <string name="avg_format_start">"h (ka "</string>
-    <string name="avg_format_end">h/päivä)</string>
+    <string name="avg_format_end">h/pv)</string>
     <string name="hours_all_time">"Tunteja luettu yhteensä: "</string>
     <string name="sum_data_1">"Olet lisännyt yhteensä "</string>
     <string name="sum_data_2">" kirjaa, joista olet lukenut loppuun "</string>
     <string name="sum_data_3">"Olet lukenut yhteensä vähintään "</string>
-    <string name="sum_data_4">"sivua. "</string>
+    <string name="sum_data_4">" sivua. "</string>
     <string name="favourite_genres">"Lempigenresi on/ovat: "</string>
     <string name="out_of">" kaikista "</string>
     <string name="finished_books">" luetuista kirjoista"</string>
