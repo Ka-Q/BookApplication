@@ -81,6 +81,10 @@ public class SettingsFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+                for(int i = 0; i < MainActivity.fragmentManager.getBackStackEntryCount(); ++i) {
+                    MainActivity.fragmentManager.popBackStack();
+                }
+
                 getContext().startActivity(intent);
             }
         });
