@@ -46,6 +46,15 @@ public class DataFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Päivitetään Menu-napit
+        View menuview = (View) getView().getParent().getParent();
+        Button btnData = menuview.findViewById(R.id.btnData);
+        Button btnBooks = menuview.findViewById(R.id.btnBooks);
+        Button btnToday = menuview.findViewById(R.id.btnToday);
+        btnData.setEnabled(false);
+        btnBooks.setEnabled(true);
+        btnToday.setEnabled(true);
+
         // Layout komponentit
         ChartCanvas chartCanvas = getView().findViewById(R.id.chartCanvas);
         Button btnToggleHoursPeriod = getView().findViewById(R.id.btnToggleHoursPeriod);
