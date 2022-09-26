@@ -1,13 +1,18 @@
 package com.example.kirjasovellus;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,19 +25,24 @@ import com.example.kirjasovellus.database.Genre;
 import com.example.kirjasovellus.database.GenreDao;
 import com.example.kirjasovellus.database.UserSettings;
 import com.example.kirjasovellus.database.UserSettingsDao;
+import com.example.kirjasovellus.tabBooks.BookDetailsFragment;
+import com.example.kirjasovellus.tabToday.TodayFragment;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     public static BookDatabase bookDatabase;        // Tietokanta sovelluksen datan käsittelyyn ja säilömiseen.
     public static FragmentManager fragmentManager;  // FragmentManager, jolla vaihdetaan sovelluksessa näkyviä fragmentteja
 
-    private static Context context;
-
     private static ImageView loadingIcon;
     private static ObjectAnimator loadingAnimation;
+
+    public static Fragment currentFragment;
+
 
     /**
      * Rakentaa ja alustaa tietokannan, Daot ja lataus-ikonin
@@ -42,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = getApplicationContext();
 
         // Alustetaan tietokanta
         bookDatabase = Room.databaseBuilder(
@@ -53,16 +62,6 @@ public class MainActivity extends AppCompatActivity {
         GenreDao genreDao = bookDatabase.genreDao();
         DayDao dayDao = bookDatabase.dayDao();
         UserSettingsDao usDao = bookDatabase.userSettingsDao();
-
-        // Jos tietokannassa ei ole käyttäjän antamaa tietoa kielestä, asettaa oletukseksi englannin
-        UserSettings us = usDao.getSettings();
-        if (us == null) {
-            us = new UserSettings();
-            us.language = "en";
-            us.settingsID = 0;
-            usDao.insertAll(us);
-            MainActivity.bookDatabase.userSettingsDao().insertAll(us);
-        }
 
         // Täyttää tietokantaan 0h dataa viimeiselle 28 päivälle, joilla ei ole ennestään dataa.
         // Tämä, jotta data-välilehden kuvaaja näyttää datan oikein.
@@ -80,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.setDuration(1000);
         loadingAnimation.setRepeatCount(ObjectAnimator.INFINITE);
         loadingAnimation.setRepeatMode(ObjectAnimator.RESTART);
+
+
+        System.out.println("CURRENT FRAGMENT: " + currentFragment);
+        if (currentFragment == null) currentFragment = new TodayFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.contentContainer, currentFragment.getClass(), null)
+                .addToBackStack("back")
+                .commit();
+
     }
 
     /** Näyttää lataus-ikonin ja aloittaa animaation
@@ -100,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
      * Annetaan MainActivity:n context julkiseksi.
      * @return context, jota voidaan hyödyntää muualla koodissa.
      */
-    public static Context getContext(){
-        return context;
-    }
 
     /** Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
      *
@@ -355,6 +360,25 @@ public class MainActivity extends AppCompatActivity {
                 dayDao.insertAll(day);
             }
         }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 500; i++) {
+                    Book b = new Book();
+                    b.BookId = 0;
+                    b.genreIds = new int[0];
+                    b.finished = false;
+                    b.finishDate = null;
+                    b.title = "Kirja " + (i + 1);
+                    b.notes = b.title + " on hyvä kirja";
+
+                    bookDao.insertAll(b);
+                }
+            }
+        });
+        t.start();
+
 
         initializeDatabase(bookDao, genreDao, dayDao);
     }
