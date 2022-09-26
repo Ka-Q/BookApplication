@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.UserSettings;
 import com.example.kirjasovellus.database.UserSettingsDao;
 import com.example.kirjasovellus.tabBooks.BooksFragment;
@@ -35,13 +34,14 @@ public class MenuFragment extends Fragment {
 
     /**
      * Asettaa valikon napeille toiminnallisuuden.
- *     Napit vaihtavat Valikon alla näkyvää fragmentta seuraavasti:
- *     <ul>
- *         <li>Data - DataFragment</li>
- *         <li>Books - BooksFragment</li>
- *         <li>Today - TodayFragment</li>
- *         <li>Settings - SettingsFragment</li>
- *     </ul>
+     * Napit vaihtavat Valikon alla näkyvää fragmentta seuraavasti:
+     *     <ul>
+     *         <li>Data - DataFragment</li>
+     *         <li>Books - BooksFragment</li>
+     *         <li>Today - TodayFragment</li>
+     *         <li>Settings - SettingsFragment</li>
+     *     </ul>
+     * Latautuessaan asettaa myös sovelluksen kielen oikeaksi.
      * @param view view
      * @param savedInstanceState savedInstanceState
      */
@@ -135,39 +135,48 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        // MenuFragment:in latautuessa, hakee käyttäjän asettaman kielen tietokannasta.
-        // Jos kieli on eri, kuin nykyinen, vaihtaa sen.
+        // Lokalisaatio
+        String lang = getLanguage();
+        Configuration config = getContext().getResources().getConfiguration();
+        if (!config.locale.getLanguage().equals(lang)) {
+            changeLanguage(lang);
+        }
+    }
 
-        /*MainActivity.currentFragment = fragmentManager.findFragmentById(R.id.contentContainer);
-        System.out.println("LÖYTYI: " + MainActivity.currentFragment);*/
-
-        // Jos tietokannassa ei ole käyttäjän antamaa tietoa kielestä, asettaa oletukseksi englannin
+    /**
+     * Metodi sovelluksen kielen hakemiselle.
+     * Kieli haetaan tietokannasta. Jos kieltä ei ole, asetetaan englanti
+     * @return kielen tunnus merkkijonossa
+     */
+    private String getLanguage() {
         UserSettingsDao usDao = MainActivity.bookDatabase.userSettingsDao();
         UserSettings us = usDao.getSettings();
         if (us == null) {
-            System.out.println("EI KIELTÄ TIETOKANNASSA");
             us = new UserSettings();
             us.language = "en";
             us.settingsID = 0;
             usDao.insertAll(us);
             MainActivity.bookDatabase.userSettingsDao().insertAll(us);
         }
-        String lang = us.language;
+        return us.language;
+    }
+
+    /**
+     * Vaihtaa sovelluksen kielen
+     * @param lang kielen tunnus merkkijonossa
+     */
+    private void changeLanguage(String lang) {
         Configuration config = getContext().getResources().getConfiguration();
+        Locale locale = new Locale(lang);
 
-        if (!config.locale.getLanguage().equals(lang)) {
-            Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
 
-            Locale.setDefault(locale);
+        config.locale = locale;
+        getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
 
-            config.locale = locale;
-            getContext().getResources().updateConfiguration(config ,getContext().getResources().getDisplayMetrics());
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            Intent intent = new Intent(getContext(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            getContext().startActivity(intent);
-        }
+        getContext().startActivity(intent);
     }
 }
