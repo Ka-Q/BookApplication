@@ -11,9 +11,9 @@
     <string name="cancel">Peruuta</string>
     <string name="hours_read_past_days_1">Tunteja luettu viimeisenä</string>
     <string name="hours_read_past_days_2">päivänä</string>
-    <string name="hours_past_seven_days">"Tunteja luettu viimeisenä 7 päivänä: "</string>
-    <string name="hours_past_fourteen_days">"Tunteja luettu viimeisenä 14 päivänä: "</string>
-    <string name="hours_past_twenty_eight_days">"Tunteja luettu viimeisenä 28 päivänä: "</string>
+    <string name="hours_past_seven_days">"Tunteja viimeisenä 7 päivänä: "</string>
+    <string name="hours_past_fourteen_days">"Tunteja viimeisenä 14 päivänä: "</string>
+    <string name="hours_past_twenty_eight_days">"Tunteja viimeisenä 28 päivänä: "</string>
     <string name="avg_format_start">"h (ka "</string>
     <string name="avg_format_end">h/pv)</string>
     <string name="hours_all_time">"Tunteja luettu yhteensä: "</string>
