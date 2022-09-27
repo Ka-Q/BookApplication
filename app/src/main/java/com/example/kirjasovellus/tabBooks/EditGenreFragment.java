@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.*;
@@ -146,6 +147,10 @@ public class EditGenreFragment extends Fragment {
 
                     MainActivity.bookDatabase.genreDao().insertAll(g);
                     MainActivity.fragmentManager.popBackStack();
+
+                    Toast success = new Toast(getContext());
+                    success.setText(R.string.saved_success);
+                    success.show();
                 }
             }
         });
@@ -176,6 +181,9 @@ public class EditGenreFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteGenre(selected);
+                        Toast success = new Toast(getContext());
+                        success.setText(R.string.deleted_success);
+                        success.show();
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
