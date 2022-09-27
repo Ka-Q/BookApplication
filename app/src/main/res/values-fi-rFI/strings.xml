@@ -89,7 +89,7 @@
     <string name="settings_header">Käyttäjän asetukset</string>
     <string name="settings_generate_test_data">Generoi testi-dataa</string>
     <string name="settings_delete_all_data">Pyyhi kaikki data</string>
-    <string name="filter_genre_all">-Kakki-</string>
+    <string name="filter_genre_all">-Kaikki-</string>
     <string name="saved_success">Tallennus onnistui</string>
     <string name="deleted_success">Poisto onnistui</string>
 </resources>
