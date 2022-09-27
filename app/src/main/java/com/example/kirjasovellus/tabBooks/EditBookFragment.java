@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kirjasovellus.MainActivity;
-import com.example.kirjasovellus.R;
+import com.example.kirjasovellus.*;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;

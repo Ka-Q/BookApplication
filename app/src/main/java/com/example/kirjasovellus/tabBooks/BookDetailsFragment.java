@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kirjasovellus.MainActivity;
-import com.example.kirjasovellus.R;
+import com.example.kirjasovellus.*;
 import com.example.kirjasovellus.database.Book;
 import com.example.kirjasovellus.database.Genre;
 
