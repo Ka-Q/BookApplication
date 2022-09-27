@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.*;
@@ -127,6 +128,10 @@ public class EditBookFragment extends Fragment {
                             .replace(R.id.contentContainer, BookDetailsFragment.class, bundle)
                             .addToBackStack("back")
                             .commit();
+
+                    Toast success = new Toast(getContext());
+                    success.setText(R.string.saved_success);
+                    success.show();
                 }
             }
         });
@@ -152,6 +157,10 @@ public class EditBookFragment extends Fragment {
                         MainActivity.bookDatabase.bookDao().deleteBook(finalBook.BookId);
                         MainActivity.fragmentManager.popBackStack();
                         MainActivity.fragmentManager.popBackStack();
+
+                        Toast success = new Toast(getContext());
+                        success.setText(R.string.deleted_success);
+                        success.show();
                     }
                 });
 

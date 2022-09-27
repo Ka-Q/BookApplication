@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.*;
@@ -60,10 +61,18 @@ public class TodayFragment extends Fragment {
         btnSaveHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double hours = Double.parseDouble(etHours.getText().toString());
+                Double hours = 0.00;
+                try {
+                    hours = Double.parseDouble(etHours.getText().toString());
+                } catch (Exception e) {
+                    tvTodayError.setText(R.string.add_book_error_data);
+                }
 
                 if (hours > 24) {
                     tvTodayError.setText(R.string.hours_check);
+                }
+                else if (etHours.getText().length() == 0){
+                    tvTodayError.setText(R.string.add_book_error_data);
                 }
                 else {
                     tvTodayError.setText("");
@@ -85,6 +94,10 @@ public class TodayFragment extends Fragment {
                     day.hours = hours;
 
                     MainActivity.bookDatabase.dayDao().insertAll(day);
+
+                    Toast success = new Toast(getContext());
+                    success.setText(R.string.saved_success);
+                    success.show();
                 }
             }
         });
