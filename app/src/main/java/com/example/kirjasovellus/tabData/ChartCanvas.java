@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.kirjasovellus.MainActivity;
-import com.example.kirjasovellus.R;
+import com.example.kirjasovellus.*;
 import com.example.kirjasovellus.database.Day;
 
 public class ChartCanvas extends View {
