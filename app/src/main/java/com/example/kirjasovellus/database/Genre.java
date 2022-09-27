@@ -7,6 +7,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Genre-entiteetti tietokantaan. Ominaisuuksina:
+ * <ul>
+ *     <li>id</li>
+ *     <li>nimi</li>
+ *     <li>symboli</li>
+ * </ul>
+ */
 @Entity
 public class Genre implements Parcelable {
 

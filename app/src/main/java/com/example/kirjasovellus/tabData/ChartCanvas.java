@@ -16,6 +16,9 @@ import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.*;
 import com.example.kirjasovellus.database.Day;
 
+/**
+ * Luokka, joka muodostaa pylväistä ({@link Bar}) pylväskaavion.
+ */
 public class ChartCanvas extends View {
 
     private Day[] days;

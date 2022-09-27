@@ -23,6 +23,9 @@ import com.example.kirjasovellus.database.Genre;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment kirjan lisäämiselle
+ */
 public class AddBookFragment extends Fragment {
 
     @Override

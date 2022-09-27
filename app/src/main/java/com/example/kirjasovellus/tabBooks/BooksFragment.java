@@ -33,6 +33,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+/**
+ * Fragment kirjojen tarkasteluun listana
+ */
 public class BooksFragment extends Fragment {
 
     @Override

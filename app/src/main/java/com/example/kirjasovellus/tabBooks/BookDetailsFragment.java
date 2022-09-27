@@ -22,6 +22,9 @@ import com.example.kirjasovellus.database.Genre;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Fragment yksittäisen kirjan tarkasteluun
+ */
 public class BookDetailsFragment extends Fragment {
 
     public BookDetailsFragment() {

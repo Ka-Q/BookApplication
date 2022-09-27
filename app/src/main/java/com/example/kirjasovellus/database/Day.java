@@ -10,6 +10,13 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
+/**
+ * Päivä-entiteetti tietokantaan. Ominaisuuksina:
+ * <ul>
+ *     <li>Päivämäärä</li>
+ *     <li>tuntimäärä</li>
+ * </ul>
+ */
 @Entity
 public class Day implements Parcelable {
 

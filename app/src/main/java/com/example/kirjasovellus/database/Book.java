@@ -10,6 +10,20 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
+/**
+ * Kirja-entiteetti tietokantaan.
+ * Ominaisuuksina:
+ * <ul>
+ *     <li>id</li>
+ *     <li>nimi</li>
+ *     <li>sivumäärä</li>
+ *     <li>lista genreId:itä</li>
+ *     <li>lippu siitä, onko luettu</li>
+ *     <li>päivämäärä</li>
+ *     <li>milloin luettu</li>
+ *     <li>muistiinpanot</li>
+ * </ul>
+ */
 @Entity
 public class Book implements Parcelable {
 
@@ -44,6 +58,9 @@ public class Book implements Parcelable {
 
     }
 
+    /**
+     * TypeConvertereita tietokannan datalle
+     */
     public static class Converters {
         @TypeConverter
         public static int[] fromString(String value) {

@@ -4,6 +4,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ Käyttäjäasetus-entiteetti tietokantaan.
+ * Ominaisuuksina:
+ * <ul>
+ *     <li>id</li>
+ *     <li>kieli</li>
+ * </ul>
+ */
 @Entity
 public class UserSettings {
 

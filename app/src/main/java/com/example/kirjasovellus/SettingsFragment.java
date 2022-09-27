@@ -20,6 +20,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 
+/**
+ * Fragment asetus-välilehdelle. (Kieli, datan generointi ja poisto)
+ */
 public class SettingsFragment extends Fragment {
 
     @Override
