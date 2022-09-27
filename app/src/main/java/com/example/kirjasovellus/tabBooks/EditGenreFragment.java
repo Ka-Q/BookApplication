@@ -25,6 +25,9 @@ import com.example.kirjasovellus.database.Genre;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
+/**
+ * Fragment genren muokkaamiseen
+ */
 public class EditGenreFragment extends Fragment {
 
     @Override

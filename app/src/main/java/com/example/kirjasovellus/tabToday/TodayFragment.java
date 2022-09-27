@@ -20,6 +20,9 @@ import com.example.kirjasovellus.database.Day;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Fragment tänään-näkymälle
+ */
 public class TodayFragment extends Fragment {
 
     @Override

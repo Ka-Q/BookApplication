@@ -23,6 +23,10 @@ import com.example.kirjasovellus.tabToday.TodayFragment;
 
 import java.util.Locale;
 
+/**
+ * Fragment sovelluksen päävalikolle. Napit eri välilehdille. Huolehtii myös lokalisaation hakemisesta
+ * tietokannasta.
+ */
 public class MenuFragment extends Fragment {
 
     @Nullable

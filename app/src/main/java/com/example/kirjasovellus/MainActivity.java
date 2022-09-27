@@ -33,6 +33,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Sovelluksen MainActivity. Alustaa tietokannan, FragmentManagerin ja lataus-ikonin.
+ * Huolehtii näytön kääntämisestä ja testidatan generoinnista.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static BookDatabase bookDatabase;        // Tietokanta sovelluksen datan käsittelyyn ja säilömiseen.

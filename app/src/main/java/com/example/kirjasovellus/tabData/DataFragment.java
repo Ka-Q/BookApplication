@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Fragment data-näkymälle
+ */
 public class DataFragment extends Fragment {
 
     @Override

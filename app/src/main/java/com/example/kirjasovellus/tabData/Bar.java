@@ -6,6 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 // Luokka, joka muodostaa pylvään pylväsdiagrammiin (ChartCanvas)
+
+/**
+ * Luokka, joka muodostaa pylvään pylväsdiagrammiin ({@link ChartCanvas})
+ */
 public class Bar {
 
     // Pylvään muoto

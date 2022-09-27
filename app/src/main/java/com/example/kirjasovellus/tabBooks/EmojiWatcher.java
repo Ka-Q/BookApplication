@@ -6,6 +6,9 @@ import android.widget.EditText;
 
 import java.util.regex.Pattern;
 
+/**
+ * Emoji-tarkistuksen logiikka.
+ */
 public class EmojiWatcher implements TextWatcher {
 
     // Ylläpitävät tietoa kahdesta viimeisimmästä merkkijonosta.
@@ -85,6 +88,7 @@ public class EmojiWatcher implements TextWatcher {
      * Tarkistaa, koostuuko merkkijono ainoastaan emojeista.
      * Ottaa huomioon myös perinteiset unicode-merkit.
      * Palauttaa true tai false.
+     * Regexin Lähteenä: <a href=https://gist.github.com/cmkilger/b8f7dba3e76244a84e7e>Cory Kilger:n EmojiDetector.java</a>
      * @param string Tarkistettava merkkijono
      * @return totuusarvo siitä, koostuuko merkkijono vain emojeista
      */

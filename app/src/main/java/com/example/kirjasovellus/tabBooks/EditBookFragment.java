@@ -24,6 +24,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment kirjan muokkaamiseen
+ */
 public class EditBookFragment extends Fragment {
 
     @Override

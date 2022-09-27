@@ -18,6 +18,9 @@ import com.example.kirjasovellus.MainActivity;
 import com.example.kirjasovellus.*;
 import com.example.kirjasovellus.database.Genre;
 
+/**
+ * Fragment genren lisäämiselle
+ */
 public class AddGenreFragment extends Fragment {
 
     // Ylläpitää tietoa siitä, mitkä ovat käyttäjän viimeisimmäksi syötetyt emojit.
