@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.example.kirjasovellus"},{"l":"com.example.kirjasovellus.database"},{"l":"com.example.kirjasovellus.tabBooks"},{"l":"com.example.kirjasovellus.tabData"},{"l":"com.example.kirjasovellus.tabToday"}]
