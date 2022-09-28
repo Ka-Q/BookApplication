@@ -97,9 +97,7 @@ public class AddBookFragment extends Fragment {
                     tvErrorMsg.setText("");
                     FragmentManager fragmentManager = MainActivity.fragmentManager;
                     fragmentManager.popBackStack();
-                    Toast success = new Toast(getContext());
-                    success.setText(R.string.saved_success);
-                    success.show();
+                    Toast.makeText(getContext(), R.string.saved_success, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     tvErrorMsg.setText(R.string.add_book_error_data);

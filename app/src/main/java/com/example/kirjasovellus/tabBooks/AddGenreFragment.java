@@ -92,9 +92,7 @@ public class AddGenreFragment extends Fragment {
                     MainActivity.bookDatabase.genreDao().insertAll(g);
                     MainActivity.fragmentManager.popBackStack();
 
-                    Toast success = new Toast(getContext());
-                    success.setText(R.string.saved_success);
-                    success.show();
+                    Toast.makeText(getContext(), R.string.saved_success, Toast.LENGTH_SHORT).show();
                 }
 
             }

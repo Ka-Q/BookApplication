@@ -94,10 +94,7 @@ public class TodayFragment extends Fragment {
                     day.hours = hours;
 
                     MainActivity.bookDatabase.dayDao().insertAll(day);
-
-                    Toast success = new Toast(getContext());
-                    success.setText(R.string.saved_success);
-                    success.show();
+                    Toast.makeText(getContext(), R.string.saved_success, Toast.LENGTH_SHORT).show();
                 }
             }
         });

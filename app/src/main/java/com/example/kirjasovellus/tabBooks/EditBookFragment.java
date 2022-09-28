@@ -129,9 +129,7 @@ public class EditBookFragment extends Fragment {
                             .addToBackStack("back")
                             .commit();
 
-                    Toast success = new Toast(getContext());
-                    success.setText(R.string.saved_success);
-                    success.show();
+                    Toast.makeText(getContext(), R.string.saved_success, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -158,9 +156,7 @@ public class EditBookFragment extends Fragment {
                         MainActivity.fragmentManager.popBackStack();
                         MainActivity.fragmentManager.popBackStack();
 
-                        Toast success = new Toast(getContext());
-                        success.setText(R.string.deleted_success);
-                        success.show();
+                        Toast.makeText(getContext(), R.string.deleted_success, Toast.LENGTH_SHORT).show();
                     }
                 });
 
