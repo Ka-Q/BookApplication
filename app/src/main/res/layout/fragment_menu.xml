@@ -65,6 +65,7 @@
             android:id="@+id/btnSettings"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue_dark_main"
             android:text="⚙️"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/btnToday"
