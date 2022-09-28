@@ -154,11 +154,11 @@ public class ChartCanvas extends View {
             b.setPosition(pos, xTranslation);
 
             if (b.getHeight() > (avgHours + 0.5) * scale) {
-                b.setFillColor(Color.rgb(100,100, 255));
+                b.setFillColor(getContext().getColor(R.color.blue_dark_main));
             } else if (b.getHeight() < (avgHours - 0.5) * scale) {
-                b.setFillColor(Color.rgb(220,220, 255));
+                b.setFillColor(getContext().getColor(R.color.blue_light_main));
             } else {
-                b.setFillColor(Color.rgb(150,150, 255));
+                b.setFillColor(getContext().getColor(R.color.blue_main));
             }
 
             b.drawFill(canvas);
@@ -184,6 +184,8 @@ public class ChartCanvas extends View {
         for (Bar b : bars) {
             b.drawBorder(canvas);
         }
+
+        Rect rect1 = new Rect();
     }
 
     /**
