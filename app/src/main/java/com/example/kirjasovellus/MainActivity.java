@@ -114,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
         loadingAnimation.end();
     }
 
-    /**
-     * Annetaan MainActivity:n context julkiseksi.
-     * @return context, jota voidaan hyödyntää muualla koodissa.
-     */
-
     /** Generoi viimeisen 28 päivän tyhjille päiville 0 tuntia
      *
      * @param bookDao bookDatabasen Dao kirjoille
