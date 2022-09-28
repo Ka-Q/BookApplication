@@ -163,10 +163,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@android:drawable/ic_menu_add"
+                android:src="@android:drawable/ic_input_add"
                 android:translationY="-16dp"
                 android:visibility="visible"
-                app:backgroundTint="@color/teal_200" />
+                app:backgroundTint="@color/blue_light_main" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/fabMenuContainer"
