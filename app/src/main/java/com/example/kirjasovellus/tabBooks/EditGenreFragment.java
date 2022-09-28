@@ -148,9 +148,7 @@ public class EditGenreFragment extends Fragment {
                     MainActivity.bookDatabase.genreDao().insertAll(g);
                     MainActivity.fragmentManager.popBackStack();
 
-                    Toast success = new Toast(getContext());
-                    success.setText(R.string.saved_success);
-                    success.show();
+                    Toast.makeText(getContext(), R.string.saved_success, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -181,9 +179,8 @@ public class EditGenreFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteGenre(selected);
-                        Toast success = new Toast(getContext());
-                        success.setText(R.string.deleted_success);
-                        success.show();
+                        Toast.makeText(getContext(), R.string.deleted_success, Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

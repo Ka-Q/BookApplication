@@ -123,9 +123,7 @@ public class BookDetailsFragment extends Fragment {
             public void onClick(View view) {
                 finalBook.notes = etBookDetailsNotes.getText().toString();
                 MainActivity.bookDatabase.bookDao().insertAll(finalBook);
-                Toast noteSaved = new Toast(getContext());
-                noteSaved.setText(R.string.details_notes_saved);
-                noteSaved.show();
+                Toast.makeText(getContext(), R.string.details_notes_saved, Toast.LENGTH_SHORT).show();
             }
         });
 
