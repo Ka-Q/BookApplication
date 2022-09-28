@@ -92,4 +92,5 @@
     <string name="filter_genre_all">-Kaikki-</string>
     <string name="saved_success">Tallennus onnistui</string>
     <string name="deleted_success">Poisto onnistui</string>
+    <string name="spinner_none">-Ei valittu-</string>
 </resources>

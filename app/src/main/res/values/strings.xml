@@ -117,5 +117,6 @@
     <string name="settings_header">User settings</string>
     <string name="settings_generate_test_data">Generate test data</string>
     <string name="settings_delete_all_data">Wipe all data</string>
+    <string name="spinner_none">-None-</string>
 
 </resources>

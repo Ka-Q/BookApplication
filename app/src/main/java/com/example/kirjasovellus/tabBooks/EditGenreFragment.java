@@ -67,7 +67,7 @@ public class EditGenreFragment extends Fragment {
 
         // Kerää genrejen nimet Merkkijonolistaan ja asettaa listan spinneriin
         String genreNames[] = new String[datasetGenres.length + 1];
-        genreNames[0] = "-None-";
+        genreNames[0] = getString(R.string.spinner_none);
         for (int i = 1; i < genreNames.length; i++) {
             genreNames[i] =  datasetGenres[i-1].symbol + " " + datasetGenres[i-1].name;
         }
