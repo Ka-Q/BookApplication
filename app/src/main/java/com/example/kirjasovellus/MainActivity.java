@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             h24.setTime(0);
             h24.setHours(i * 24);
             d.setTime(d.getTime() - h24.getTime());
+            d.setHours(6);
 
             Day day = dayDao.getDayOnDate(d);
             if (day == null) {
